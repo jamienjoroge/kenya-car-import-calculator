@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -63,22 +62,66 @@ export default function DataUpload() {
         setAvailableColumns(columns);
         setShowMapping(true);
         
-        // Auto-map columns that match exactly
+        // Improved auto-mapping for your specific column structure
         const autoMapping: ColumnMapping = { ...columnMapping };
         columns.forEach(col => {
-          const normalized = col.toLowerCase().replace(/[^a-z]/g, '_');
-          if (normalized.includes('make')) autoMapping.make_name = col;
-          if (normalized.includes('model')) autoMapping.model_name = col;
-          if (normalized.includes('year')) autoMapping.year = col;
-          if (normalized.includes('crsp') || normalized.includes('value')) autoMapping.crsp_value = col;
-          if (normalized.includes('engine') || normalized.includes('capacity')) autoMapping.engine_capacity = col;
-          if (normalized.includes('fuel')) autoMapping.fuel_type = col;
-          if (normalized.includes('body')) autoMapping.body_type = col;
-          if (normalized.includes('transmission')) autoMapping.transmission_type = col;
-          if (normalized.includes('country')) autoMapping.country_of_origin = col;
-          if (normalized.includes('notes')) autoMapping.notes = col;
+          const normalized = col.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+          const original = col.toLowerCase().trim();
+          
+          // Map Make
+          if (normalized === 'make' || original === 'make') {
+            autoMapping.make_name = col;
+          }
+          
+          // Map Model (prioritize simple "Model" over "Model number")
+          if (normalized === 'model' && !original.includes('number')) {
+            autoMapping.model_name = col;
+          }
+          
+          // Map Year (look for year-like patterns)
+          if (normalized.includes('year') || /^\d{4}$/.test(normalized)) {
+            autoMapping.year = col;
+          }
+          
+          // Map CRSP value
+          if (normalized.includes('crsp') || (normalized.includes('crsp') && normalized.includes('kes'))) {
+            autoMapping.crsp_value = col;
+          }
+          
+          // Map Engine Capacity
+          if (normalized.includes('engine') && normalized.includes('capacity')) {
+            autoMapping.engine_capacity = col;
+          }
+          
+          // Map Fuel Type
+          if (normalized === 'fuel' || normalized.includes('fuel')) {
+            autoMapping.fuel_type = col;
+          }
+          
+          // Map Body Type
+          if ((normalized.includes('body') && normalized.includes('type')) || normalized === 'bodytype') {
+            autoMapping.body_type = col;
+          }
+          
+          // Map Transmission
+          if (normalized === 'transmission' || normalized.includes('transmission')) {
+            autoMapping.transmission_type = col;
+          }
+          
+          // Map Drive Configuration as country of origin (or could be mapped differently)
+          if (normalized.includes('drive') && normalized.includes('configuration')) {
+            // You might want to map this to a different field or handle it specially
+            autoMapping.country_of_origin = col;
+          }
         });
+        
         setColumnMapping(autoMapping);
+        
+        toast({
+          title: "File loaded",
+          description: `Found ${columns.length} columns. Auto-mapped where possible.`,
+        });
+        
       } catch (error) {
         toast({
           title: "Error reading file",
@@ -121,18 +164,34 @@ export default function DataUpload() {
           const worksheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(worksheet);
           
-          const processedData: ExcelRow[] = jsonData.map((row: any) => ({
-            make_name: String(row[columnMapping.make_name] || '').trim(),
-            model_name: String(row[columnMapping.model_name] || '').trim(),
-            year: parseInt(row[columnMapping.year] || '0'),
-            crsp_value: parseFloat(row[columnMapping.crsp_value] || '0'),
-            engine_capacity: parseInt(row[columnMapping.engine_capacity] || '0'),
-            fuel_type: columnMapping.fuel_type ? String(row[columnMapping.fuel_type] || '').trim() || null : null,
-            body_type: columnMapping.body_type ? String(row[columnMapping.body_type] || '').trim() || null : null,
-            transmission_type: columnMapping.transmission_type ? String(row[columnMapping.transmission_type] || '').trim() || null : null,
-            country_of_origin: columnMapping.country_of_origin ? String(row[columnMapping.country_of_origin] || '').trim() || null : null,
-            notes: columnMapping.notes ? String(row[columnMapping.notes] || '').trim() || null : null,
-          }));
+          const processedData: ExcelRow[] = jsonData.map((row: any) => {
+            // Extract year from model name if year column is mapped to model
+            let yearValue = row[columnMapping.year];
+            let modelValue = row[columnMapping.model_name];
+            
+            // If year is not found, try to extract from model name
+            if (!yearValue && modelValue) {
+              const yearMatch = String(modelValue).match(/\b(19|20)\d{2}\b/);
+              if (yearMatch) {
+                yearValue = yearMatch[0];
+                // Optionally clean the model name by removing the year
+                modelValue = String(modelValue).replace(yearMatch[0], '').trim();
+              }
+            }
+            
+            return {
+              make_name: String(row[columnMapping.make_name] || '').trim(),
+              model_name: String(modelValue || '').trim(),
+              year: parseInt(yearValue || '0'),
+              crsp_value: parseFloat(String(row[columnMapping.crsp_value] || '0').replace(/[^\d.-]/g, '')),
+              engine_capacity: parseInt(String(row[columnMapping.engine_capacity] || '0').replace(/[^\d]/g, '')),
+              fuel_type: columnMapping.fuel_type ? String(row[columnMapping.fuel_type] || '').trim() || null : null,
+              body_type: columnMapping.body_type ? String(row[columnMapping.body_type] || '').trim() || null : null,
+              transmission_type: columnMapping.transmission_type ? String(row[columnMapping.transmission_type] || '').trim() || null : null,
+              country_of_origin: columnMapping.country_of_origin ? String(row[columnMapping.country_of_origin] || '').trim() || null : null,
+              notes: columnMapping.notes ? String(row[columnMapping.notes] || '').trim() || null : null,
+            };
+          });
 
           resolve(processedData);
         } catch (error) {
@@ -155,7 +214,7 @@ export default function DataUpload() {
     }
 
     // Check required mappings
-    const requiredFields = ['make_name', 'model_name', 'year', 'crsp_value', 'engine_capacity'];
+    const requiredFields = ['make_name', 'model_name', 'crsp_value', 'engine_capacity'];
     const missingMappings = requiredFields.filter(field => !columnMapping[field as keyof ColumnMapping]);
     
     if (missingMappings.length > 0) {
@@ -183,7 +242,7 @@ export default function DataUpload() {
 
       // Validate required fields
       const invalidRows = excelData.filter(row => 
-        !row.make_name || !row.model_name || !row.year || !row.crsp_value || !row.engine_capacity
+        !row.make_name || !row.model_name || !row.crsp_value || !row.engine_capacity
       );
 
       if (invalidRows.length > 0) {
@@ -234,7 +293,7 @@ export default function DataUpload() {
     }
   };
 
-  const requiredFields = ['make_name', 'model_name', 'year', 'crsp_value', 'engine_capacity'];
+  const requiredFields = ['make_name', 'model_name', 'crsp_value', 'engine_capacity'];
   const optionalFields = ['fuel_type', 'body_type', 'transmission_type', 'country_of_origin', 'notes'];
 
   return (
@@ -246,7 +305,7 @@ export default function DataUpload() {
         </CardTitle>
         <CardDescription>
           Upload an Excel file (.xlsx, .xls) containing vehicle CRSP data. 
-          You'll be able to map your column names to the required database fields.
+          The system will auto-detect and map your columns where possible.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -338,7 +397,8 @@ export default function DataUpload() {
 
         <div className="text-xs text-muted-foreground">
           <p><strong>Available columns will be detected from your Excel file.</strong></p>
-          <p>Map your columns to the required database fields above before uploading.</p>
+          <p>The system will auto-map columns where possible. Review and adjust mappings before uploading.</p>
+          <p><strong>Note:</strong> Year field is optional as it can be extracted from the model name if needed.</p>
         </div>
       </CardContent>
     </Card>
