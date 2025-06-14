@@ -16,8 +16,6 @@ interface ExcelRow {
   fuel_type?: string;
   body_type?: string;
   transmission_type?: string;
-  country_of_origin?: string;
-  notes?: string;
 }
 
 interface ColumnMapping {
@@ -29,8 +27,6 @@ interface ColumnMapping {
   fuel_type: string;
   body_type: string;
   transmission_type: string;
-  country_of_origin: string;
-  notes: string;
 }
 
 export default function DataUpload() {
@@ -47,8 +43,6 @@ export default function DataUpload() {
     fuel_type: '',
     body_type: '',
     transmission_type: '',
-    country_of_origin: '',
-    notes: '',
   });
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,12 +100,6 @@ export default function DataUpload() {
           // Map Transmission
           if (normalized === 'transmission' || normalized.includes('transmission')) {
             autoMapping.transmission_type = col;
-          }
-          
-          // Map Drive Configuration as country of origin (or could be mapped differently)
-          if (normalized.includes('drive') && normalized.includes('configuration')) {
-            // You might want to map this to a different field or handle it specially
-            autoMapping.country_of_origin = col;
           }
         });
         
@@ -188,8 +176,6 @@ export default function DataUpload() {
               fuel_type: columnMapping.fuel_type ? String(row[columnMapping.fuel_type] || '').trim() || null : null,
               body_type: columnMapping.body_type ? String(row[columnMapping.body_type] || '').trim() || null : null,
               transmission_type: columnMapping.transmission_type ? String(row[columnMapping.transmission_type] || '').trim() || null : null,
-              country_of_origin: columnMapping.country_of_origin ? String(row[columnMapping.country_of_origin] || '').trim() || null : null,
-              notes: columnMapping.notes ? String(row[columnMapping.notes] || '').trim() || null : null,
             };
           });
 
@@ -294,7 +280,7 @@ export default function DataUpload() {
   };
 
   const requiredFields = ['make_name', 'model_name', 'crsp_value', 'engine_capacity'];
-  const optionalFields = ['fuel_type', 'body_type', 'transmission_type', 'country_of_origin', 'notes'];
+  const optionalFields = ['fuel_type', 'body_type', 'transmission_type'];
 
   return (
     <Card className="max-w-4xl mx-auto">

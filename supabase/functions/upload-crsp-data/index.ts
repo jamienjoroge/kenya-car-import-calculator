@@ -16,8 +16,6 @@ interface CrspDataRow {
   fuel_type?: string;
   body_type?: string;
   transmission_type?: string;
-  country_of_origin?: string;
-  notes?: string;
 }
 
 serve(async (req) => {
