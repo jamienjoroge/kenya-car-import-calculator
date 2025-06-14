@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -151,7 +152,7 @@ export default function VehicleImportCalculator() {
       selectedYear
     ) {
       const shippingNumber =
-        shippingCostInput === undefined || shippingCostInput === null || shippingCostInput === ""
+        shippingCostInput === undefined || shippingCostInput === null
           ? 0
           : Number(shippingCostInput);
       const res = calculateDuties({
@@ -183,7 +184,7 @@ export default function VehicleImportCalculator() {
       return;
     }
     const shippingNumber =
-      data.shipping === undefined || data.shipping === null || data.shipping === ""
+      data.shipping === undefined || data.shipping === null
         ? 0
         : Number(data.shipping);
     const res = calculateDuties({
