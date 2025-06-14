@@ -33,34 +33,39 @@ serve(async (req) => {
     const crspData: CrspDataRow[] = requestData.data;
 
     if (!Array.isArray(crspData) || crspData.length === 0) {
-      return new Response(JSON.stringify({ error: 'No data provided' }), {
+      return new Response(JSON.stringify({ error: 'No valid data provided' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    console.log(`Processing ${crspData.length} records for upload`);
+    console.log(`Processing ${crspData.length} valid records for upload`);
 
-    // Validate required fields
-    const invalidRows = crspData.filter(row => 
-      !row.make_name || !row.model_name || !row.year || !row.crsp_value || !row.engine_capacity
+    // Additional server-side validation for safety
+    const validatedData = crspData.filter(row => 
+      row.make_name && 
+      row.model_name && 
+      row.crsp_value > 0 && 
+      row.engine_capacity > 0
     );
 
-    if (invalidRows.length > 0) {
+    if (validatedData.length === 0) {
       return new Response(JSON.stringify({ 
-        error: `${invalidRows.length} rows have missing required fields` 
+        error: 'No rows passed server-side validation' 
       }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
+    console.log(`${validatedData.length} records passed server-side validation`);
+
     // Process data in batches to avoid timeout
     const batchSize = 100;
     let totalInserted = 0;
 
-    for (let i = 0; i < crspData.length; i += batchSize) {
-      const batch = crspData.slice(i, i + batchSize);
+    for (let i = 0; i < validatedData.length; i += batchSize) {
+      const batch = validatedData.slice(i, i + batchSize);
       
       const { data, error } = await supabase
         .from('crsp_data')
