@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
-import { Upload, FileSpreadsheet } from 'lucide-react';
+import { Upload, FileSpreadsheet, Settings } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 interface ExcelRow {
@@ -20,15 +21,93 @@ interface ExcelRow {
   notes?: string;
 }
 
+interface ColumnMapping {
+  make_name: string;
+  model_name: string;
+  year: string;
+  crsp_value: string;
+  engine_capacity: string;
+  fuel_type: string;
+  body_type: string;
+  transmission_type: string;
+  country_of_origin: string;
+  notes: string;
+}
+
 export default function DataUpload() {
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [showMapping, setShowMapping] = useState(false);
+  const [availableColumns, setAvailableColumns] = useState<string[]>([]);
+  const [columnMapping, setColumnMapping] = useState<ColumnMapping>({
+    make_name: '',
+    model_name: '',
+    year: '',
+    crsp_value: '',
+    engine_capacity: '',
+    fuel_type: '',
+    body_type: '',
+    transmission_type: '',
+    country_of_origin: '',
+    notes: '',
+  });
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
+      
+      // Read the first row to get available columns
+      try {
+        const columns = await getExcelColumns(selectedFile);
+        setAvailableColumns(columns);
+        setShowMapping(true);
+        
+        // Auto-map columns that match exactly
+        const autoMapping: ColumnMapping = { ...columnMapping };
+        columns.forEach(col => {
+          const normalized = col.toLowerCase().replace(/[^a-z]/g, '_');
+          if (normalized.includes('make')) autoMapping.make_name = col;
+          if (normalized.includes('model')) autoMapping.model_name = col;
+          if (normalized.includes('year')) autoMapping.year = col;
+          if (normalized.includes('crsp') || normalized.includes('value')) autoMapping.crsp_value = col;
+          if (normalized.includes('engine') || normalized.includes('capacity')) autoMapping.engine_capacity = col;
+          if (normalized.includes('fuel')) autoMapping.fuel_type = col;
+          if (normalized.includes('body')) autoMapping.body_type = col;
+          if (normalized.includes('transmission')) autoMapping.transmission_type = col;
+          if (normalized.includes('country')) autoMapping.country_of_origin = col;
+          if (normalized.includes('notes')) autoMapping.notes = col;
+        });
+        setColumnMapping(autoMapping);
+      } catch (error) {
+        toast({
+          title: "Error reading file",
+          description: "Could not read the Excel file columns.",
+          variant: "destructive"
+        });
+      }
     }
+  };
+
+  const getExcelColumns = (file: File): Promise<string[]> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = new Uint8Array(e.target?.result as ArrayBuffer);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          const headers = (jsonData[0] as string[]) || [];
+          resolve(headers);
+        } catch (error) {
+          reject(error);
+        }
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsArrayBuffer(file);
+    });
   };
 
   const processExcelFile = (file: File): Promise<ExcelRow[]> => {
@@ -43,16 +122,16 @@ export default function DataUpload() {
           const jsonData = XLSX.utils.sheet_to_json(worksheet);
           
           const processedData: ExcelRow[] = jsonData.map((row: any) => ({
-            make_name: String(row.make_name || row['Make Name'] || '').trim(),
-            model_name: String(row.model_name || row['Model Name'] || '').trim(),
-            year: parseInt(row.year || row.Year || '0'),
-            crsp_value: parseFloat(row.crsp_value || row['CRSP Value'] || '0'),
-            engine_capacity: parseInt(row.engine_capacity || row['Engine Capacity'] || '0'),
-            fuel_type: String(row.fuel_type || row['Fuel Type'] || '').trim() || null,
-            body_type: String(row.body_type || row['Body Type'] || '').trim() || null,
-            transmission_type: String(row.transmission_type || row['Transmission Type'] || '').trim() || null,
-            country_of_origin: String(row.country_of_origin || row['Country of Origin'] || '').trim() || null,
-            notes: String(row.notes || row.Notes || '').trim() || null,
+            make_name: String(row[columnMapping.make_name] || '').trim(),
+            model_name: String(row[columnMapping.model_name] || '').trim(),
+            year: parseInt(row[columnMapping.year] || '0'),
+            crsp_value: parseFloat(row[columnMapping.crsp_value] || '0'),
+            engine_capacity: parseInt(row[columnMapping.engine_capacity] || '0'),
+            fuel_type: columnMapping.fuel_type ? String(row[columnMapping.fuel_type] || '').trim() || null : null,
+            body_type: columnMapping.body_type ? String(row[columnMapping.body_type] || '').trim() || null : null,
+            transmission_type: columnMapping.transmission_type ? String(row[columnMapping.transmission_type] || '').trim() || null : null,
+            country_of_origin: columnMapping.country_of_origin ? String(row[columnMapping.country_of_origin] || '').trim() || null : null,
+            notes: columnMapping.notes ? String(row[columnMapping.notes] || '').trim() || null : null,
           }));
 
           resolve(processedData);
@@ -70,6 +149,19 @@ export default function DataUpload() {
       toast({
         title: "No file selected",
         description: "Please select an Excel file to upload.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Check required mappings
+    const requiredFields = ['make_name', 'model_name', 'year', 'crsp_value', 'engine_capacity'];
+    const missingMappings = requiredFields.filter(field => !columnMapping[field as keyof ColumnMapping]);
+    
+    if (missingMappings.length > 0) {
+      toast({
+        title: "Missing column mappings",
+        description: `Please map the following required columns: ${missingMappings.join(', ')}`,
         variant: "destructive"
       });
       return;
@@ -97,7 +189,7 @@ export default function DataUpload() {
       if (invalidRows.length > 0) {
         toast({
           title: "Invalid data",
-          description: `${invalidRows.length} rows have missing required fields (make_name, model_name, year, crsp_value, engine_capacity).`,
+          description: `${invalidRows.length} rows have missing required fields after mapping.`,
           variant: "destructive"
         });
         return;
@@ -125,6 +217,8 @@ export default function DataUpload() {
       });
 
       setFile(null);
+      setShowMapping(false);
+      setAvailableColumns([]);
       const fileInput = document.getElementById('file-input') as HTMLInputElement;
       if (fileInput) fileInput.value = '';
 
@@ -140,8 +234,11 @@ export default function DataUpload() {
     }
   };
 
+  const requiredFields = ['make_name', 'model_name', 'year', 'crsp_value', 'engine_capacity'];
+  const optionalFields = ['fuel_type', 'body_type', 'transmission_type', 'country_of_origin', 'notes'];
+
   return (
-    <Card className="max-w-2xl mx-auto">
+    <Card className="max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileSpreadsheet className="h-5 w-5" />
@@ -149,10 +246,10 @@ export default function DataUpload() {
         </CardTitle>
         <CardDescription>
           Upload an Excel file (.xlsx, .xls) containing vehicle CRSP data. 
-          Required columns: make_name, model_name, year, crsp_value, engine_capacity
+          You'll be able to map your column names to the required database fields.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         <div>
           <Input
             id="file-input"
@@ -169,9 +266,70 @@ export default function DataUpload() {
           </div>
         )}
 
+        {showMapping && availableColumns.length > 0 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              <h3 className="text-lg font-semibold">Column Mapping</h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h4 className="font-medium text-sm mb-3 text-red-600">Required Fields</h4>
+                {requiredFields.map(field => (
+                  <div key={field} className="mb-3">
+                    <Label htmlFor={field} className="text-sm font-medium">
+                      {field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())} *
+                    </Label>
+                    <select
+                      id={field}
+                      value={columnMapping[field as keyof ColumnMapping]}
+                      onChange={(e) => setColumnMapping(prev => ({
+                        ...prev,
+                        [field]: e.target.value
+                      }))}
+                      className="w-full mt-1 p-2 border border-input rounded-md bg-background"
+                    >
+                      <option value="">Select column...</option>
+                      {availableColumns.map(col => (
+                        <option key={col} value={col}>{col}</option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+
+              <div>
+                <h4 className="font-medium text-sm mb-3 text-gray-600">Optional Fields</h4>
+                {optionalFields.map(field => (
+                  <div key={field} className="mb-3">
+                    <Label htmlFor={field} className="text-sm font-medium">
+                      {field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </Label>
+                    <select
+                      id={field}
+                      value={columnMapping[field as keyof ColumnMapping]}
+                      onChange={(e) => setColumnMapping(prev => ({
+                        ...prev,
+                        [field]: e.target.value
+                      }))}
+                      className="w-full mt-1 p-2 border border-input rounded-md bg-background"
+                    >
+                      <option value="">Select column (optional)...</option>
+                      {availableColumns.map(col => (
+                        <option key={col} value={col}>{col}</option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         <Button 
           onClick={uploadData} 
-          disabled={!file || uploading}
+          disabled={!file || uploading || !showMapping}
           className="w-full"
         >
           <Upload className="h-4 w-4 mr-2" />
@@ -179,19 +337,8 @@ export default function DataUpload() {
         </Button>
 
         <div className="text-xs text-muted-foreground">
-          <p><strong>Expected column names:</strong></p>
-          <ul className="list-disc list-inside mt-1">
-            <li>make_name (required)</li>
-            <li>model_name (required)</li>
-            <li>year (required)</li>
-            <li>crsp_value (required)</li>
-            <li>engine_capacity (required)</li>
-            <li>fuel_type (optional)</li>
-            <li>body_type (optional)</li>
-            <li>transmission_type (optional)</li>
-            <li>country_of_origin (optional)</li>
-            <li>notes (optional)</li>
-          </ul>
+          <p><strong>Available columns will be detected from your Excel file.</strong></p>
+          <p>Map your columns to the required database fields above before uploading.</p>
         </div>
       </CardContent>
     </Card>
