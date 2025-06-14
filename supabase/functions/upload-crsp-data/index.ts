@@ -29,36 +29,68 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_ANON_KEY') ?? ''
     );
 
-    const { data: requestData } = await req.json();
-    const crspData: CrspDataRow[] = requestData.data;
+    const requestData = await req.json();
+    console.log('Received request data:', requestData);
+    
+    // Handle both formats: { data: [...] } and direct array [...]
+    const crspData: CrspDataRow[] = requestData.data || requestData;
+
+    console.log('Extracted CRSP data:', crspData);
+    console.log('Data type:', Array.isArray(crspData));
+    console.log('Data length:', crspData.length);
 
     if (!Array.isArray(crspData) || crspData.length === 0) {
+      console.log('Invalid data format or empty array');
       return new Response(JSON.stringify({ error: 'No valid data provided' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    console.log(`Processing ${crspData.length} valid records for upload`);
+    console.log(`Processing ${crspData.length} records for upload`);
 
-    // Additional server-side validation for safety
-    const validatedData = crspData.filter(row => 
-      row.make_name && 
-      row.model_name && 
-      row.crsp_value > 0 && 
-      row.engine_capacity > 0
-    );
+    // Server-side validation - more lenient to match what frontend sends
+    const validatedData = crspData.filter((row, index) => {
+      const isValid = row.make_name && 
+                     typeof row.make_name === 'string' && 
+                     row.make_name.trim() !== '' &&
+                     row.model_name && 
+                     typeof row.model_name === 'string' && 
+                     row.model_name.trim() !== '' &&
+                     row.crsp_value && 
+                     typeof row.crsp_value === 'number' && 
+                     row.crsp_value > 0 &&
+                     row.engine_capacity && 
+                     typeof row.engine_capacity === 'number' && 
+                     row.engine_capacity > 0;
+      
+      if (!isValid && index < 5) {
+        console.log(`Row ${index} validation failed:`, {
+          make_name: row.make_name,
+          model_name: row.model_name,
+          crsp_value: row.crsp_value,
+          engine_capacity: row.engine_capacity,
+          make_valid: !!(row.make_name && typeof row.make_name === 'string' && row.make_name.trim() !== ''),
+          model_valid: !!(row.model_name && typeof row.model_name === 'string' && row.model_name.trim() !== ''),
+          crsp_valid: !!(row.crsp_value && typeof row.crsp_value === 'number' && row.crsp_value > 0),
+          engine_valid: !!(row.engine_capacity && typeof row.engine_capacity === 'number' && row.engine_capacity > 0)
+        });
+      }
+      
+      return isValid;
+    });
+
+    console.log(`${validatedData.length} records passed server-side validation`);
 
     if (validatedData.length === 0) {
       return new Response(JSON.stringify({ 
-        error: 'No rows passed server-side validation' 
+        error: 'No rows passed server-side validation',
+        debug: 'Check console logs for validation details'
       }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
-
-    console.log(`${validatedData.length} records passed server-side validation`);
 
     // Process data in batches to avoid timeout
     const batchSize = 100;
@@ -66,6 +98,8 @@ serve(async (req) => {
 
     for (let i = 0; i < validatedData.length; i += batchSize) {
       const batch = validatedData.slice(i, i + batchSize);
+      
+      console.log(`Inserting batch ${i / batchSize + 1} with ${batch.length} records`);
       
       const { data, error } = await supabase
         .from('crsp_data')
@@ -100,7 +134,8 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in upload-crsp-data function:', error);
     return new Response(JSON.stringify({ 
-      error: error instanceof Error ? error.message : 'Unknown error occurred' 
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      stack: error instanceof Error ? error.stack : undefined
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
