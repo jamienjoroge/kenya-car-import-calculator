@@ -280,7 +280,13 @@ export default function VehicleImportCalculator() {
             vat={breakdown.vat}
             idf={breakdown.idf}
             rdl={breakdown.rdl}
-            shipping={Number(shippingCostInput)}
+            shipping={
+              typeof shippingCostInput === "number"
+                ? shippingCostInput
+                : typeof shippingCostInput === "string"
+                ? Number(shippingCostInput)
+                : 0
+            }
             total={breakdown.total}
             currency={currency}
             exchangeRate={exchangeRate}
@@ -292,7 +298,12 @@ export default function VehicleImportCalculator() {
               year={selectedYear}
               costBreakdown={{
                 ...breakdown,
-                shipping: Number(shippingCostInput),
+                shipping:
+                  typeof shippingCostInput === "number"
+                    ? shippingCostInput
+                    : typeof shippingCostInput === "string"
+                    ? Number(shippingCostInput)
+                    : 0,
                 currency,
                 exchangeRate,
               }}
