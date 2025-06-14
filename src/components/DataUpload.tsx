@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,48 +63,54 @@ export default function DataUpload() {
           const normalized = col.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
           const original = col.toLowerCase().trim();
           
-          // Map Make
-          if (normalized === 'make' || original === 'make') {
+          console.log(`Checking column: "${col}" -> normalized: "${normalized}"`);
+          
+          // Map Make - exact match
+          if (original === 'make') {
             autoMapping.make_name = col;
+            console.log(`Mapped make_name to: ${col}`);
           }
           
-          // Map Model (prioritize simple "Model" over "Model number")
-          if (normalized === 'model' && !original.includes('number')) {
+          // Map Model - exact match (not "Model number")
+          if (original === 'model') {
             autoMapping.model_name = col;
+            console.log(`Mapped model_name to: ${col}`);
           }
           
-          // Map Year (look for year-like patterns)
-          if (normalized.includes('year') || /^\d{4}$/.test(normalized)) {
-            autoMapping.year = col;
-          }
-          
-          // Map CRSP value
-          if (normalized.includes('crsp') || (normalized.includes('crsp') && normalized.includes('kes'))) {
+          // Map CRSP - look for "CRSP" in the column name
+          if (original.includes('crsp')) {
             autoMapping.crsp_value = col;
+            console.log(`Mapped crsp_value to: ${col}`);
           }
           
-          // Map Engine Capacity
-          if (normalized.includes('engine') && normalized.includes('capacity')) {
+          // Map Engine Capacity - look for "engine" and "capacity"
+          if (original.includes('engine') && original.includes('capacity')) {
             autoMapping.engine_capacity = col;
+            console.log(`Mapped engine_capacity to: ${col}`);
           }
           
-          // Map Fuel Type
-          if (normalized === 'fuel' || normalized.includes('fuel')) {
+          // Map Fuel Type - exact match
+          if (original === 'fuel') {
             autoMapping.fuel_type = col;
+            console.log(`Mapped fuel_type to: ${col}`);
           }
           
-          // Map Body Type
-          if ((normalized.includes('body') && normalized.includes('type')) || normalized === 'bodytype') {
+          // Map Body Type - look for "body" and "type"
+          if (original.includes('body') && original.includes('type')) {
             autoMapping.body_type = col;
+            console.log(`Mapped body_type to: ${col}`);
           }
           
-          // Map Transmission
-          if (normalized === 'transmission' || normalized.includes('transmission')) {
+          // Map Transmission - exact match
+          if (original === 'transmission') {
             autoMapping.transmission_type = col;
+            console.log(`Mapped transmission_type to: ${col}`);
           }
         });
         
         setColumnMapping(autoMapping);
+        
+        console.log('Final mapping:', autoMapping);
         
         toast({
           title: "File loaded",
@@ -152,7 +159,10 @@ export default function DataUpload() {
           const worksheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(worksheet);
           
-          const processedData: ExcelRow[] = jsonData.map((row: any) => {
+          console.log('Sample row from Excel:', jsonData[0]);
+          console.log('Column mapping being used:', columnMapping);
+          
+          const processedData: ExcelRow[] = jsonData.map((row: any, index: number) => {
             // Extract year from model name if year column is mapped to model
             let yearValue = row[columnMapping.year];
             let modelValue = row[columnMapping.model_name];
@@ -167,7 +177,7 @@ export default function DataUpload() {
               }
             }
             
-            return {
+            const processedRow = {
               make_name: String(row[columnMapping.make_name] || '').trim(),
               model_name: String(modelValue || '').trim(),
               year: parseInt(yearValue || '0'),
@@ -177,6 +187,13 @@ export default function DataUpload() {
               body_type: columnMapping.body_type ? String(row[columnMapping.body_type] || '').trim() || null : null,
               transmission_type: columnMapping.transmission_type ? String(row[columnMapping.transmission_type] || '').trim() || null : null,
             };
+            
+            // Log first few rows for debugging
+            if (index < 3) {
+              console.log(`Row ${index + 1} processed:`, processedRow);
+            }
+            
+            return processedRow;
           });
 
           resolve(processedData);
@@ -318,6 +335,10 @@ export default function DataUpload() {
               <h3 className="text-lg font-semibold">Column Mapping</h3>
             </div>
             
+            <div className="text-sm text-blue-600 bg-blue-50 p-3 rounded">
+              <strong>Available columns:</strong> {availableColumns.join(', ')}
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h4 className="font-medium text-sm mb-3 text-red-600">Required Fields</h4>
@@ -340,6 +361,11 @@ export default function DataUpload() {
                         <option key={col} value={col}>{col}</option>
                       ))}
                     </select>
+                    {columnMapping[field as keyof ColumnMapping] && (
+                      <div className="text-xs text-green-600 mt-1">
+                        ✓ Mapped to: {columnMapping[field as keyof ColumnMapping]}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -365,6 +391,11 @@ export default function DataUpload() {
                         <option key={col} value={col}>{col}</option>
                       ))}
                     </select>
+                    {columnMapping[field as keyof ColumnMapping] && (
+                      <div className="text-xs text-green-600 mt-1">
+                        ✓ Mapped to: {columnMapping[field as keyof ColumnMapping]}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
