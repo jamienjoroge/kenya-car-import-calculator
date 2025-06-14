@@ -2,14 +2,14 @@
 import { useQuery } from "@tanstack/react-query";
 
 const fetchMakes = async () => {
-  const resp = await fetch("/api/supabase/crsp-makes");
+  const resp = await fetch("https://tapmpahlwxsckbamdrms.supabase.co/functions/v1/crsp-makes");
   if (!resp.ok) throw new Error("Could not load makes");
   return await resp.json();
 };
 
 const fetchModelsForMake = async (make: string) => {
   if (!make) return [];
-  const resp = await fetch(`/api/supabase/crsp-models?make=${encodeURIComponent(make)}`);
+  const resp = await fetch(`https://tapmpahlwxsckbamdrms.supabase.co/functions/v1/crsp-models?make=${encodeURIComponent(make)}`);
   if (!resp.ok) throw new Error("Error loading models");
   return await resp.json();
 };
@@ -17,7 +17,7 @@ const fetchModelsForMake = async (make: string) => {
 const fetchYearsForMakeModel = async (make: string, model: string) => {
   if (!make || !model) return [];
   const resp = await fetch(
-    `/api/supabase/crsp-years?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}`
+    `https://tapmpahlwxsckbamdrms.supabase.co/functions/v1/crsp-years?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}`
   );
   if (!resp.ok) throw new Error("Error loading years");
   return await resp.json();
@@ -33,7 +33,7 @@ const fetchCrspRecord = async ({
   year: string;
 }) => {
   const resp = await fetch(
-    `/api/supabase/crsp-record?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}`
+    `https://tapmpahlwxsckbamdrms.supabase.co/functions/v1/crsp-record?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}`
   );
   if (!resp.ok) throw new Error("No CRSP record found");
   return await resp.json();
