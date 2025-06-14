@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -85,7 +84,7 @@ export default function VehicleImportCalculator() {
       make: "",
       model: "",
       year: "",
-      shipping: "",
+      shipping: undefined,
     },
   });
 
@@ -151,12 +150,16 @@ export default function VehicleImportCalculator() {
       selectedModel &&
       selectedYear
     ) {
+      const shippingNumber =
+        shippingCostInput === undefined || shippingCostInput === null || shippingCostInput === ""
+          ? 0
+          : Number(shippingCostInput);
       const res = calculateDuties({
         crsp: crspRecord.crsp,
         year: Number(selectedYear),
         engineCapacity: crspRecord.engine_capacity,
         fuelType: crspRecord.fuel_type,
-        shipping: shippingCostInput ? Number(shippingCostInput) : 0,
+        shipping: shippingNumber,
       });
       setBreakdown(res);
     } else {
@@ -179,12 +182,16 @@ export default function VehicleImportCalculator() {
       });
       return;
     }
+    const shippingNumber =
+      data.shipping === undefined || data.shipping === null || data.shipping === ""
+        ? 0
+        : Number(data.shipping);
     const res = calculateDuties({
       crsp: crspRecord.crsp,
       year: Number(data.year),
       engineCapacity: crspRecord.engine_capacity,
       fuelType: crspRecord.fuel_type,
-      shipping: data.shipping || 0,
+      shipping: shippingNumber,
     });
     setBreakdown(res);
     toast({
