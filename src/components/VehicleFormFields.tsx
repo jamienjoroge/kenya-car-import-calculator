@@ -2,8 +2,8 @@
 import { UseFormReturn } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AutoCompleteSelect } from "./AutoCompleteSelect";
 import { VehicleFormValues } from "@/lib/vehicleFormSchema";
+import { VehicleSelector } from "./VehicleSelector";
 import { Search } from "lucide-react";
 
 interface VehicleFormFieldsProps {
@@ -18,6 +18,9 @@ interface VehicleFormFieldsProps {
   selectedMake: string;
   selectedModel: string;
   selectedYear: string;
+  onMakeChange: (value: string) => void;
+  onModelChange: (value: string) => void;
+  onYearChange: (value: string) => void;
   onSubmit: (data: VehicleFormValues) => void;
 }
 
@@ -33,45 +36,12 @@ export default function VehicleFormFields({
   selectedMake,
   selectedModel,
   selectedYear,
+  onMakeChange,
+  onModelChange,
+  onYearChange,
   onSubmit,
 }: VehicleFormFieldsProps) {
-
-  const handleMakeChange = (value: string) => {
-    try {
-      console.log('Make changing to:', value);
-      form.setValue("make", value);
-      // Clear dependent fields when make changes
-      form.setValue("model", "");
-      form.setValue("year", "");
-    } catch (error) {
-      console.error('Error in handleMakeChange:', error);
-    }
-  };
-
-  const handleModelChange = (value: string) => {
-    try {
-      console.log('Model changing to:', value);
-      form.setValue("model", value);
-      // Clear year when model changes
-      form.setValue("year", "");
-    } catch (error) {
-      console.error('Error in handleModelChange:', error);
-    }
-  };
-
-  const handleYearChange = (value: string) => {
-    try {
-      console.log('Year changing to:', value);
-      form.setValue("year", value);
-    } catch (error) {
-      console.error('Error in handleYearChange:', error);
-    }
-  };
-
-  // Ensure arrays are always defined
-  const safeMakes = Array.isArray(makes) ? makes : [];
-  const safeModels = Array.isArray(models) ? models : [];
-  const safeYears = Array.isArray(years) ? years : [];
+  const isFormValid = selectedMake && selectedModel && selectedYear;
 
   return (
     <form
@@ -79,32 +49,20 @@ export default function VehicleFormFields({
       className="flex flex-col gap-4"
       autoComplete="off"
     >
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <AutoCompleteSelect
-          label="Car Make"
-          options={safeMakes}
-          value={selectedMake}
-          placeholder="Start typing make…"
-          onChange={handleMakeChange}
-          disabled={loadingMakes}
-        />
-        <AutoCompleteSelect
-          label="Car Model"
-          options={safeModels}
-          value={selectedModel}
-          placeholder="Model…"
-          onChange={handleModelChange}
-          disabled={!selectedMake || loadingModels}
-        />
-        <AutoCompleteSelect
-          label="Year"
-          options={safeYears}
-          value={selectedYear}
-          placeholder="Year…"
-          onChange={handleYearChange}
-          disabled={!selectedModel || loadingYears}
-        />
-      </div>
+      <VehicleSelector
+        makes={makes}
+        models={models}
+        years={years}
+        selectedMake={selectedMake}
+        selectedModel={selectedModel}
+        selectedYear={selectedYear}
+        loadingMakes={loadingMakes}
+        loadingModels={loadingModels}
+        loadingYears={loadingYears}
+        onMakeChange={onMakeChange}
+        onModelChange={onModelChange}
+        onYearChange={onYearChange}
+      />
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
         <Input
@@ -118,12 +76,7 @@ export default function VehicleFormFields({
         <Button
           className="flex gap-2 md:ml-auto"
           type="submit"
-          disabled={
-            !selectedMake ||
-            !selectedModel ||
-            !selectedYear ||
-            loadingCrsp
-          }
+          disabled={!isFormValid || loadingCrsp}
         >
           <Search size={18} />
           Calculate

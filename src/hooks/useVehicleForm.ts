@@ -19,11 +19,34 @@ export function useVehicleForm() {
   const selectedYear = form.watch("year");
   const shippingCostInput = form.watch("shipping");
 
+  const handleMakeChange = (value: string) => {
+    console.log('Make changing to:', value);
+    form.setValue("make", value);
+    // Clear dependent fields when make changes
+    form.setValue("model", "");
+    form.setValue("year", "");
+  };
+
+  const handleModelChange = (value: string) => {
+    console.log('Model changing to:', value);
+    form.setValue("model", value);
+    // Clear year when model changes
+    form.setValue("year", "");
+  };
+
+  const handleYearChange = (value: string) => {
+    console.log('Year changing to:', value);
+    form.setValue("year", value);
+  };
+
   return {
     form,
     selectedMake,
     selectedModel,
     selectedYear,
     shippingCostInput,
+    handleMakeChange,
+    handleModelChange,
+    handleYearChange,
   };
 }

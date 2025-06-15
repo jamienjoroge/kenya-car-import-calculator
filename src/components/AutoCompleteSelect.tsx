@@ -28,10 +28,6 @@ export function AutoCompleteSelect({
     if (label === "Car Make") {
       console.log('AutoCompleteSelect - Car Make options received:', options.length);
       console.log('Car Make options sample (first 10):', options.slice(0, 10));
-      const toyotaOptions = options.filter(option => 
-        option.toLowerCase().includes('toyota')
-      );
-      console.log('Toyota options in AutoComplete:', toyotaOptions);
     }
   }, [options, label]);
   
@@ -41,48 +37,23 @@ export function AutoCompleteSelect({
       console.warn('AutoCompleteSelect: options is not an array, defaulting to empty array');
       return [];
     }
-    const filtered = options.filter(option => 
+    return options.filter(option => 
       typeof option === 'string' && 
       option.trim() !== ''
     );
-    
-    if (label === "Car Make") {
-      console.log('SafeOptions for Car Make:', filtered.length, 'options');
-      console.log('SafeOptions sample:', filtered.slice(0, 10));
-    }
-    
-    return filtered;
-  }, [options, label]);
+  }, [options]);
   
   // Filter options based on input
   const filteredOptions = React.useMemo(() => {
     if (!inputValue.trim()) {
-      const result = safeOptions.slice(0, 50);
-      if (label === "Car Make") {
-        console.log('No input value, showing first 50 options:', result.slice(0, 5));
-      }
-      return result;
+      return safeOptions.slice(0, 50);
     }
     
     const searchTerm = inputValue.toLowerCase().trim();
-    console.log('Searching for:', searchTerm);
-    
-    const filtered = safeOptions
-      .filter(option => {
-        const match = option.toLowerCase().includes(searchTerm);
-        if (label === "Car Make" && searchTerm.includes('toyota')) {
-          console.log(`Checking "${option}" against "${searchTerm}": ${match}`);
-        }
-        return match;
-      })
+    return safeOptions
+      .filter(option => option.toLowerCase().includes(searchTerm))
       .slice(0, 50);
-      
-    if (label === "Car Make") {
-      console.log(`Filtered results for "${searchTerm}":`, filtered);
-    }
-    
-    return filtered;
-  }, [safeOptions, inputValue, label]);
+  }, [safeOptions, inputValue]);
 
   const handleInputChange = React.useCallback((val: string) => {
     console.log('AutoCompleteSelect: input changing to:', val);
@@ -116,7 +87,7 @@ export function AutoCompleteSelect({
     }, 200);
   }, [inputValue, safeOptions]);
 
-  // Reset input when value changes externally
+  // Reset input when value changes externally or when component unmounts
   React.useEffect(() => {
     if (!value) {
       setInputValue("");

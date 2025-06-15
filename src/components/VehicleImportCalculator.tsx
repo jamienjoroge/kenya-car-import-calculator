@@ -13,7 +13,6 @@ import { VehicleFormValues } from "@/lib/vehicleFormSchema";
 
 const exchangeRateDefault = 135.0;
 const fetchExchangeRate = async () => {
-  // Could use a live API, but for now static value, could be fetched from Supabase in the future
   return exchangeRateDefault;
 };
 
@@ -21,7 +20,16 @@ export default function VehicleImportCalculator() {
   const [currency, setCurrency] = useState<"KES" | "USD">("KES");
   const [exchangeRate, setExchangeRate] = useState(exchangeRateDefault);
 
-  const { form, selectedMake, selectedModel, selectedYear, shippingCostInput } = useVehicleForm();
+  const { 
+    form, 
+    selectedMake, 
+    selectedModel, 
+    selectedYear, 
+    shippingCostInput,
+    handleMakeChange,
+    handleModelChange,
+    handleYearChange
+  } = useVehicleForm();
 
   const {
     makes,
@@ -44,7 +52,7 @@ export default function VehicleImportCalculator() {
     shippingCostInput
   );
 
-  // On mount, fetch live exchange rate (stub + swap in real API later)
+  // On mount, fetch live exchange rate
   useEffect(() => {
     fetchExchangeRate().then(setExchangeRate);
   }, []);
@@ -97,6 +105,9 @@ export default function VehicleImportCalculator() {
           selectedMake={selectedMake}
           selectedModel={selectedModel}
           selectedYear={selectedYear}
+          onMakeChange={handleMakeChange}
+          onModelChange={handleModelChange}
+          onYearChange={handleYearChange}
           onSubmit={onCalculate}
         />
 
