@@ -36,6 +36,9 @@ export default function ImportBreakdownPanel({
       ? `$${(amount / exchangeRate).toLocaleString(undefined, { maximumFractionDigits: 2 })}`
       : `KES ${(amount).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
+  // Calculate total duties (excluding vehicle cost and shipping)
+  const totalDuties = importDuty + excise + vat + idf + rdl;
+
   return (
     <Card className="w-full max-w-xl mx-auto shadow-md mt-6">
       <CardHeader>
@@ -56,6 +59,11 @@ export default function ImportBreakdownPanel({
           {typeof shipping === "number" && shipping > 0 && (
             <div className="flex justify-between"><span>Shipping</span> <span>{fmt(shipping)}</span></div>
           )}
+          <hr className="my-2"/>
+          <div className="flex justify-between font-semibold text-base">
+            <span>Total Duties</span>
+            <span>{fmt(totalDuties)}</span>
+          </div>
           <hr className="my-2"/>
           <div className="flex justify-between font-bold text-lg">
             <span>Total</span>
