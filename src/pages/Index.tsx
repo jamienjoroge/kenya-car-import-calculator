@@ -4,7 +4,7 @@ import AdSpace from "@/components/AdSpace";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Calculator, GitCompare, DollarSign, TrendingUp } from "lucide-react";
+import { Calculator, GitCompare, DollarSign, TrendingUp, Info, Mail, FileText } from "lucide-react";
 
 const Index = () => {
   return (
@@ -15,6 +15,32 @@ const Index = () => {
           <AdSpace slot="top-banner" format="horizontal" style={{ height: "90px" }} />
         </div>
       </div>
+
+      {/* Navigation Header */}
+      <nav className="bg-white border-b shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 py-2">
+          <div className="flex flex-wrap justify-center gap-2">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/about">
+                <Info className="h-4 w-4 mr-1" />
+                About
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/contact">
+                <Mail className="h-4 w-4 mr-1" />
+                Contact
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/sitemap">
+                <FileText className="h-4 w-4 mr-1" />
+                Sitemap
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </nav>
 
       <div className="pt-12 pb-10">
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-2 text-primary">
@@ -202,8 +228,15 @@ const Index = () => {
         </div>
       </section>
       
-      <footer className="text-xs text-muted-foreground mt-16 text-center pb-6">
-        &copy; {new Date().getFullYear()} Kenya Vehicle Import Calculator · Updated for July 2025 CRSP Schedule · Powered by Supabase &amp; Lovable.dev
+      <footer className="text-xs text-muted-foreground mt-16 text-center pb-6 space-y-2">
+        <div className="flex flex-wrap justify-center gap-4 mb-4">
+          <Link to="/about" className="hover:text-primary">About</Link>
+          <Link to="/contact" className="hover:text-primary">Contact</Link>
+          <Link to="/privacy" className="hover:text-primary">Privacy Policy</Link>
+          <Link to="/terms" className="hover:text-primary">Terms of Service</Link>
+          <Link to="/sitemap" className="hover:text-primary">Sitemap</Link>
+        </div>
+        <p>&copy; {new Date().getFullYear()} Kenya Vehicle Import Calculator · Updated for July 2025 CRSP Schedule · Powered by Supabase &amp; Lovable.dev</p>
       </footer>
     </div>
   );

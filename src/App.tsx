@@ -9,6 +9,9 @@ import NotFound from "./pages/NotFound";
 import CompareCars from "./pages/CompareCars";
 import WhatCanIAfford from "./pages/WhatCanIAfford";
 import PopularCarsByYear from "./pages/PopularCarsByYear";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Sitemap from "./pages/Sitemap";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 
@@ -25,6 +28,9 @@ const App = () => (
           <Route path="/compare" element={<CompareCars />} />
           <Route path="/afford" element={<WhatCanIAfford />} />
           <Route path="/popular" element={<PopularCarsByYear />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/sitemap" element={<Sitemap />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
