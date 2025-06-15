@@ -1,4 +1,5 @@
 
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -16,6 +17,7 @@ const fetchMakes = async (): Promise<string[]> => {
   }
 
   console.log('Raw makes data from DB:', data);
+  console.log('Total records returned:', data?.length || 0);
 
   // Extract unique make names and ensure they're all strings
   const uniqueMakes = [...new Set(data.map(item => item.make_name).filter(make => make && make.trim() !== ''))];
