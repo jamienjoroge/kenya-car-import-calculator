@@ -14,7 +14,7 @@ export const vehicleFormSchema = z.object({
       const yearNum = parseInt(val);
       return yearNum >= minValidYear && yearNum <= currentYear;
     }, {
-      message: `Year must be between ${minValidYear} and ${currentYear}`,
+      message: `Vehicle cannot be more than 8 years old. Year must be between ${minValidYear} and ${currentYear}`,
     }),
   shipping: z
     .string()

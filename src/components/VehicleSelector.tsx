@@ -32,6 +32,9 @@ export function VehicleSelector({
   // Ensure arrays are always defined
   const safeMakes = Array.isArray(makes) ? makes : [];
   const safeModels = Array.isArray(models) ? models : [];
+  
+  const currentYear = new Date().getFullYear();
+  const minValidYear = currentYear - 8;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -55,13 +58,18 @@ export function VehicleSelector({
         <label className="block text-sm font-medium mb-1">Year</label>
         <Input
           type="number"
-          min={2016}
-          max={new Date().getFullYear()}
-          placeholder="Enter year…"
+          min={minValidYear}
+          max={currentYear}
+          placeholder={`${minValidYear}-${currentYear}`}
           value={selectedYear}
           onChange={(e) => onYearChange(e.target.value)}
           className="h-10"
         />
+        {form.formState.errors.year && (
+          <p className="text-sm text-red-500 mt-1">
+            {form.formState.errors.year.message}
+          </p>
+        )}
       </div>
     </div>
   );
