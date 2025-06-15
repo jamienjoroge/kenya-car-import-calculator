@@ -25,22 +25,36 @@ export function AutoCompleteSelect({
   
   // Ensure options is always an array and contains only strings
   const safeOptions = React.useMemo(() => {
-    if (!Array.isArray(options)) {
-      console.warn('AutoCompleteSelect: options is not an array, defaulting to empty array');
+    try {
+      if (!Array.isArray(options)) {
+        console.warn('AutoCompleteSelect: options is not an array, defaulting to empty array');
+        return [];
+      }
+      return options.filter(option => 
+        option !== null && 
+        option !== undefined && 
+        typeof option === 'string' && 
+        option.trim() !== ''
+      );
+    } catch (error) {
+      console.error('Error processing options:', error);
       return [];
     }
-    return options.filter(option => typeof option === 'string' && option !== null && option !== undefined);
   }, [options]);
   
   const filtered = React.useMemo(() => {
-    if (!query || query.trim() === '') {
-      return safeOptions;
-    }
-    
     try {
+      if (!query || query.trim() === '') {
+        return safeOptions;
+      }
+      
       return safeOptions.filter((option) => {
-        if (typeof option !== 'string') return false;
-        return option.toLowerCase().includes(query.toLowerCase().trim());
+        try {
+          return option.toLowerCase().includes(query.toLowerCase().trim());
+        } catch (error) {
+          console.error('Error filtering option:', option, error);
+          return false;
+        }
       });
     } catch (error) {
       console.error('Error filtering options:', error);
@@ -52,11 +66,11 @@ export function AutoCompleteSelect({
   const displayValue = value || query;
 
   const handleValueChange = React.useCallback((val: string) => {
-    console.log('AutoCompleteSelect: value changing to:', val);
-    setQuery(val);
-    setOpen(true);
-    
     try {
+      console.log('AutoCompleteSelect: value changing to:', val);
+      setQuery(val);
+      setOpen(true);
+      
       // If the value exactly matches an option, select it
       if (safeOptions.includes(val)) {
         onChange(val);
@@ -70,8 +84,8 @@ export function AutoCompleteSelect({
   }, [safeOptions, onChange]);
 
   const handleSelect = React.useCallback((option: string) => {
-    console.log('AutoCompleteSelect: selecting option:', option);
     try {
+      console.log('AutoCompleteSelect: selecting option:', option);
       onChange(option);
       setQuery("");
       setOpen(false);
@@ -81,14 +95,29 @@ export function AutoCompleteSelect({
   }, [onChange]);
 
   const handleFocus = React.useCallback(() => {
-    if (!disabled) {
-      setOpen(true);
+    try {
+      if (!disabled) {
+        setOpen(true);
+      }
+    } catch (error) {
+      console.error('Error in handleFocus:', error);
     }
   }, [disabled]);
 
   const handleClickOutside = React.useCallback(() => {
-    setOpen(false);
+    try {
+      setOpen(false);
+    } catch (error) {
+      console.error('Error in handleClickOutside:', error);
+    }
   }, []);
+
+  // Reset query when value changes externally
+  React.useEffect(() => {
+    if (value !== query) {
+      setQuery("");
+    }
+  }, [value, query]);
 
   return (
     <div className="w-full">
@@ -96,7 +125,7 @@ export function AutoCompleteSelect({
         <label className="block text-sm font-medium mb-1">{label}</label>
       )}
       <div className="relative">
-        <Command className="rounded-lg border shadow-md">
+        <Command className="rounded-lg border shadow-md" shouldFilter={false}>
           <CommandInput
             value={displayValue}
             onValueChange={handleValueChange}
@@ -105,7 +134,7 @@ export function AutoCompleteSelect({
             disabled={disabled}
             className="h-10"
           />
-          {open && !disabled && filtered.length > 0 && (
+          {open && !disabled && Array.isArray(filtered) && filtered.length > 0 && (
             <CommandList className="absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-60 overflow-auto">
               {filtered.slice(0, 10).map((option, index) => (
                 <CommandItem

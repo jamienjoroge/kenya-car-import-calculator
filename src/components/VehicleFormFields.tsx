@@ -37,8 +37,8 @@ export default function VehicleFormFields({
 }: VehicleFormFieldsProps) {
 
   const handleMakeChange = (value: string) => {
-    console.log('Make changing to:', value);
     try {
+      console.log('Make changing to:', value);
       form.setValue("make", value);
       // Clear dependent fields when make changes
       form.setValue("model", "");
@@ -49,8 +49,8 @@ export default function VehicleFormFields({
   };
 
   const handleModelChange = (value: string) => {
-    console.log('Model changing to:', value);
     try {
+      console.log('Model changing to:', value);
       form.setValue("model", value);
       // Clear year when model changes
       form.setValue("year", "");
@@ -60,13 +60,18 @@ export default function VehicleFormFields({
   };
 
   const handleYearChange = (value: string) => {
-    console.log('Year changing to:', value);
     try {
+      console.log('Year changing to:', value);
       form.setValue("year", value);
     } catch (error) {
       console.error('Error in handleYearChange:', error);
     }
   };
+
+  // Ensure arrays are always defined
+  const safeMakes = Array.isArray(makes) ? makes : [];
+  const safeModels = Array.isArray(models) ? models : [];
+  const safeYears = Array.isArray(years) ? years : [];
 
   return (
     <form
@@ -77,7 +82,7 @@ export default function VehicleFormFields({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <AutoCompleteSelect
           label="Car Make"
-          options={Array.isArray(makes) ? makes : []}
+          options={safeMakes}
           value={selectedMake}
           placeholder="Start typing make…"
           onChange={handleMakeChange}
@@ -85,7 +90,7 @@ export default function VehicleFormFields({
         />
         <AutoCompleteSelect
           label="Car Model"
-          options={Array.isArray(models) ? models : []}
+          options={safeModels}
           value={selectedModel}
           placeholder="Model…"
           onChange={handleModelChange}
@@ -93,7 +98,7 @@ export default function VehicleFormFields({
         />
         <AutoCompleteSelect
           label="Year"
-          options={Array.isArray(years) ? years : []}
+          options={safeYears}
           value={selectedYear}
           placeholder="Year…"
           onChange={handleYearChange}
