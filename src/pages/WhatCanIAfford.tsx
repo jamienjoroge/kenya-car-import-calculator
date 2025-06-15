@@ -125,8 +125,8 @@ const WhatCanIAfford = () => {
             <CardTitle>Enter Your Budget Range</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-4 items-end">
-              <div className="flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
                 <Label htmlFor="minBudget">Minimum Budget (KES)</Label>
                 <Input
                   id="minBudget"
@@ -137,7 +137,7 @@ const WhatCanIAfford = () => {
                   className="mt-1"
                 />
               </div>
-              <div className="flex-1">
+              <div>
                 <Label htmlFor="maxBudget">Maximum Budget (KES)</Label>
                 <Input
                   id="maxBudget"
@@ -147,24 +147,28 @@ const WhatCanIAfford = () => {
                   onChange={(e) => setMaxBudget(e.target.value)}
                   className="mt-1"
                 />
-                <p className="text-sm text-muted-foreground mt-1">
-                  Total cost: vehicle purchase price + import duties + shipping
-                </p>
               </div>
-              <Button 
-                onClick={searchAffordableVehicles} 
-                disabled={!maxBudget || loading || (Number(minBudget) >= Number(maxBudget))}
-                className="min-w-32"
-              >
-                <Search className="h-4 w-4 mr-2" />
-                {loading ? 'Searching...' : 'Find Cars'}
-              </Button>
             </div>
-            {minBudget && maxBudget && Number(minBudget) >= Number(maxBudget) && (
-              <p className="text-sm text-red-500 mt-2">
-                Minimum budget must be less than maximum budget
+            <div className="flex flex-col gap-2">
+              <p className="text-sm text-muted-foreground">
+                Total cost: vehicle purchase price + import duties + shipping
               </p>
-            )}
+              <div className="flex justify-between items-center">
+                {minBudget && maxBudget && Number(minBudget) >= Number(maxBudget) && (
+                  <p className="text-sm text-red-500">
+                    Minimum budget must be less than maximum budget
+                  </p>
+                )}
+                <Button 
+                  onClick={searchAffordableVehicles} 
+                  disabled={!maxBudget || loading || (Number(minBudget) >= Number(maxBudget))}
+                  className="min-w-32 ml-auto"
+                >
+                  <Search className="h-4 w-4 mr-2" />
+                  {loading ? 'Searching...' : 'Find Cars'}
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
