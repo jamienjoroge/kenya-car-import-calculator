@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { Command, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Command, CommandInput, CommandItem, CommandList, CommandEmpty } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 
 interface AutoCompleteSelectProps {
@@ -109,9 +109,14 @@ export function AutoCompleteSelect({
             disabled={disabled}
             className="h-10"
           />
-          {open && !disabled && filteredOptions.length > 0 && (
-            <CommandList className="absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-80 overflow-auto">
-              {filteredOptions.map((option, index) => (
+          <CommandList className={cn(
+            "absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-80 overflow-auto",
+            (!open || disabled || filteredOptions.length === 0) && "hidden"
+          )}>
+            {filteredOptions.length === 0 ? (
+              <CommandEmpty>No results found.</CommandEmpty>
+            ) : (
+              filteredOptions.map((option, index) => (
                 <CommandItem
                   key={`${option}-${index}`}
                   value={option}
@@ -120,9 +125,9 @@ export function AutoCompleteSelect({
                 >
                   {option}
                 </CommandItem>
-              ))}
-            </CommandList>
-          )}
+              ))
+            )}
+          </CommandList>
         </Command>
       </div>
     </div>
