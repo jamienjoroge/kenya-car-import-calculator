@@ -59,7 +59,7 @@ const PopularCarsByYear = () => {
         }, {} as Record<number, any[]>) || {};
 
         const yearStatsData: YearStats[] = Object.entries(yearGroups).map(([year, vehicles]) => {
-          const crspValues = vehicles.map(v => v.crsp_value);
+          const crspValues = vehicles.map(v => Number(v.crsp_value) || 0);
           const makeGroups = vehicles.reduce((acc, v) => {
             acc[v.make_name] = (acc[v.make_name] || 0) + 1;
             return acc;

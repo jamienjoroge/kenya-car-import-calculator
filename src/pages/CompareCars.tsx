@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useVehicleData } from "@/hooks/useVehicleData";
 import { useDutyCalculation } from "@/hooks/useDutyCalculation";
 import { calculateDuties } from "@/lib/calculation";
-import VehicleSelector from "@/components/VehicleSelector";
+import { VehicleSelector } from "@/components/VehicleSelector";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const CompareCars = () => {
