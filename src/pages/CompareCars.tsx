@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,9 +10,11 @@ import { VehicleSelector } from "@/components/VehicleSelector";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const CompareCars = () => {
-  const [vehicle1, setVehicle1] = useState({ make: "", model: "", year: "" });
-  const [vehicle2, setVehicle2] = useState({ make: "", model: "", year: "" });
-  const [vehicle3, setVehicle3] = useState({ make: "", model: "", year: "" });
+  const defaultYear = (new Date().getFullYear() - 8).toString();
+  
+  const [vehicle1, setVehicle1] = useState({ make: "", model: "", year: defaultYear });
+  const [vehicle2, setVehicle2] = useState({ make: "", model: "", year: defaultYear });
+  const [vehicle3, setVehicle3] = useState({ make: "", model: "", year: defaultYear });
 
   const vehicle1Data = useVehicleData(vehicle1.make, vehicle1.model);
   const vehicle2Data = useVehicleData(vehicle2.make, vehicle2.model);
