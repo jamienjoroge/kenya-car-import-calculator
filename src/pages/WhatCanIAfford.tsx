@@ -24,6 +24,10 @@ interface AffordableVehicle {
 const WhatCanIAfford = () => {
   const [minBudget, setMinBudget] = useState("");
   const [maxBudget, setMaxBudget] = useState("");
+  const [year, setYear] = useState(() => {
+    const currentYear = new Date().getFullYear();
+    return (currentYear - 8).toString();
+  });
   const [affordableVehicles, setAffordableVehicles] = useState<AffordableVehicle[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
@@ -39,6 +43,7 @@ const WhatCanIAfford = () => {
   const searchAffordableVehicles = async () => {
     const minAmount = Number(minBudget) || 0;
     const maxAmount = Number(maxBudget);
+    const selectedYear = Number(year);
     
     if (!maxAmount || isNaN(maxAmount)) return;
     if (minAmount >= maxAmount) return;
@@ -47,10 +52,11 @@ const WhatCanIAfford = () => {
     setSearched(true);
 
     try {
-      // Fetch all vehicles from the database
+      // Fetch vehicles filtered by year
       const { data: vehicles, error } = await supabase
         .from('crsp_data')
         .select('*')
+        .eq('year', selectedYear)
         .order('crsp_value', { ascending: true });
 
       if (error) throw error;
@@ -122,10 +128,10 @@ const WhatCanIAfford = () => {
 
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Enter Your Budget Range</CardTitle>
+            <CardTitle>Enter Your Budget Range and Year</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div>
                 <Label htmlFor="minBudget">Minimum Budget (KES)</Label>
                 <Input
@@ -148,6 +154,18 @@ const WhatCanIAfford = () => {
                   className="mt-1"
                 />
               </div>
+              <div>
+                <Label htmlFor="year">Vehicle Year</Label>
+                <Input
+                  id="year"
+                  type="number"
+                  min={new Date().getFullYear() - 8}
+                  max={new Date().getFullYear()}
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  className="mt-1"
+                />
+              </div>
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-sm text-muted-foreground">
@@ -161,7 +179,7 @@ const WhatCanIAfford = () => {
                 )}
                 <Button 
                   onClick={searchAffordableVehicles} 
-                  disabled={!maxBudget || loading || (Number(minBudget) >= Number(maxBudget))}
+                  disabled={!maxBudget || !year || loading || (Number(minBudget) >= Number(maxBudget))}
                   className="min-w-32 ml-auto"
                 >
                   <Search className="h-4 w-4 mr-2" />
@@ -177,8 +195,8 @@ const WhatCanIAfford = () => {
             <CardHeader>
               <CardTitle>
                 {affordableVehicles.length > 0 
-                  ? `Found ${affordableVehicles.length} vehicles between ${formatCurrency(Number(minBudget) || 0)} and ${formatCurrency(Number(maxBudget))}`
-                  : `No vehicles found between ${formatCurrency(Number(minBudget) || 0)} and ${formatCurrency(Number(maxBudget))}`
+                  ? `Found ${affordableVehicles.length} vehicles from ${year} between ${formatCurrency(Number(minBudget) || 0)} and ${formatCurrency(Number(maxBudget))}`
+                  : `No vehicles found from ${year} between ${formatCurrency(Number(minBudget) || 0)} and ${formatCurrency(Number(maxBudget))}`
                 }
               </CardTitle>
             </CardHeader>
@@ -231,11 +249,11 @@ const WhatCanIAfford = () => {
               ) : (
                 <div className="text-center py-8">
                   <p className="text-muted-foreground mb-4">
-                    No vehicles found within your budget range. Try adjusting your range or consider:
+                    No vehicles found within your budget range for {year}. Try adjusting your range or consider:
                   </p>
                   <ul className="text-sm text-muted-foreground space-y-1">
                     <li>• Expanding your budget range</li>
-                    <li>• Looking for older vehicles (higher depreciation, lower duties)</li>
+                    <li>• Trying a different year</li>
                     <li>• Considering smaller engine capacity vehicles</li>
                     <li>• Factoring in additional costs like shipping and clearing</li>
                   </ul>
