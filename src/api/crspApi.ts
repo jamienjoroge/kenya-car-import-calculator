@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 
 export const fetchMakes = async (): Promise<string[]> => {
@@ -17,49 +16,28 @@ export const fetchMakes = async (): Promise<string[]> => {
     console.log('🔢 TOTAL ROWS IN CRSP_DATA TABLE:', count);
   }
   
-  // Now let's fetch ALL make_name records without any filtering
-  console.log('📥 Fetching ALL make_name records...');
-  const { data: allMakeData, error: allMakeError } = await supabase
-    .from('crsp_data')
-    .select('make_name');
-
-  if (allMakeError) {
-    console.error('❌ Error fetching all makes (no order):', allMakeError);
-    throw allMakeError;
-  }
-
-  console.log('📋 ALL make_name records (no order):', allMakeData?.length || 0, 'total records');
-  console.log('📋 First 10 make_name records (no order):', allMakeData?.slice(0, 10));
-
-  // Check for Toyota in the unordered data
-  const allToyotaRecords = allMakeData?.filter(item => 
-    item.make_name && item.make_name.toLowerCase().includes('toyota')
-  );
-  console.log('🚗 Toyota records in ALL data (no order):', allToyotaRecords?.length || 0);
-  console.log('🚗 Toyota samples from ALL data:', allToyotaRecords?.slice(0, 3));
-
-  // Now try with ordering
-  console.log('📥 Fetching make_name records WITH ordering...');
+  // Now let's fetch ALL make_name records without any limit
+  console.log('📥 Fetching ALL make_name records with no limit...');
   const { data, error } = await supabase
     .from('crsp_data')
     .select('make_name')
     .order('make_name');
 
   if (error) {
-    console.error('❌ Error fetching makes with order:', error);
+    console.error('❌ Error fetching makes:', error);
     throw error;
   }
 
-  console.log('📋 Ordered make_name data from DB:', data?.length || 0, 'total records');
-  console.log('📋 First 20 ordered make records:', data?.slice(0, 20));
-  console.log('📋 Last 20 ordered make records:', data?.slice(-20));
+  console.log('📋 Total make_name records fetched:', data?.length || 0);
+  console.log('📋 First 20 records:', data?.slice(0, 20));
+  console.log('📋 Last 20 records:', data?.slice(-20));
 
-  // Check for Toyota specifically in the ordered data
+  // Check for Toyota specifically in the data
   const rawToyotaRecords = data?.filter(item => 
     item.make_name && item.make_name.toLowerCase().includes('toyota')
   );
-  console.log('🚗 RAW Toyota records found (ordered):', rawToyotaRecords?.length || 0);
-  console.log('🚗 RAW Toyota records (ordered):', rawToyotaRecords?.slice(0, 5));
+  console.log('🚗 RAW Toyota records found:', rawToyotaRecords?.length || 0);
+  console.log('🚗 First 5 Toyota records:', rawToyotaRecords?.slice(0, 5));
 
   // Log some statistics about the data
   const nullMakes = data?.filter(item => !item.make_name || item.make_name.trim() === '');
@@ -72,7 +50,7 @@ export const fetchMakes = async (): Promise<string[]> => {
   console.log('✅ Processed unique makes:', uniqueMakes.length, 'unique makes');
   console.log('✅ All unique makes:', uniqueMakes);
   
-  // Check if Toyota is in the final list - log all makes that contain 'toyota' (case insensitive)
+  // Check if Toyota is in the final list
   const toyotaVariants = uniqueMakes.filter(make => 
     make.toLowerCase().includes('toyota')
   );
@@ -85,7 +63,7 @@ export const fetchMakes = async (): Promise<string[]> => {
   console.log('🔤 Makes starting with T:', tMakes);
 
   // Log a sample of all makes to see what we have
-  console.log('📝 Sample of all makes (first 30):', uniqueMakes.slice(0, 30));
+  console.log('📝 Sample of all makes (first 50):', uniqueMakes.slice(0, 50));
 
   console.log('🏁 fetchMakes completed, returning', uniqueMakes.length, 'makes');
   return uniqueMakes;
