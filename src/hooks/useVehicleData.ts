@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 const fetchMakes = async (): Promise<string[]> => {
+  console.log('Fetching makes from database...');
+  
   const { data, error } = await supabase
     .from('crsp_data')
     .select('make_name')
@@ -13,13 +15,27 @@ const fetchMakes = async (): Promise<string[]> => {
     throw error;
   }
 
-  // Extract unique make names
-  const uniqueMakes = [...new Set(data.map(item => item.make_name))];
+  console.log('Raw makes data from DB:', data);
+
+  // Extract unique make names and ensure they're all strings
+  const uniqueMakes = [...new Set(data.map(item => item.make_name).filter(make => make && make.trim() !== ''))];
+  
+  console.log('Processed unique makes:', uniqueMakes);
+  console.log('Total unique makes count:', uniqueMakes.length);
+  
+  // Check if Toyota is in the list
+  const toyotaVariants = uniqueMakes.filter(make => 
+    make.toLowerCase().includes('toyota')
+  );
+  console.log('Toyota variants found:', toyotaVariants);
+
   return uniqueMakes;
 };
 
 const fetchModelsForMake = async (make: string): Promise<string[]> => {
   if (!make) return [];
+  
+  console.log('Fetching models for make:', make);
   
   const { data, error } = await supabase
     .from('crsp_data')
@@ -33,12 +49,15 @@ const fetchModelsForMake = async (make: string): Promise<string[]> => {
   }
 
   // Extract unique model names
-  const uniqueModels = [...new Set(data.map(item => item.model_name))];
+  const uniqueModels = [...new Set(data.map(item => item.model_name).filter(model => model && model.trim() !== ''))];
+  console.log('Models for', make, ':', uniqueModels);
   return uniqueModels;
 };
 
 const fetchYearsForMakeModel = async (make: string, model: string): Promise<string[]> => {
   if (!make || !model) return [];
+  
+  console.log('Fetching years for make:', make, 'model:', model);
   
   const { data, error } = await supabase
     .from('crsp_data')
@@ -53,7 +72,8 @@ const fetchYearsForMakeModel = async (make: string, model: string): Promise<stri
   }
 
   // Extract unique years and convert to strings
-  const uniqueYears = [...new Set(data.map(item => item.year.toString()))];
+  const uniqueYears = [...new Set(data.map(item => item.year.toString()).filter(year => year && year.trim() !== ''))];
+  console.log('Years for', make, model, ':', uniqueYears);
   return uniqueYears;
 };
 
@@ -87,11 +107,25 @@ const fetchCrspRecord = async ({
 };
 
 export function useVehicleData(selectedMake: string, selectedModel: string, selectedYear: string) {
-  const { data: makes = [], isLoading: loadingMakes } = useQuery({
+  const { data: makes = [], isLoading: loadingMakes, error: makesError } = useQuery({
     queryKey: ["makes"],
     queryFn: fetchMakes,
     staleTime: 24 * 60 * 60 * 1000,
   });
+
+  // Log makes data when it changes
+  React.useEffect(() => {
+    if (makes.length > 0) {
+      console.log('Makes loaded in component:', makes.length, 'total makes');
+      const toyotaInMakes = makes.filter(make => 
+        make.toLowerCase().includes('toyota')
+      );
+      console.log('Toyota makes available:', toyotaInMakes);
+    }
+    if (makesError) {
+      console.error('Makes loading error:', makesError);
+    }
+  }, [makes, makesError]);
 
   const { data: models = [], isLoading: loadingModels } = useQuery({
     queryKey: ["models", selectedMake],

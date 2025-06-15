@@ -23,17 +23,35 @@ export function AutoCompleteSelect({
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
   
+  // Debug logging for options
+  React.useEffect(() => {
+    if (label === "Car Make") {
+      console.log('AutoCompleteSelect - Car Make options received:', options.length);
+      console.log('Car Make options:', options);
+      const toyotaOptions = options.filter(option => 
+        option.toLowerCase().includes('toyota')
+      );
+      console.log('Toyota options in AutoComplete:', toyotaOptions);
+    }
+  }, [options, label]);
+  
   // Ensure options is always a safe array
   const safeOptions = React.useMemo(() => {
     if (!Array.isArray(options)) {
       console.warn('AutoCompleteSelect: options is not an array, defaulting to empty array');
       return [];
     }
-    return options.filter(option => 
+    const filtered = options.filter(option => 
       typeof option === 'string' && 
       option.trim() !== ''
     );
-  }, [options]);
+    
+    if (label === "Car Make") {
+      console.log('SafeOptions for Car Make:', filtered.length, 'options');
+    }
+    
+    return filtered;
+  }, [options, label]);
   
   // Filter options based on input
   const filteredOptions = React.useMemo(() => {
@@ -41,12 +59,18 @@ export function AutoCompleteSelect({
       return safeOptions.slice(0, 50);
     }
     
-    return safeOptions
+    const filtered = safeOptions
       .filter(option => 
         option.toLowerCase().includes(inputValue.toLowerCase().trim())
       )
       .slice(0, 50);
-  }, [safeOptions, inputValue]);
+      
+    if (label === "Car Make" && inputValue.toLowerCase().includes('toyota')) {
+      console.log('Filtering for toyota, found:', filtered);
+    }
+    
+    return filtered;
+  }, [safeOptions, inputValue, label]);
 
   const handleInputChange = React.useCallback((val: string) => {
     console.log('AutoCompleteSelect: input changing to:', val);
