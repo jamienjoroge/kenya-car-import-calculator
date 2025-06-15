@@ -2,10 +2,10 @@
 /**
  * Calculate KRA duties & costs using CRSP and user input.
  * Depreciation: 1 year = 10%, 2 = 20%, ..., 8+ = 70%
- * Excise: <=1500cc: 25%, >1500cc: 35%, electric: 10%
- * Import Duty: 25% of depreciated CRSP
- * VAT: 16% of (depreciated CRSP + Import Duty + Excise)
- * IDF: 2.25% of depreciated CRSP or min KES 5,000
+ * Import Duty: 35% for diesel/petrol, 25% for electric cars and commercial trucks
+ * Excise Duty: 20% of (CRSP + Import Duty)
+ * VAT: 16% of (CRSP + Import Duty + Excise Duty)
+ * IDF: 2.25% of CRSP or min KES 5,000
  * RDL: 2% of depreciated CRSP
  */
 
@@ -16,11 +16,12 @@ export function calculateDepreciationRate(vehicleYear: number) {
   return table[Math.min(age, 8)] / 100;
 }
 
-export function calculateExcise(engineCapacity: number, fuelType: string, base: number): number {
+export function calculateImportDuty(fuelType: string, base: number): number {
   if (String(fuelType).toLowerCase() === "electric") {
-    return base * 0.10;
+    return base * 0.25; // 25% for electric cars
   }
-  return base * (engineCapacity <= 1500 ? 0.25 : 0.35);
+  // 35% for diesel/petrol cars (default)
+  return base * 0.35;
 }
 
 export function calculateDuties({
@@ -40,18 +41,18 @@ export function calculateDuties({
   const depRate = calculateDepreciationRate(year);
   const depreciatedCrsp = Math.round(crsp * (1 - depRate));
 
-  // 2. Import Duty: 25%
-  const importDuty = Math.round(depreciatedCrsp * 0.25);
-
-  // 3. Excise Duty: (engine-based)
-  const excise = Math.round(
-    calculateExcise(engineCapacity, fuelType, depreciatedCrsp + importDuty)
+  // 2. Import Duty: 35% for petrol/diesel, 25% for electric
+  const importDuty = Math.round(
+    calculateImportDuty(fuelType, depreciatedCrsp)
   );
 
-  // 4. VAT: 16% of (depreciatedCrsp + importDuty + excise)
+  // 3. Excise Duty: 20% of (CRSP + Import Duty)
+  const excise = Math.round((depreciatedCrsp + importDuty) * 0.20);
+
+  // 4. VAT: 16% of (CRSP + Import Duty + Excise)
   const vat = Math.round((depreciatedCrsp + importDuty + excise) * 0.16);
 
-  // 5. IDF: 2.25% or min 5000
+  // 5. IDF: 2.25% of CRSP or min 5000
   const idf = Math.max(Math.round(depreciatedCrsp * 0.0225), 5000);
 
   // 6. RDL: 2%
