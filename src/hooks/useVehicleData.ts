@@ -4,47 +4,75 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 const fetchMakes = async (): Promise<string[]> => {
-  console.log('Fetching makes from database...');
+  console.log('🚀 Starting fetchMakes function...');
   
   // First, let's get the total count of all records
+  console.log('📊 Counting total records...');
   const { count, error: countError } = await supabase
     .from('crsp_data')
     .select('*', { count: 'exact', head: true });
     
   if (countError) {
-    console.error('Error getting count:', countError);
+    console.error('❌ Error getting count:', countError);
+    throw countError;
   } else {
     console.log('🔢 TOTAL ROWS IN CRSP_DATA TABLE:', count);
   }
   
+  // Now let's fetch ALL make_name records without any filtering
+  console.log('📥 Fetching ALL make_name records...');
+  const { data: allMakeData, error: allMakeError } = await supabase
+    .from('crsp_data')
+    .select('make_name');
+
+  if (allMakeError) {
+    console.error('❌ Error fetching all makes (no order):', allMakeError);
+    throw allMakeError;
+  }
+
+  console.log('📋 ALL make_name records (no order):', allMakeData?.length || 0, 'total records');
+  console.log('📋 First 10 make_name records (no order):', allMakeData?.slice(0, 10));
+
+  // Check for Toyota in the unordered data
+  const allToyotaRecords = allMakeData?.filter(item => 
+    item.make_name && item.make_name.toLowerCase().includes('toyota')
+  );
+  console.log('🚗 Toyota records in ALL data (no order):', allToyotaRecords?.length || 0);
+  console.log('🚗 Toyota samples from ALL data:', allToyotaRecords?.slice(0, 3));
+
+  // Now try with ordering
+  console.log('📥 Fetching make_name records WITH ordering...');
   const { data, error } = await supabase
     .from('crsp_data')
     .select('make_name')
     .order('make_name');
 
   if (error) {
-    console.error('Error fetching makes:', error);
+    console.error('❌ Error fetching makes with order:', error);
     throw error;
   }
 
-  console.log('Raw makes data from DB:', data);
-  console.log('Total records returned:', data?.length || 0);
+  console.log('📋 Ordered make_name data from DB:', data?.length || 0, 'total records');
+  console.log('📋 First 20 ordered make records:', data?.slice(0, 20));
+  console.log('📋 Last 20 ordered make records:', data?.slice(-20));
 
-  // Log first 20 records to see the actual data structure
-  console.log('First 20 make records:', data?.slice(0, 20));
-
-  // Check for Toyota specifically in the raw data
+  // Check for Toyota specifically in the ordered data
   const rawToyotaRecords = data?.filter(item => 
     item.make_name && item.make_name.toLowerCase().includes('toyota')
   );
-  console.log('🚗 RAW Toyota records found:', rawToyotaRecords?.length || 0);
-  console.log('🚗 RAW Toyota records:', rawToyotaRecords?.slice(0, 5));
+  console.log('🚗 RAW Toyota records found (ordered):', rawToyotaRecords?.length || 0);
+  console.log('🚗 RAW Toyota records (ordered):', rawToyotaRecords?.slice(0, 5));
+
+  // Log some statistics about the data
+  const nullMakes = data?.filter(item => !item.make_name || item.make_name.trim() === '');
+  console.log('🔍 Records with null/empty make_name:', nullMakes?.length || 0);
 
   // Extract unique make names and ensure they're all strings
+  console.log('🔄 Processing unique makes...');
   const uniqueMakes = [...new Set(data.map(item => item.make_name).filter(make => make && make.trim() !== ''))];
   
-  console.log('Processed unique makes:', uniqueMakes);
-  console.log('Total unique makes count:', uniqueMakes.length);
+  console.log('✅ Processed unique makes:', uniqueMakes.length, 'unique makes');
+  console.log('✅ All unique makes:', uniqueMakes);
   
   // Check if Toyota is in the final list - log all makes that contain 'toyota' (case insensitive)
   const toyotaVariants = uniqueMakes.filter(make => 
@@ -56,11 +84,12 @@ const fetchMakes = async (): Promise<string[]> => {
   const tMakes = uniqueMakes.filter(make => 
     make.toLowerCase().startsWith('t')
   );
-  console.log('Makes starting with T:', tMakes);
+  console.log('🔤 Makes starting with T:', tMakes);
 
   // Log a sample of all makes to see what we have
-  console.log('Sample of all makes (first 30):', uniqueMakes.slice(0, 30));
+  console.log('📝 Sample of all makes (first 30):', uniqueMakes.slice(0, 30));
 
+  console.log('🏁 fetchMakes completed, returning', uniqueMakes.length, 'makes');
   return uniqueMakes;
 };
 
@@ -149,7 +178,7 @@ export function useVehicleData(selectedMake: string, selectedModel: string, sele
   React.useEffect(() => {
     if (makes.length > 0) {
       console.log('🔍 Makes loaded in component:', makes.length, 'total makes');
-      console.log('🔍 All makes:', makes);
+      console.log('🔍 All makes in component:', makes);
       const toyotaInMakes = makes.filter(make => 
         make.toLowerCase().includes('toyota')
       );
@@ -164,7 +193,7 @@ export function useVehicleData(selectedMake: string, selectedModel: string, sele
       });
     }
     if (makesError) {
-      console.error('Makes loading error:', makesError);
+      console.error('❌ Makes loading error:', makesError);
     }
   }, [makes, makesError]);
 
