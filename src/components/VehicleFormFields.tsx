@@ -10,10 +10,8 @@ interface VehicleFormFieldsProps {
   form: UseFormReturn<VehicleFormValues>;
   makes: string[];
   models: string[];
-  years: string[];
   loadingMakes: boolean;
   loadingModels: boolean;
-  loadingYears: boolean;
   loadingCrsp: boolean;
   selectedMake: string;
   selectedModel: string;
@@ -28,10 +26,8 @@ export default function VehicleFormFields({
   form,
   makes,
   models,
-  years,
   loadingMakes,
   loadingModels,
-  loadingYears,
   loadingCrsp,
   selectedMake,
   selectedModel,
@@ -52,16 +48,15 @@ export default function VehicleFormFields({
       <VehicleSelector
         makes={makes}
         models={models}
-        years={years}
         selectedMake={selectedMake}
         selectedModel={selectedModel}
         selectedYear={selectedYear}
         loadingMakes={loadingMakes}
         loadingModels={loadingModels}
-        loadingYears={loadingYears}
         onMakeChange={onMakeChange}
         onModelChange={onModelChange}
         onYearChange={onYearChange}
+        form={form}
       />
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">

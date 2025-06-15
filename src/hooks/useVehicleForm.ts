@@ -24,14 +24,11 @@ export function useVehicleForm() {
     form.setValue("make", value);
     // Clear dependent fields when make changes
     form.setValue("model", "");
-    form.setValue("year", "");
   };
 
   const handleModelChange = (value: string) => {
     console.log('Model changing to:', value);
     form.setValue("model", value);
-    // Clear year when model changes
-    form.setValue("year", "");
   };
 
   const handleYearChange = (value: string) => {

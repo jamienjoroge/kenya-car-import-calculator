@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchMakes, fetchModelsForMake, fetchYearsForMakeModel, fetchCrspRecord } from "@/api/crspApi";
+import { fetchMakes, fetchModelsForMake, fetchCrspRecord } from "@/api/crspApi";
 import { logMakesData } from "@/utils/vehicleDataDebug";
 
 export function useVehicleData(selectedMake: string, selectedModel: string, selectedYear: string) {
@@ -20,13 +20,6 @@ export function useVehicleData(selectedMake: string, selectedModel: string, sele
     queryKey: ["models", selectedMake],
     queryFn: () => fetchModelsForMake(selectedMake),
     enabled: !!selectedMake,
-    staleTime: 24 * 60 * 60 * 1000,
-  });
-
-  const { data: years = [], isLoading: loadingYears } = useQuery({
-    queryKey: ["years", selectedMake, selectedModel],
-    queryFn: () => fetchYearsForMakeModel(selectedMake, selectedModel),
-    enabled: !!selectedMake && !!selectedModel,
     staleTime: 24 * 60 * 60 * 1000,
   });
 
@@ -51,11 +44,9 @@ export function useVehicleData(selectedMake: string, selectedModel: string, sele
   return {
     makes: makes as string[],
     models: models as string[],
-    years: years as string[],
     crspRecord,
     loadingMakes,
     loadingModels,
-    loadingYears,
     loadingCrsp,
     crspError,
     refetchCrsp,
