@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import CurrencyToggle from "./CurrencyToggle";
@@ -85,9 +84,20 @@ export default function VehicleImportCalculator() {
     <div className="max-w-2xl mx-auto p-6 bg-card rounded-lg shadow-md mt-12">
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-2">Kenya Car Import Duty Calculator</h2>
-        <p className="text-muted-foreground text-base mb-2">
+        <p className="text-muted-foreground text-base mb-4">
           Calculate total importation costs using KRA rules and the current CRSP database.
         </p>
+        
+        {/* Important Disclaimers */}
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+          <h3 className="font-semibold text-amber-800 mb-2">Important Notes:</h3>
+          <ul className="text-amber-700 text-sm space-y-1">
+            <li>• <strong>Estimates are exclusive of dealership profit margins</strong> - actual vehicle purchase prices may vary</li>
+            <li>• <strong>Shipping costs</strong> are only included when specified in the optional shipping field</li>
+            <li>• Additional costs may include clearing agent fees, port handling charges, and inspection fees</li>
+            <li>• Final duties may vary based on actual vehicle condition and KRA assessment</li>
+          </ul>
+        </div>
       </div>
 
       <div className="flex flex-col gap-4">
