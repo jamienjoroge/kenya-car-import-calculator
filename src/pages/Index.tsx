@@ -1,5 +1,6 @@
 
 import VehicleImportCalculator from "@/components/VehicleImportCalculator";
+import AdSpace from "@/components/AdSpace";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -8,6 +9,13 @@ import { Calculator, GitCompare, DollarSign, TrendingUp } from "lucide-react";
 const Index = () => {
   return (
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
+      {/* Top Banner Ad Space */}
+      <div className="w-full py-2 bg-white border-b">
+        <div className="max-w-6xl mx-auto px-4">
+          <AdSpace slot="top-banner" format="horizontal" style={{ height: "90px" }} />
+        </div>
+      </div>
+
       <div className="pt-12 pb-10">
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-2 text-primary">
           Kenya Car Import Duty Calculator 2025
@@ -101,10 +109,22 @@ const Index = () => {
             </Card>
           </div>
         </div>
+
+        {/* Sidebar Ad Space */}
+        <div className="max-w-6xl mx-auto px-4 mb-6">
+          <div className="flex justify-end">
+            <AdSpace slot="sidebar-ad" format="rectangle" style={{ width: "300px", height: "250px" }} />
+          </div>
+        </div>
       </div>
       
       <div id="calculator">
         <VehicleImportCalculator />
+      </div>
+
+      {/* Mid-content Ad Space */}
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        <AdSpace slot="mid-content" format="horizontal" style={{ height: "90px" }} />
       </div>
       
       {/* SEO Content Section */}
@@ -174,6 +194,11 @@ const Index = () => {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Bottom Ad Space */}
+        <div className="mt-8">
+          <AdSpace slot="bottom-content" format="horizontal" style={{ height: "90px" }} />
         </div>
       </section>
       

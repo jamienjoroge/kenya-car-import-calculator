@@ -9,6 +9,8 @@ import NotFound from "./pages/NotFound";
 import CompareCars from "./pages/CompareCars";
 import WhatCanIAfford from "./pages/WhatCanIAfford";
 import PopularCarsByYear from "./pages/PopularCarsByYear";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +25,8 @@ const App = () => (
           <Route path="/compare" element={<CompareCars />} />
           <Route path="/afford" element={<WhatCanIAfford />} />
           <Route path="/popular" element={<PopularCarsByYear />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
