@@ -24,9 +24,10 @@ serve(async (req) => {
   }
 
   try {
+    // Use service role key to bypass RLS for bulk data uploads
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
     const requestData = await req.json();
