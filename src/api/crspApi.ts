@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 
 export const fetchMakes = async (): Promise<string[]> => {
@@ -16,21 +17,69 @@ export const fetchMakes = async (): Promise<string[]> => {
     console.log('🔢 TOTAL ROWS IN CRSP_DATA TABLE:', count);
   }
   
-  // Now let's fetch ALL make_name records without any limit
-  console.log('📥 Fetching ALL make_name records with no limit...');
+  // Try fetching with a very high limit to bypass any default limits
+  console.log('📥 Fetching ALL make_name records with explicit high limit...');
   const { data, error } = await supabase
     .from('crsp_data')
     .select('make_name')
-    .order('make_name');
+    .order('make_name')
+    .limit(50000); // Explicit high limit to override any defaults
 
   if (error) {
     console.error('❌ Error fetching makes:', error);
     throw error;
   }
 
-  console.log('📋 Total make_name records fetched:', data?.length || 0);
+  console.log('📋 Total make_name records fetched with high limit:', data?.length || 0);
   console.log('📋 First 20 records:', data?.slice(0, 20));
   console.log('📋 Last 20 records:', data?.slice(-20));
+
+  // If still getting limited results, try pagination approach
+  if (data && data.length < (count || 0)) {
+    console.log('⚠️ Still getting limited results, trying pagination approach...');
+    
+    let allData: any[] = [];
+    let hasMore = true;
+    let offset = 0;
+    const batchSize = 1000;
+    
+    while (hasMore) {
+      console.log(`📥 Fetching batch starting at offset ${offset}...`);
+      const { data: batchData, error: batchError } = await supabase
+        .from('crsp_data')
+        .select('make_name')
+        .order('make_name')
+        .range(offset, offset + batchSize - 1);
+        
+      if (batchError) {
+        console.error('❌ Error in batch fetch:', batchError);
+        break;
+      }
+      
+      if (batchData && batchData.length > 0) {
+        allData = [...allData, ...batchData];
+        console.log(`📊 Batch ${Math.floor(offset/batchSize) + 1}: ${batchData.length} records, total so far: ${allData.length}`);
+        
+        if (batchData.length < batchSize) {
+          hasMore = false;
+          console.log('✅ Reached end of data');
+        } else {
+          offset += batchSize;
+        }
+      } else {
+        hasMore = false;
+        console.log('✅ No more data in batch');
+      }
+    }
+    
+    console.log('📋 Total records from pagination:', allData.length);
+    
+    // Use paginated data if we got more records
+    if (allData.length > (data?.length || 0)) {
+      console.log('🔄 Using paginated data as it has more records');
+      data.splice(0, data.length, ...allData);
+    }
+  }
 
   // Check for Toyota specifically in the data
   const rawToyotaRecords = data?.filter(item => 
