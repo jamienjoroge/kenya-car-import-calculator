@@ -52,10 +52,8 @@ export default function VehicleFormFields({
     try {
       console.log('Model changing to:', value);
       form.setValue("model", value);
-      // Clear year when model changes but don't reset if it's already valid
-      if (!selectedYear || !years.includes(selectedYear)) {
-        form.setValue("year", "");
-      }
+      // Clear year when model changes
+      form.setValue("year", "");
     } catch (error) {
       console.error('Error in handleModelChange:', error);
     }
@@ -74,10 +72,6 @@ export default function VehicleFormFields({
   const safeMakes = Array.isArray(makes) ? makes : [];
   const safeModels = Array.isArray(models) ? models : [];
   const safeYears = Array.isArray(years) ? years : [];
-
-  // Check if form is valid for calculation
-  const isFormValid = selectedMake && selectedModel && selectedYear && !loadingCrsp;
-  const hasFormErrors = Object.keys(form.formState.errors).length > 0;
 
   return (
     <form
@@ -112,13 +106,6 @@ export default function VehicleFormFields({
         />
       </div>
 
-      {/* Display year validation error */}
-      {form.formState.errors.year && (
-        <div className="text-sm text-red-600 font-medium">
-          {form.formState.errors.year.message}
-        </div>
-      )}
-
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
         <Input
           className="max-w-xs"
@@ -131,7 +118,12 @@ export default function VehicleFormFields({
         <Button
           className="flex gap-2 md:ml-auto"
           type="submit"
-          disabled={!isFormValid || hasFormErrors}
+          disabled={
+            !selectedMake ||
+            !selectedModel ||
+            !selectedYear ||
+            loadingCrsp
+          }
         >
           <Search size={18} />
           Calculate
