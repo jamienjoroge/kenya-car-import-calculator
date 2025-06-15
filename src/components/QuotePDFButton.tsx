@@ -37,7 +37,7 @@ export function QuotePDFButton({ make, model, year, costBreakdown }: QuotePDFBut
       head: [["Item", "Amount"]],
       body: [
         ["CRSP", format(costBreakdown.crsp)],
-        ["Depreciated CRSP", format(costBreakdown.depreciatedCrsp)],
+        [`Depreciated CRSP (${((costBreakdown.depreciationRate || 0) * 100).toFixed(0)}% depreciation)`, format(costBreakdown.depreciatedCrsp)],
         ["Import Duty", format(costBreakdown.importDuty)],
         ["Excise Duty", format(costBreakdown.excise)],
         ["VAT", format(costBreakdown.vat)],

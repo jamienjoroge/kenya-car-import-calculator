@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 interface BreakdownProps {
   crsp: number;
   depreciatedCrsp: number;
+  depreciationRate: number;
   importDuty: number;
   excise: number;
   vat: number;
@@ -19,6 +20,7 @@ interface BreakdownProps {
 export default function ImportBreakdownPanel({
   crsp,
   depreciatedCrsp,
+  depreciationRate,
   importDuty,
   excise,
   vat,
@@ -43,7 +45,7 @@ export default function ImportBreakdownPanel({
         <div className="flex flex-col gap-2">
           <div className="flex justify-between"><span>CRSP (KRA Valuation)</span> <span>{fmt(crsp)}</span></div>
           <div className="flex justify-between text-sm text-muted-foreground">
-            <span>Depreciated CRSP</span>
+            <span>Depreciated CRSP <span className="text-xs">({(depreciationRate * 100).toFixed(0)}% depreciation)</span></span>
             <span>{fmt(depreciatedCrsp)}</span>
           </div>
           <div className="flex justify-between"><span>Import Duty <span className="text-xs">(25%)</span></span> <span>{fmt(importDuty)}</span></div>

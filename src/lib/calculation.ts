@@ -88,6 +88,7 @@ export function calculateDuties({
   return {
     crsp,
     depreciatedCrsp,
+    depreciationRate: depRate,
     importDuty,
     excise,
     vat,
