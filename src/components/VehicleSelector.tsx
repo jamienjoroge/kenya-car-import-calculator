@@ -13,7 +13,7 @@ interface VehicleSelectorProps {
   onMakeChange: (value: string) => void;
   onModelChange: (value: string) => void;
   onYearChange: (value: string) => void;
-  form: any;
+  form?: any; // Make form optional
 }
 
 export function VehicleSelector({
@@ -65,7 +65,7 @@ export function VehicleSelector({
           onChange={(e) => onYearChange(e.target.value)}
           className="h-10"
         />
-        {form.formState.errors.year && (
+        {form?.formState?.errors?.year && (
           <p className="text-sm text-red-500 mt-1">
             {form.formState.errors.year.message}
           </p>

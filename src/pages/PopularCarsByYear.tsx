@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -89,7 +88,7 @@ const PopularCarsByYear = () => {
           .map(([make, count]) => ({
             make,
             count,
-            percentage: Math.round((count / totalVehicles) * 100),
+            percentage: Math.round((Number(count) / Number(totalVehicles)) * 100),
           }))
           .sort((a, b) => b.count - a.count)
           .slice(0, 10);
