@@ -14,7 +14,7 @@ interface AutoCompleteSelectProps {
 
 export function AutoCompleteSelect({
   value,
-  options,
+  options = [], // Default to empty array
   placeholder,
   onChange,
   disabled,
@@ -23,14 +23,17 @@ export function AutoCompleteSelect({
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   
+  // Ensure options is always an array
+  const safeOptions = Array.isArray(options) ? options : [];
+  
   const filtered = React.useMemo(
     () =>
       !query
-        ? options
-        : options.filter((option) =>
+        ? safeOptions
+        : safeOptions.filter((option) =>
             option.toLowerCase().includes(query.toLowerCase())
           ),
-    [options, query]
+    [safeOptions, query]
   );
 
   // Show selected value or query in the input
@@ -49,7 +52,7 @@ export function AutoCompleteSelect({
               setQuery(val);
               setOpen(true);
               // If the value exactly matches an option, select it
-              if (options.includes(val)) {
+              if (safeOptions.includes(val)) {
                 onChange(val);
                 setOpen(false);
               } else if (val === "") {

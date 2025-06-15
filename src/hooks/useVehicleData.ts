@@ -1,26 +1,62 @@
 
 import { useQuery } from "@tanstack/react-query";
+import { createClient } from "@/integrations/supabase/client";
+
+const supabase = createClient();
 
 const fetchMakes = async () => {
-  const resp = await fetch("https://tapmpahlwxsckbamdrms.supabase.co/functions/v1/crsp-makes");
-  if (!resp.ok) throw new Error("Could not load makes");
-  return await resp.json();
+  const { data, error } = await supabase
+    .from('crsp_data')
+    .select('make_name')
+    .order('make_name');
+
+  if (error) {
+    console.error('Error fetching makes:', error);
+    throw error;
+  }
+
+  // Extract unique make names
+  const uniqueMakes = [...new Set(data.map(item => item.make_name))];
+  return uniqueMakes;
 };
 
 const fetchModelsForMake = async (make: string) => {
   if (!make) return [];
-  const resp = await fetch(`https://tapmpahlwxsckbamdrms.supabase.co/functions/v1/crsp-models?make=${encodeURIComponent(make)}`);
-  if (!resp.ok) throw new Error("Error loading models");
-  return await resp.json();
+  
+  const { data, error } = await supabase
+    .from('crsp_data')
+    .select('model_name')
+    .eq('make_name', make)
+    .order('model_name');
+
+  if (error) {
+    console.error('Error fetching models:', error);
+    throw error;
+  }
+
+  // Extract unique model names
+  const uniqueModels = [...new Set(data.map(item => item.model_name))];
+  return uniqueModels;
 };
 
 const fetchYearsForMakeModel = async (make: string, model: string) => {
   if (!make || !model) return [];
-  const resp = await fetch(
-    `https://tapmpahlwxsckbamdrms.supabase.co/functions/v1/crsp-years?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}`
-  );
-  if (!resp.ok) throw new Error("Error loading years");
-  return await resp.json();
+  
+  const { data, error } = await supabase
+    .from('crsp_data')
+    .select('year')
+    .eq('make_name', make)
+    .eq('model_name', model)
+    .order('year', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching years:', error);
+    throw error;
+  }
+
+  // Extract unique years and convert to strings
+  const uniqueYears = [...new Set(data.map(item => item.year.toString()))];
+  return uniqueYears;
 };
 
 const fetchCrspRecord = async ({
@@ -32,11 +68,24 @@ const fetchCrspRecord = async ({
   model: string;
   year: string;
 }) => {
-  const resp = await fetch(
-    `https://tapmpahlwxsckbamdrms.supabase.co/functions/v1/crsp-record?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&year=${encodeURIComponent(year)}`
-  );
-  if (!resp.ok) throw new Error("No CRSP record found");
-  return await resp.json();
+  const { data, error } = await supabase
+    .from('crsp_data')
+    .select('*')
+    .eq('make_name', make)
+    .eq('model_name', model)
+    .eq('year', parseInt(year))
+    .single();
+
+  if (error) {
+    console.error('Error fetching CRSP record:', error);
+    throw error;
+  }
+
+  return {
+    crsp: data.crsp_value,
+    engine_capacity: data.engine_capacity,
+    fuel_type: data.fuel_type
+  };
 };
 
 export function useVehicleData(selectedMake: string, selectedModel: string, selectedYear: string) {
@@ -79,9 +128,9 @@ export function useVehicleData(selectedMake: string, selectedModel: string, sele
   });
 
   return {
-    makes,
-    models,
-    years,
+    makes: makes || [],
+    models: models || [],
+    years: years || [],
     crspRecord,
     loadingMakes,
     loadingModels,
