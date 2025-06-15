@@ -11,6 +11,7 @@ interface QuotePDFButtonProps {
   costBreakdown: {
     crsp: number;
     depreciatedCrsp: number;
+    depreciationRate: number;
     importDuty: number;
     excise: number;
     vat: number;
