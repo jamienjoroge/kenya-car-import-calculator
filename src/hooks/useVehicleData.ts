@@ -1,10 +1,8 @@
 
 import { useQuery } from "@tanstack/react-query";
-import { createClient } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 
-const supabase = createClient();
-
-const fetchMakes = async () => {
+const fetchMakes = async (): Promise<string[]> => {
   const { data, error } = await supabase
     .from('crsp_data')
     .select('make_name')
@@ -20,7 +18,7 @@ const fetchMakes = async () => {
   return uniqueMakes;
 };
 
-const fetchModelsForMake = async (make: string) => {
+const fetchModelsForMake = async (make: string): Promise<string[]> => {
   if (!make) return [];
   
   const { data, error } = await supabase
@@ -39,7 +37,7 @@ const fetchModelsForMake = async (make: string) => {
   return uniqueModels;
 };
 
-const fetchYearsForMakeModel = async (make: string, model: string) => {
+const fetchYearsForMakeModel = async (make: string, model: string): Promise<string[]> => {
   if (!make || !model) return [];
   
   const { data, error } = await supabase
@@ -128,9 +126,9 @@ export function useVehicleData(selectedMake: string, selectedModel: string, sele
   });
 
   return {
-    makes: makes || [],
-    models: models || [],
-    years: years || [],
+    makes: makes as string[],
+    models: models as string[],
+    years: years as string[],
     crspRecord,
     loadingMakes,
     loadingModels,
