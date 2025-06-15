@@ -154,7 +154,8 @@ export const fetchCrspRecord = async ({
     .select('*')
     .eq('make_name', make)
     .eq('model_name', model)
-    .maybeSingle();
+    .limit(1)
+    .single();
 
   if (error) {
     console.error('Error fetching CRSP record:', error);
