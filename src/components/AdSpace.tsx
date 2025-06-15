@@ -22,7 +22,7 @@ const AdSpace = ({ slot, format = "auto", style, className }: AdSpaceProps) => {
       When ready to implement AdSense, replace above with:
       <ins className="adsbygoogle"
            style={{display: "block", ...style}}
-           data-ad-client="ca-pub-XXXXXXXXXX"
+           data-ad-client="ca-pub-2226213757222520"
            data-ad-slot={slot}
            data-ad-format={format}></ins>
       */}
