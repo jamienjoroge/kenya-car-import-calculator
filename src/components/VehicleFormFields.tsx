@@ -52,8 +52,9 @@ export default function VehicleFormFields({
     try {
       console.log('Model changing to:', value);
       form.setValue("model", value);
-      // Clear year when model changes but don't reset if it's already valid
-      if (!selectedYear || !years.includes(selectedYear)) {
+      // Only clear year when model changes if we don't have years loaded yet
+      // This allows the year to persist when switching between models
+      if (!loadingYears && years.length > 0 && selectedYear && !years.includes(selectedYear)) {
         form.setValue("year", "");
       }
     } catch (error) {
