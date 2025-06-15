@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Info, Mail, FileText } from "lucide-react";
+import { Info, Mail, FileText, BookOpen } from "lucide-react";
 import Logo from "@/components/Logo";
 
 const Navigation = () => {
@@ -16,6 +16,12 @@ const Navigation = () => {
           </Link>
           
           <div className="flex flex-wrap justify-center gap-2">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/blog">
+                <BookOpen className="h-4 w-4 mr-1" />
+                Blog
+              </Link>
+            </Button>
             <Button variant="ghost" size="sm" asChild>
               <Link to="/about">
                 <Info className="h-4 w-4 mr-1" />

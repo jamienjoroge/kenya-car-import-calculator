@@ -14,6 +14,12 @@ import Contact from "./pages/Contact";
 import Sitemap from "./pages/Sitemap";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import Blog from "./pages/Blog";
+import HowToImportCarKenya from "./pages/blog/HowToImportCarKenya";
+import WhatIsCRSP from "./pages/blog/WhatIsCRSP";
+import WhatDeterminesDuty from "./pages/blog/WhatDeterminesDuty";
+import MostImportedCars2025 from "./pages/blog/MostImportedCars2025";
+import CRSPSchedule2025Changes from "./pages/blog/CRSPSchedule2025Changes";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +39,12 @@ const App = () => (
           <Route path="/sitemap" element={<Sitemap />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/how-to-import-car-kenya" element={<HowToImportCarKenya />} />
+          <Route path="/blog/what-is-crsp" element={<WhatIsCRSP />} />
+          <Route path="/blog/what-determines-duty-kenya" element={<WhatDeterminesDuty />} />
+          <Route path="/blog/most-imported-cars-2025" element={<MostImportedCars2025 />} />
+          <Route path="/blog/crsp-schedule-2025-changes" element={<CRSPSchedule2025Changes />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
