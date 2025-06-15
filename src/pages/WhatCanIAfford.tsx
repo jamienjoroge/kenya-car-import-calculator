@@ -22,7 +22,8 @@ interface AffordableVehicle {
 }
 
 const WhatCanIAfford = () => {
-  const [budget, setBudget] = useState("");
+  const [minBudget, setMinBudget] = useState("");
+  const [maxBudget, setMaxBudget] = useState("");
   const [affordableVehicles, setAffordableVehicles] = useState<AffordableVehicle[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
@@ -36,7 +37,11 @@ const WhatCanIAfford = () => {
   };
 
   const searchAffordableVehicles = async () => {
-    if (!budget || isNaN(Number(budget))) return;
+    const minAmount = Number(minBudget) || 0;
+    const maxAmount = Number(maxBudget);
+    
+    if (!maxAmount || isNaN(maxAmount)) return;
+    if (minAmount >= maxAmount) return;
 
     setLoading(true);
     setSearched(true);
@@ -50,7 +55,6 @@ const WhatCanIAfford = () => {
 
       if (error) throw error;
 
-      const budgetAmount = Number(budget);
       const affordable: AffordableVehicle[] = [];
 
       vehicles?.forEach((vehicle) => {
@@ -68,7 +72,7 @@ const WhatCanIAfford = () => {
         // Total cost = Vehicle purchase price (CRSP) + Import duties + Shipping
         const totalVehicleCost = vehicle.crsp_value + totalDuties;
 
-        if (totalVehicleCost <= budgetAmount) {
+        if (totalVehicleCost >= minAmount && totalVehicleCost <= maxAmount) {
           affordable.push({
             make_name: vehicle.make_name,
             model_name: vehicle.model_name,
@@ -112,24 +116,35 @@ const WhatCanIAfford = () => {
             <h1 className="text-3xl font-bold text-primary">What Can I Afford?</h1>
           </div>
           <p className="text-muted-foreground">
-            Find vehicles within your budget including vehicle cost + import duties + shipping
+            Find vehicles within your budget range including vehicle cost + import duties + shipping
           </p>
         </div>
 
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Enter Your Budget</CardTitle>
+            <CardTitle>Enter Your Budget Range</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex gap-4 items-end">
               <div className="flex-1">
-                <Label htmlFor="budget">Total Budget (KES)</Label>
+                <Label htmlFor="minBudget">Minimum Budget (KES)</Label>
                 <Input
-                  id="budget"
+                  id="minBudget"
+                  type="number"
+                  placeholder="e.g., 1000000"
+                  value={minBudget}
+                  onChange={(e) => setMinBudget(e.target.value)}
+                  className="mt-1"
+                />
+              </div>
+              <div className="flex-1">
+                <Label htmlFor="maxBudget">Maximum Budget (KES)</Label>
+                <Input
+                  id="maxBudget"
                   type="number"
                   placeholder="e.g., 2000000"
-                  value={budget}
-                  onChange={(e) => setBudget(e.target.value)}
+                  value={maxBudget}
+                  onChange={(e) => setMaxBudget(e.target.value)}
                   className="mt-1"
                 />
                 <p className="text-sm text-muted-foreground mt-1">
@@ -138,13 +153,18 @@ const WhatCanIAfford = () => {
               </div>
               <Button 
                 onClick={searchAffordableVehicles} 
-                disabled={!budget || loading}
+                disabled={!maxBudget || loading || (Number(minBudget) >= Number(maxBudget))}
                 className="min-w-32"
               >
                 <Search className="h-4 w-4 mr-2" />
                 {loading ? 'Searching...' : 'Find Cars'}
               </Button>
             </div>
+            {minBudget && maxBudget && Number(minBudget) >= Number(maxBudget) && (
+              <p className="text-sm text-red-500 mt-2">
+                Minimum budget must be less than maximum budget
+              </p>
+            )}
           </CardContent>
         </Card>
 
@@ -153,8 +173,8 @@ const WhatCanIAfford = () => {
             <CardHeader>
               <CardTitle>
                 {affordableVehicles.length > 0 
-                  ? `Found ${affordableVehicles.length} vehicles within your budget of ${formatCurrency(Number(budget))}`
-                  : `No vehicles found within your budget of ${formatCurrency(Number(budget))}`
+                  ? `Found ${affordableVehicles.length} vehicles between ${formatCurrency(Number(minBudget) || 0)} and ${formatCurrency(Number(maxBudget))}`
+                  : `No vehicles found between ${formatCurrency(Number(minBudget) || 0)} and ${formatCurrency(Number(maxBudget))}`
                 }
               </CardTitle>
             </CardHeader>
@@ -169,26 +189,32 @@ const WhatCanIAfford = () => {
                         <TableHead>Engine (cc)</TableHead>
                         <TableHead>Vehicle Price (CRSP)</TableHead>
                         <TableHead>Total Cost</TableHead>
-                        <TableHead>Remaining Budget</TableHead>
+                        <TableHead>Budget Utilization</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {affordableVehicles.slice(0, 20).map((vehicle, index) => (
-                        <TableRow key={index}>
-                          <TableCell className="font-medium">
-                            {vehicle.make_name} {vehicle.model_name}
-                          </TableCell>
-                          <TableCell>{vehicle.year}</TableCell>
-                          <TableCell>{vehicle.engine_capacity}</TableCell>
-                          <TableCell>{formatCurrency(vehicle.crsp_value)}</TableCell>
-                          <TableCell className="font-semibold text-primary">
-                            {formatCurrency(vehicle.totalCost)}
-                          </TableCell>
-                          <TableCell className="text-green-600">
-                            {formatCurrency(Number(budget) - vehicle.totalCost)}
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                      {affordableVehicles.slice(0, 20).map((vehicle, index) => {
+                        const budgetRange = Number(maxBudget) - (Number(minBudget) || 0);
+                        const costAboveMin = vehicle.totalCost - (Number(minBudget) || 0);
+                        const utilizationPercent = Math.round((costAboveMin / budgetRange) * 100);
+                        
+                        return (
+                          <TableRow key={index}>
+                            <TableCell className="font-medium">
+                              {vehicle.make_name} {vehicle.model_name}
+                            </TableCell>
+                            <TableCell>{vehicle.year}</TableCell>
+                            <TableCell>{vehicle.engine_capacity}</TableCell>
+                            <TableCell>{formatCurrency(vehicle.crsp_value)}</TableCell>
+                            <TableCell className="font-semibold text-primary">
+                              {formatCurrency(vehicle.totalCost)}
+                            </TableCell>
+                            <TableCell className="text-blue-600">
+                              {utilizationPercent}% of range
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                     </TableBody>
                   </Table>
                   
@@ -201,9 +227,10 @@ const WhatCanIAfford = () => {
               ) : (
                 <div className="text-center py-8">
                   <p className="text-muted-foreground mb-4">
-                    No vehicles found within your budget. Try increasing your budget or consider:
+                    No vehicles found within your budget range. Try adjusting your range or consider:
                   </p>
                   <ul className="text-sm text-muted-foreground space-y-1">
+                    <li>• Expanding your budget range</li>
                     <li>• Looking for older vehicles (higher depreciation, lower duties)</li>
                     <li>• Considering smaller engine capacity vehicles</li>
                     <li>• Factoring in additional costs like shipping and clearing</li>
