@@ -97,7 +97,7 @@ export function AutoCompleteSelect({
   const handleSelect = React.useCallback((option: string) => {
     console.log('AutoCompleteSelect: selecting option:', option);
     onChange(option);
-    setInputValue(""); // Clear input after selection
+    setInputValue("");
     setOpen(false);
   }, [onChange]);
 
@@ -110,21 +110,20 @@ export function AutoCompleteSelect({
   const handleBlur = React.useCallback(() => {
     setTimeout(() => {
       setOpen(false);
-      // Don't clear input on blur if we have a selected value
-      if (inputValue && !value && !safeOptions.includes(inputValue)) {
+      if (inputValue && !safeOptions.includes(inputValue)) {
         setInputValue("");
       }
     }, 200);
-  }, [inputValue, safeOptions, value]);
+  }, [inputValue, safeOptions]);
 
-  // Reset input when value changes externally or when no value is selected
+  // Reset input when value changes externally
   React.useEffect(() => {
     if (!value) {
       setInputValue("");
     }
   }, [value]);
 
-  // Display value - show the selected value when not typing, or current input when typing
+  // Display value - show the selected value or current input
   const displayValue = value || inputValue;
 
   return (
