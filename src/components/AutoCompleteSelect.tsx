@@ -14,14 +14,14 @@ interface AutoCompleteSelectProps {
 
 export function AutoCompleteSelect({
   value,
-  options = [], // Default to empty array
+  options = [],
   placeholder,
   onChange,
   disabled,
   label
 }: AutoCompleteSelectProps) {
   const [open, setOpen] = React.useState(false);
-  const [query, setQuery] = React.useState("");
+  const [inputValue, setInputValue] = React.useState("");
   
   // Ensure options is always an array and contains only strings
   const safeOptions = React.useMemo(() => {
@@ -44,50 +44,49 @@ export function AutoCompleteSelect({
   
   const filtered = React.useMemo(() => {
     try {
-      if (!query || query.trim() === '') {
-        return safeOptions;
+      if (!inputValue || inputValue.trim() === '') {
+        return safeOptions.slice(0, 50); // Show more options when no filter
       }
       
-      return safeOptions.filter((option) => {
+      const results = safeOptions.filter((option) => {
         try {
-          return option.toLowerCase().includes(query.toLowerCase().trim());
+          return option.toLowerCase().includes(inputValue.toLowerCase().trim());
         } catch (error) {
           console.error('Error filtering option:', option, error);
           return false;
         }
       });
+      
+      return results.slice(0, 50); // Show up to 50 filtered results
     } catch (error) {
       console.error('Error filtering options:', error);
-      return safeOptions;
+      return safeOptions.slice(0, 50);
     }
-  }, [safeOptions, query]);
+  }, [safeOptions, inputValue]);
 
-  // Show selected value or query in the input
-  const displayValue = value || query;
+  // Display the selected value or current input
+  const displayValue = value || inputValue;
 
-  const handleValueChange = React.useCallback((val: string) => {
+  const handleInputChange = React.useCallback((val: string) => {
     try {
-      console.log('AutoCompleteSelect: value changing to:', val);
-      setQuery(val);
+      console.log('AutoCompleteSelect: input changing to:', val);
+      setInputValue(val);
       setOpen(true);
       
-      // If the value exactly matches an option, select it
-      if (safeOptions.includes(val)) {
-        onChange(val);
-        setOpen(false);
-      } else if (val === "") {
+      // If input is cleared, clear the selection
+      if (val === "") {
         onChange("");
       }
     } catch (error) {
-      console.error('Error in handleValueChange:', error);
+      console.error('Error in handleInputChange:', error);
     }
-  }, [safeOptions, onChange]);
+  }, [onChange]);
 
   const handleSelect = React.useCallback((option: string) => {
     try {
       console.log('AutoCompleteSelect: selecting option:', option);
       onChange(option);
-      setQuery("");
+      setInputValue("");
       setOpen(false);
     } catch (error) {
       console.error('Error in handleSelect:', error);
@@ -96,28 +95,35 @@ export function AutoCompleteSelect({
 
   const handleFocus = React.useCallback(() => {
     try {
-      if (!disabled) {
+      if (!disabled && safeOptions.length > 0) {
         setOpen(true);
       }
     } catch (error) {
       console.error('Error in handleFocus:', error);
     }
-  }, [disabled]);
+  }, [disabled, safeOptions.length]);
 
-  const handleClickOutside = React.useCallback(() => {
+  const handleBlur = React.useCallback(() => {
     try {
-      setOpen(false);
+      // Delay closing to allow for option selection
+      setTimeout(() => {
+        setOpen(false);
+        // If no valid option was selected and input doesn't match any option, clear it
+        if (inputValue && !safeOptions.includes(inputValue)) {
+          setInputValue("");
+        }
+      }, 200);
     } catch (error) {
-      console.error('Error in handleClickOutside:', error);
+      console.error('Error in handleBlur:', error);
     }
-  }, []);
+  }, [inputValue, safeOptions]);
 
-  // Reset query when value changes externally
+  // Reset input when value changes externally (like when form is reset)
   React.useEffect(() => {
-    if (value !== query) {
-      setQuery("");
+    if (!value) {
+      setInputValue("");
     }
-  }, [value, query]);
+  }, [value]);
 
   return (
     <div className="w-full">
@@ -128,20 +134,21 @@ export function AutoCompleteSelect({
         <Command className="rounded-lg border shadow-md" shouldFilter={false}>
           <CommandInput
             value={displayValue}
-            onValueChange={handleValueChange}
+            onValueChange={handleInputChange}
             onFocus={handleFocus}
+            onBlur={handleBlur}
             placeholder={placeholder}
             disabled={disabled}
             className="h-10"
           />
           {open && !disabled && Array.isArray(filtered) && filtered.length > 0 && (
-            <CommandList className="absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-60 overflow-auto">
-              {filtered.slice(0, 10).map((option, index) => (
+            <CommandList className="absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-80 overflow-auto">
+              {filtered.map((option, index) => (
                 <CommandItem
                   key={`${option}-${index}`}
                   value={option}
                   onSelect={() => handleSelect(option)}
-                  className="cursor-pointer hover:bg-gray-100"
+                  className="cursor-pointer hover:bg-gray-100 px-3 py-2"
                 >
                   {option}
                 </CommandItem>
@@ -149,12 +156,6 @@ export function AutoCompleteSelect({
             </CommandList>
           )}
         </Command>
-        {open && !disabled && (
-          <div 
-            className="fixed inset-0 z-40" 
-            onClick={handleClickOutside}
-          />
-        )}
       </div>
     </div>
   );
