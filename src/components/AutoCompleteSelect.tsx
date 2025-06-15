@@ -23,107 +23,72 @@ export function AutoCompleteSelect({
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
   
-  // Ensure options is always an array and contains only strings
+  // Ensure options is always a safe array
   const safeOptions = React.useMemo(() => {
-    try {
-      if (!Array.isArray(options)) {
-        console.warn('AutoCompleteSelect: options is not an array, defaulting to empty array');
-        return [];
-      }
-      return options.filter(option => 
-        option !== null && 
-        option !== undefined && 
-        typeof option === 'string' && 
-        option.trim() !== ''
-      );
-    } catch (error) {
-      console.error('Error processing options:', error);
+    if (!Array.isArray(options)) {
+      console.warn('AutoCompleteSelect: options is not an array, defaulting to empty array');
       return [];
     }
+    return options.filter(option => 
+      typeof option === 'string' && 
+      option.trim() !== ''
+    );
   }, [options]);
   
-  const filtered = React.useMemo(() => {
-    try {
-      if (!inputValue || inputValue.trim() === '') {
-        return safeOptions.slice(0, 50); // Show more options when no filter
-      }
-      
-      const results = safeOptions.filter((option) => {
-        try {
-          return option.toLowerCase().includes(inputValue.toLowerCase().trim());
-        } catch (error) {
-          console.error('Error filtering option:', option, error);
-          return false;
-        }
-      });
-      
-      return results.slice(0, 50); // Show up to 50 filtered results
-    } catch (error) {
-      console.error('Error filtering options:', error);
+  // Filter options based on input
+  const filteredOptions = React.useMemo(() => {
+    if (!inputValue.trim()) {
       return safeOptions.slice(0, 50);
     }
+    
+    return safeOptions
+      .filter(option => 
+        option.toLowerCase().includes(inputValue.toLowerCase().trim())
+      )
+      .slice(0, 50);
   }, [safeOptions, inputValue]);
 
-  // Display the selected value or current input
-  const displayValue = value || inputValue;
-
   const handleInputChange = React.useCallback((val: string) => {
-    try {
-      console.log('AutoCompleteSelect: input changing to:', val);
-      setInputValue(val);
-      setOpen(true);
-      
-      // If input is cleared, clear the selection
-      if (val === "") {
-        onChange("");
-      }
-    } catch (error) {
-      console.error('Error in handleInputChange:', error);
+    console.log('AutoCompleteSelect: input changing to:', val);
+    setInputValue(val);
+    setOpen(true);
+    
+    if (val === "") {
+      onChange("");
     }
   }, [onChange]);
 
   const handleSelect = React.useCallback((option: string) => {
-    try {
-      console.log('AutoCompleteSelect: selecting option:', option);
-      onChange(option);
-      setInputValue("");
-      setOpen(false);
-    } catch (error) {
-      console.error('Error in handleSelect:', error);
-    }
+    console.log('AutoCompleteSelect: selecting option:', option);
+    onChange(option);
+    setInputValue("");
+    setOpen(false);
   }, [onChange]);
 
   const handleFocus = React.useCallback(() => {
-    try {
-      if (!disabled && safeOptions.length > 0) {
-        setOpen(true);
-      }
-    } catch (error) {
-      console.error('Error in handleFocus:', error);
+    if (!disabled && safeOptions.length > 0) {
+      setOpen(true);
     }
   }, [disabled, safeOptions.length]);
 
   const handleBlur = React.useCallback(() => {
-    try {
-      // Delay closing to allow for option selection
-      setTimeout(() => {
-        setOpen(false);
-        // If no valid option was selected and input doesn't match any option, clear it
-        if (inputValue && !safeOptions.includes(inputValue)) {
-          setInputValue("");
-        }
-      }, 200);
-    } catch (error) {
-      console.error('Error in handleBlur:', error);
-    }
+    setTimeout(() => {
+      setOpen(false);
+      if (inputValue && !safeOptions.includes(inputValue)) {
+        setInputValue("");
+      }
+    }, 200);
   }, [inputValue, safeOptions]);
 
-  // Reset input when value changes externally (like when form is reset)
+  // Reset input when value changes externally
   React.useEffect(() => {
     if (!value) {
       setInputValue("");
     }
   }, [value]);
+
+  // Display value - show the selected value or current input
+  const displayValue = value || inputValue;
 
   return (
     <div className="w-full">
@@ -131,7 +96,10 @@ export function AutoCompleteSelect({
         <label className="block text-sm font-medium mb-1">{label}</label>
       )}
       <div className="relative">
-        <Command className="rounded-lg border shadow-md" shouldFilter={false}>
+        <Command 
+          className="rounded-lg border shadow-md" 
+          shouldFilter={false}
+        >
           <CommandInput
             value={displayValue}
             onValueChange={handleInputChange}
@@ -141,9 +109,9 @@ export function AutoCompleteSelect({
             disabled={disabled}
             className="h-10"
           />
-          {open && !disabled && Array.isArray(filtered) && filtered.length > 0 && (
+          {open && !disabled && filteredOptions.length > 0 && (
             <CommandList className="absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-80 overflow-auto">
-              {filtered.map((option, index) => (
+              {filteredOptions.map((option, index) => (
                 <CommandItem
                   key={`${option}-${index}`}
                   value={option}
