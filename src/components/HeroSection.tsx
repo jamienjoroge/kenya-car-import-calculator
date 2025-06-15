@@ -1,10 +1,14 @@
-
 import React from "react";
+import Logo from "@/components/Logo";
 import { Calculator } from "lucide-react";
 
 const HeroSection = () => {
   return (
     <div className="pt-12 pb-10">
+      <div className="flex justify-center mb-6">
+        <Logo size="lg" />
+      </div>
+      
       <h1 className="text-4xl md:text-5xl font-bold text-center mb-2 text-primary">
         Kenya Car Import Duty Calculator 2025
       </h1>
