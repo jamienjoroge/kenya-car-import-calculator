@@ -20,47 +20,73 @@ export function AutoCompleteSelect({
   disabled,
   label
 }: AutoCompleteSelectProps) {
+  const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
+  
   const filtered = React.useMemo(
     () =>
       !query
         ? options
-        : options.filter((o) =>
-            o.toLowerCase().includes(query.toLowerCase())
+        : options.filter((option) =>
+            option.toLowerCase().includes(query.toLowerCase())
           ),
     [options, query]
   );
+
+  // Show selected value or query in the input
+  const displayValue = value || query;
 
   return (
     <div className="w-full">
       {label && (
         <label className="block text-sm font-medium mb-1">{label}</label>
       )}
-      <Command>
-        <CommandInput
-          value={query || value || ""}
-          onValueChange={setQuery}
-          placeholder={placeholder}
-          disabled={disabled}
-        />
-        <CommandList>
-          {filtered.length === 0 && (
-            <CommandItem disabled>No results</CommandItem>
+      <div className="relative">
+        <Command className="rounded-lg border shadow-md">
+          <CommandInput
+            value={displayValue}
+            onValueChange={(val) => {
+              setQuery(val);
+              setOpen(true);
+              // If the value exactly matches an option, select it
+              if (options.includes(val)) {
+                onChange(val);
+                setOpen(false);
+              } else if (val === "") {
+                onChange("");
+              }
+            }}
+            onFocus={() => setOpen(true)}
+            placeholder={placeholder}
+            disabled={disabled}
+            className="h-10"
+          />
+          {open && !disabled && filtered.length > 0 && (
+            <CommandList className="absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-60 overflow-auto">
+              {filtered.slice(0, 10).map((option) => (
+                <CommandItem
+                  key={option}
+                  value={option}
+                  onSelect={() => {
+                    onChange(option);
+                    setQuery("");
+                    setOpen(false);
+                  }}
+                  className="cursor-pointer hover:bg-gray-100"
+                >
+                  {option}
+                </CommandItem>
+              ))}
+            </CommandList>
           )}
-          {filtered.map((option) => (
-            <CommandItem
-              key={option}
-              value={option}
-              onSelect={() => {
-                onChange(option);
-                setQuery("");
-              }}
-            >
-              {option}
-            </CommandItem>
-          ))}
-        </CommandList>
-      </Command>
+        </Command>
+        {open && !disabled && (
+          <div 
+            className="fixed inset-0 z-40" 
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -35,6 +35,24 @@ export default function VehicleFormFields({
   selectedYear,
   onSubmit,
 }: VehicleFormFieldsProps) {
+
+  const handleMakeChange = (value: string) => {
+    form.setValue("make", value);
+    // Clear dependent fields when make changes
+    form.setValue("model", "");
+    form.setValue("year", "");
+  };
+
+  const handleModelChange = (value: string) => {
+    form.setValue("model", value);
+    // Clear year when model changes
+    form.setValue("year", "");
+  };
+
+  const handleYearChange = (value: string) => {
+    form.setValue("year", value);
+  };
+
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
@@ -47,7 +65,7 @@ export default function VehicleFormFields({
           options={makes}
           value={selectedMake}
           placeholder="Start typing make…"
-          onChange={(val) => form.setValue("make", val)}
+          onChange={handleMakeChange}
           disabled={loadingMakes}
         />
         <AutoCompleteSelect
@@ -55,7 +73,7 @@ export default function VehicleFormFields({
           options={models}
           value={selectedModel}
           placeholder="Model…"
-          onChange={(val) => form.setValue("model", val)}
+          onChange={handleModelChange}
           disabled={!selectedMake || loadingModels}
         />
         <AutoCompleteSelect
@@ -63,7 +81,7 @@ export default function VehicleFormFields({
           options={years}
           value={selectedYear}
           placeholder="Year…"
-          onChange={(val) => form.setValue("year", val)}
+          onChange={handleYearChange}
           disabled={!selectedModel || loadingYears}
         />
       </div>
