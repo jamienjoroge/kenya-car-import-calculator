@@ -140,49 +140,29 @@ export const fetchModelsForMake = async (make: string): Promise<string[]> => {
   return uniqueModels;
 };
 
-export const fetchYearsForMakeModel = async (make: string, model: string): Promise<string[]> => {
-  if (!make || !model) return [];
-  
-  console.log('Fetching years for make:', make, 'model:', model);
-  
-  const { data, error } = await supabase
-    .from('crsp_data')
-    .select('year')
-    .eq('make_name', make)
-    .eq('model_name', model)
-    .order('year', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching years:', error);
-    throw error;
-  }
-
-  // Extract unique years and convert to strings
-  const uniqueYears = [...new Set(data.map(item => item.year.toString()).filter(year => year && year.trim() !== ''))];
-  console.log('Years for', make, model, ':', uniqueYears);
-  return uniqueYears;
-};
-
 export const fetchCrspRecord = async ({
   make,
   model,
-  year,
 }: {
   make: string;
   model: string;
-  year: string;
 }) => {
+  console.log('Fetching CRSP record for:', make, model);
+  
   const { data, error } = await supabase
     .from('crsp_data')
     .select('*')
     .eq('make_name', make)
     .eq('model_name', model)
-    .eq('year', parseInt(year))
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error('Error fetching CRSP record:', error);
     throw error;
+  }
+
+  if (!data) {
+    throw new Error(`No CRSP record found for ${make} ${model}`);
   }
 
   return {

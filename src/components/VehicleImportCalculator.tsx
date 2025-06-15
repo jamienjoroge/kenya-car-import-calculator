@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import CurrencyToggle from "./CurrencyToggle";
@@ -38,7 +39,7 @@ export default function VehicleImportCalculator() {
     loadingModels,
     loadingCrsp,
     crspError,
-  } = useVehicleData(selectedMake, selectedModel, selectedYear);
+  } = useVehicleData(selectedMake, selectedModel);
 
   const { breakdown, setBreakdown } = useDutyCalculation(
     crspRecord,

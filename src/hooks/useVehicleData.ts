@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchMakes, fetchModelsForMake, fetchCrspRecord } from "@/api/crspApi";
 import { logMakesData } from "@/utils/vehicleDataDebug";
 
-export function useVehicleData(selectedMake: string, selectedModel: string, selectedYear: string) {
+export function useVehicleData(selectedMake: string, selectedModel: string) {
   const { data: makes = [], isLoading: loadingMakes, error: makesError } = useQuery({
     queryKey: ["makes"],
     queryFn: fetchMakes,
@@ -29,14 +29,13 @@ export function useVehicleData(selectedMake: string, selectedModel: string, sele
     isFetching: loadingCrsp,
     error: crspError,
   } = useQuery({
-    queryKey: ["crsp", selectedMake, selectedModel, selectedYear],
+    queryKey: ["crsp", selectedMake, selectedModel],
     queryFn: () =>
       fetchCrspRecord({
         make: selectedMake,
         model: selectedModel,
-        year: selectedYear,
       }),
-    enabled: !!selectedMake && !!selectedModel && !!selectedYear,
+    enabled: !!selectedMake && !!selectedModel,
     staleTime: 10 * 60 * 1000,
     retry: false,
   });
