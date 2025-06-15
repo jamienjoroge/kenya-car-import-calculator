@@ -83,7 +83,7 @@ const Contact = () => {
                   </p>
                   <div className="bg-white rounded p-3 border">
                     <p className="text-sm text-gray-600 mb-1">Send your email to:</p>
-                    <p className="font-mono text-primary">support@kenyacarimport.com</p>
+                    <p className="font-mono text-primary">james@saharanova.co.ke</p>
                   </div>
                 </div>
               </div>
