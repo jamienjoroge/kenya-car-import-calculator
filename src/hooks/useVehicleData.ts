@@ -19,17 +19,26 @@ const fetchMakes = async (): Promise<string[]> => {
   console.log('Raw makes data from DB:', data);
   console.log('Total records returned:', data?.length || 0);
 
+  // Log first 10 records to see the actual data structure
+  console.log('First 10 make records:', data?.slice(0, 10));
+
   // Extract unique make names and ensure they're all strings
   const uniqueMakes = [...new Set(data.map(item => item.make_name).filter(make => make && make.trim() !== ''))];
   
   console.log('Processed unique makes:', uniqueMakes);
   console.log('Total unique makes count:', uniqueMakes.length);
   
-  // Check if Toyota is in the list
+  // Check if Toyota is in the list - log all makes that contain 'toyota' (case insensitive)
   const toyotaVariants = uniqueMakes.filter(make => 
     make.toLowerCase().includes('toyota')
   );
   console.log('Toyota variants found:', toyotaVariants);
+
+  // Log all makes that start with 'T' to see if there are similar names
+  const tMakes = uniqueMakes.filter(make => 
+    make.toLowerCase().startsWith('t')
+  );
+  console.log('Makes starting with T:', tMakes);
 
   return uniqueMakes;
 };
@@ -119,10 +128,11 @@ export function useVehicleData(selectedMake: string, selectedModel: string, sele
   React.useEffect(() => {
     if (makes.length > 0) {
       console.log('Makes loaded in component:', makes.length, 'total makes');
+      console.log('All makes:', makes);
       const toyotaInMakes = makes.filter(make => 
         make.toLowerCase().includes('toyota')
       );
-      console.log('Toyota makes available:', toyotaInMakes);
+      console.log('Toyota makes available in component:', toyotaInMakes);
     }
     if (makesError) {
       console.error('Makes loading error:', makesError);

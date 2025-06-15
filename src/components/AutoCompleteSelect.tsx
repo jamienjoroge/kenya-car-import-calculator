@@ -27,7 +27,7 @@ export function AutoCompleteSelect({
   React.useEffect(() => {
     if (label === "Car Make") {
       console.log('AutoCompleteSelect - Car Make options received:', options.length);
-      console.log('Car Make options:', options);
+      console.log('Car Make options sample (first 10):', options.slice(0, 10));
       const toyotaOptions = options.filter(option => 
         option.toLowerCase().includes('toyota')
       );
@@ -48,6 +48,7 @@ export function AutoCompleteSelect({
     
     if (label === "Car Make") {
       console.log('SafeOptions for Car Make:', filtered.length, 'options');
+      console.log('SafeOptions sample:', filtered.slice(0, 10));
     }
     
     return filtered;
@@ -56,17 +57,28 @@ export function AutoCompleteSelect({
   // Filter options based on input
   const filteredOptions = React.useMemo(() => {
     if (!inputValue.trim()) {
-      return safeOptions.slice(0, 50);
+      const result = safeOptions.slice(0, 50);
+      if (label === "Car Make") {
+        console.log('No input value, showing first 50 options:', result.slice(0, 5));
+      }
+      return result;
     }
     
+    const searchTerm = inputValue.toLowerCase().trim();
+    console.log('Searching for:', searchTerm);
+    
     const filtered = safeOptions
-      .filter(option => 
-        option.toLowerCase().includes(inputValue.toLowerCase().trim())
-      )
+      .filter(option => {
+        const match = option.toLowerCase().includes(searchTerm);
+        if (label === "Car Make" && searchTerm.includes('toyota')) {
+          console.log(`Checking "${option}" against "${searchTerm}": ${match}`);
+        }
+        return match;
+      })
       .slice(0, 50);
       
-    if (label === "Car Make" && inputValue.toLowerCase().includes('toyota')) {
-      console.log('Filtering for toyota, found:', filtered);
+    if (label === "Car Make") {
+      console.log(`Filtered results for "${searchTerm}":`, filtered);
     }
     
     return filtered;
@@ -137,8 +149,10 @@ export function AutoCompleteSelect({
             "absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-80 overflow-auto",
             (!open || disabled || filteredOptions.length === 0) && "hidden"
           )}>
-            {filteredOptions.length === 0 ? (
-              <CommandEmpty>No results found.</CommandEmpty>
+            {filteredOptions.length === 0 && inputValue.trim() !== "" ? (
+              <CommandEmpty>No results found for "{inputValue}"</CommandEmpty>
+            ) : filteredOptions.length === 0 ? (
+              <CommandEmpty>Start typing to search...</CommandEmpty>
             ) : (
               filteredOptions.map((option, index) => (
                 <CommandItem
