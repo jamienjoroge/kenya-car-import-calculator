@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 
 interface AdSpaceProps {
   slot: string;
@@ -9,23 +9,25 @@ interface AdSpaceProps {
 }
 
 const AdSpace = ({ slot, format = "auto", style, className }: AdSpaceProps) => {
+  useEffect(() => {
+    try {
+      // Push ads to AdSense queue
+      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+    } catch (err) {
+      console.error('AdSense error:', err);
+    }
+  }, []);
+
   return (
     <div className={`ad-space ${className || ""}`} style={style}>
-      {/* Placeholder for AdSense - replace with actual ad code when ready */}
-      <div 
-        className="border border-gray-200 bg-gray-50 flex items-center justify-center text-gray-500 text-sm"
-        style={{ minHeight: "90px", ...style }}
-      >
-        <span>Advertisement Space ({slot})</span>
-      </div>
-      {/* 
-      When ready to implement AdSense, replace above with:
-      <ins className="adsbygoogle"
-           style={{display: "block", ...style}}
-           data-ad-client="ca-pub-2226213757222520"
-           data-ad-slot={slot}
-           data-ad-format={format}></ins>
-      */}
+      <ins 
+        className="adsbygoogle"
+        style={{ display: "block", ...style }}
+        data-ad-client="ca-pub-2226213757222520"
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive="true"
+      />
     </div>
   );
 };
