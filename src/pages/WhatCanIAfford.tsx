@@ -62,7 +62,13 @@ const WhatCanIAfford = () => {
           shipping: 0,
         });
 
-        if (breakdown.total <= budgetAmount) {
+        // Calculate total duties (excluding the vehicle CRSP value which represents the vehicle cost)
+        const totalDuties = breakdown.importDuty + breakdown.excise + breakdown.vat + breakdown.idf + breakdown.rdl;
+        
+        // Total cost = Vehicle purchase price (CRSP) + Import duties + Shipping
+        const totalVehicleCost = vehicle.crsp_value + totalDuties;
+
+        if (totalVehicleCost <= budgetAmount) {
           affordable.push({
             make_name: vehicle.make_name,
             model_name: vehicle.model_name,
@@ -70,8 +76,11 @@ const WhatCanIAfford = () => {
             crsp_value: vehicle.crsp_value,
             engine_capacity: vehicle.engine_capacity,
             fuel_type: vehicle.fuel_type || 'petrol',
-            totalCost: breakdown.total,
-            breakdown,
+            totalCost: totalVehicleCost,
+            breakdown: {
+              ...breakdown,
+              total: totalVehicleCost
+            },
           });
         }
       });
@@ -103,7 +112,7 @@ const WhatCanIAfford = () => {
             <h1 className="text-3xl font-bold text-primary">What Can I Afford?</h1>
           </div>
           <p className="text-muted-foreground">
-            Find vehicles within your budget including all import costs
+            Find vehicles within your budget including vehicle cost + import duties + shipping
           </p>
         </div>
 
@@ -124,7 +133,7 @@ const WhatCanIAfford = () => {
                   className="mt-1"
                 />
                 <p className="text-sm text-muted-foreground mt-1">
-                  Include all costs: vehicle price + import duties + shipping
+                  Total cost: vehicle purchase price + import duties + shipping
                 </p>
               </div>
               <Button 
@@ -158,8 +167,8 @@ const WhatCanIAfford = () => {
                         <TableHead>Vehicle</TableHead>
                         <TableHead>Year</TableHead>
                         <TableHead>Engine (cc)</TableHead>
-                        <TableHead>CRSP Value</TableHead>
-                        <TableHead>Total Import Cost</TableHead>
+                        <TableHead>Vehicle Price (CRSP)</TableHead>
+                        <TableHead>Total Cost</TableHead>
                         <TableHead>Remaining Budget</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -195,7 +204,7 @@ const WhatCanIAfford = () => {
                     No vehicles found within your budget. Try increasing your budget or consider:
                   </p>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• Looking for older vehicles (higher depreciation)</li>
+                    <li>• Looking for older vehicles (higher depreciation, lower duties)</li>
                     <li>• Considering smaller engine capacity vehicles</li>
                     <li>• Factoring in additional costs like shipping and clearing</li>
                   </ul>
