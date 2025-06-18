@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 
 interface AdSpaceProps {
   slot: string;
@@ -9,25 +9,20 @@ interface AdSpaceProps {
 }
 
 const AdSpace = ({ slot, format = "auto", style, className }: AdSpaceProps) => {
-  useEffect(() => {
-    try {
-      // Push ads to AdSense queue
-      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-    } catch (err) {
-      console.error('AdSense error:', err);
-    }
-  }, []);
-
+  // Generate unique ID for each ad slot
+  const adId = `ezoic-pub-ad-placeholder-${slot.replace(/[^a-zA-Z0-9]/g, '-')}`;
+  
   return (
-    <div className={`ad-space ${className || ""}`} style={style}>
-      <ins 
-        className="adsbygoogle"
-        style={{ display: "block", ...style }}
-        data-ad-client="ca-pub-2226213757222520"
-        data-ad-slot={slot}
-        data-ad-format={format}
-        data-full-width-responsive="true"
-      />
+    <div 
+      className={`ezoic-ad ${className || ""}`} 
+      style={style}
+      id={adId}
+      data-ezoic-ad-slot={slot}
+    >
+      {/* Ezoic will replace this content with ads */}
+      <div className="ad-placeholder bg-gray-100 border border-gray-200 rounded flex items-center justify-center text-gray-400 text-sm">
+        Advertisement
+      </div>
     </div>
   );
 };
