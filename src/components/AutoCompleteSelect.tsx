@@ -22,6 +22,7 @@ export function AutoCompleteSelect({
 }: AutoCompleteSelectProps) {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
+  const inputRef = React.useRef<HTMLInputElement>(null);
   
   // Debug logging for options
   React.useEffect(() => {
@@ -60,7 +61,7 @@ export function AutoCompleteSelect({
     setInputValue(val);
     setOpen(true);
     
-    // Clear the selected value when input is cleared or changed
+    // Clear the selected value when input is cleared or changed significantly
     if (val === "" || (value && !val.toLowerCase().includes(value.toLowerCase()))) {
       onChange("");
     }
@@ -71,6 +72,13 @@ export function AutoCompleteSelect({
     onChange(option);
     setInputValue("");
     setOpen(false);
+    
+    // Prevent event bubbling to avoid interference
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
+    }, 50);
   }, [onChange]);
 
   const handleFocus = React.useCallback(() => {
@@ -79,7 +87,13 @@ export function AutoCompleteSelect({
     }
   }, [disabled, safeOptions.length]);
 
-  const handleBlur = React.useCallback(() => {
+  const handleBlur = React.useCallback((e: React.FocusEvent) => {
+    // Check if the blur is happening because user clicked on an option
+    const relatedTarget = e.relatedTarget as HTMLElement;
+    if (relatedTarget && relatedTarget.closest('[data-radix-command-list]')) {
+      return; // Don't close if clicking on an option
+    }
+    
     setTimeout(() => {
       setOpen(false);
       // Only clear input if it doesn't match any option and no value is selected
@@ -88,14 +102,23 @@ export function AutoCompleteSelect({
       )) {
         setInputValue("");
       }
-    }, 200);
+    }, 150);
   }, [inputValue, value, safeOptions]);
 
   const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
     // Handle backspace/delete to clear selection
     if ((e.key === 'Backspace' || e.key === 'Delete') && value && inputValue === "") {
+      e.preventDefault();
       onChange("");
       setInputValue("");
+    }
+    
+    // Handle escape to close dropdown
+    if (e.key === 'Escape') {
+      setOpen(false);
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
     }
   }, [value, inputValue, onChange]);
 
@@ -120,6 +143,7 @@ export function AutoCompleteSelect({
           shouldFilter={false}
         >
           <CommandInput
+            ref={inputRef}
             value={displayValue}
             onValueChange={handleInputChange}
             onFocus={handleFocus}
@@ -129,10 +153,13 @@ export function AutoCompleteSelect({
             disabled={disabled}
             className="h-10"
           />
-          <CommandList className={cn(
-            "absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-80 overflow-auto",
-            (!open || disabled || filteredOptions.length === 0) && "hidden"
-          )}>
+          <CommandList 
+            className={cn(
+              "absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-80 overflow-auto",
+              (!open || disabled || filteredOptions.length === 0) && "hidden"
+            )}
+            data-radix-command-list
+          >
             {filteredOptions.length === 0 && inputValue.trim() !== "" ? (
               <CommandEmpty>No results found for "{inputValue}"</CommandEmpty>
             ) : filteredOptions.length === 0 ? (
@@ -143,7 +170,11 @@ export function AutoCompleteSelect({
                   key={`${option}-${index}`}
                   value={option}
                   onSelect={() => handleSelect(option)}
-                  className="cursor-pointer hover:bg-gray-100 px-3 py-2"
+                  onMouseDown={(e) => {
+                    // Prevent default to avoid blur event interference
+                    e.preventDefault();
+                  }}
+                  className="cursor-pointer hover:bg-gray-100 px-3 py-2 data-[selected=true]:bg-gray-100"
                 >
                   {option}
                 </CommandItem>
