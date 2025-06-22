@@ -100,17 +100,6 @@ export default function VehicleImportCalculator() {
             <span className="text-blue-700">✅ Instant Results</span>
           </div>
         </div>
-        
-        {/* Important Disclaimers */}
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
-          <h3 className="font-semibold text-amber-800 mb-2">💡 Important Notes:</h3>
-          <ul className="text-amber-700 text-sm space-y-1">
-            <li>• <strong>FREE estimates exclude dealership margins</strong> - actual purchase prices may vary</li>
-            <li>• <strong>Shipping costs</strong> only included when you enter them in the optional field below</li>
-            <li>• Budget extra for clearing agent (KES 50K-100K), port charges (KES 15K-30K), inspection (KES 10K)</li>
-            <li>• Final duties may vary ±5% based on vehicle condition and KRA assessment</li>
-          </ul>
-        </div>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -181,6 +170,18 @@ export default function VehicleImportCalculator() {
           </div>
         </>
       )}
+
+      {/* Important Disclaimers - Moved below calculator */}
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-6">
+        <h3 className="font-semibold text-amber-800 mb-2">💡 Important Notes:</h3>
+        <ul className="text-amber-700 text-sm space-y-1">
+          <li>• <strong>FREE estimates exclude dealership margins</strong> - actual purchase prices may vary</li>
+          <li>• <strong>Shipping costs</strong> only included when you enter them in the optional field above</li>
+          <li>• Budget extra for clearing agent (KES 50K-100K), port charges (KES 15K-30K), inspection (KES 10K)</li>
+          <li>• Final duties may vary ±5% based on vehicle condition and KRA assessment</li>
+        </ul>
+      </div>
+
       {crspError && (
         <div className="mt-4 p-3 bg-destructive text-destructive-foreground rounded">
           {crspError.message}

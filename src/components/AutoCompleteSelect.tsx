@@ -60,10 +60,11 @@ export function AutoCompleteSelect({
     setInputValue(val);
     setOpen(true);
     
-    if (val === "") {
+    // Clear the selected value when input is cleared or changed
+    if (val === "" || (value && !val.toLowerCase().includes(value.toLowerCase()))) {
       onChange("");
     }
-  }, [onChange]);
+  }, [onChange, value]);
 
   const handleSelect = React.useCallback((option: string) => {
     console.log('AutoCompleteSelect: selecting option:', option);
@@ -81,13 +82,24 @@ export function AutoCompleteSelect({
   const handleBlur = React.useCallback(() => {
     setTimeout(() => {
       setOpen(false);
-      if (inputValue && !safeOptions.includes(inputValue)) {
+      // Only clear input if it doesn't match any option and no value is selected
+      if (inputValue && !value && !safeOptions.some(option => 
+        option.toLowerCase() === inputValue.toLowerCase()
+      )) {
         setInputValue("");
       }
     }, 200);
-  }, [inputValue, safeOptions]);
+  }, [inputValue, value, safeOptions]);
 
-  // Reset input when value changes externally or when component unmounts
+  const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
+    // Handle backspace/delete to clear selection
+    if ((e.key === 'Backspace' || e.key === 'Delete') && value && inputValue === "") {
+      onChange("");
+      setInputValue("");
+    }
+  }, [value, inputValue, onChange]);
+
+  // Reset input when value changes externally
   React.useEffect(() => {
     if (!value) {
       setInputValue("");
@@ -112,6 +124,7 @@ export function AutoCompleteSelect({
             onValueChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
             placeholder={placeholder}
             disabled={disabled}
             className="h-10"
