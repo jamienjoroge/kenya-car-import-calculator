@@ -11,6 +11,14 @@ import AdSpace from "@/components/AdSpace";
 const Blog = () => {
   const blogPosts = [
     {
+      id: "toyota-prius-import-cost-kenya",
+      title: "Toyota Prius Import Cost Kenya 2025: Complete Duty Calculator Guide",
+      description: "Complete breakdown of Toyota Prius import costs including exact duty calculations, CRSP values, and money-saving tips.",
+      readTime: "10 min read",
+      date: "December 20, 2024",
+      excerpt: "Get exact Toyota Prius import costs for Kenya with detailed duty breakdowns, year-by-year CRSP values, and expert money-saving tips."
+    },
+    {
       id: "how-to-import-car-kenya",
       title: "How to Import a Car in Kenya",
       description: "Complete step-by-step guide to importing vehicles into Kenya, from purchase to clearance at the port.",

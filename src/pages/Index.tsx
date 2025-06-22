@@ -20,18 +20,18 @@ const Index = () => {
       {/* Navigation Header */}
       <Navigation />
 
-      {/* Compact Hero Section */}
-      <div className="pt-6 pb-4">
+      {/* Ultra Compact Hero Section */}
+      <div className="pt-2 pb-2">
         <HeroSection />
       </div>
 
-      {/* Main Content Grid - Calculator Prominent */}
+      {/* Main Content Grid - Calculator Takes Center Stage */}
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           
-          {/* Calculator - Takes center stage */}
+          {/* Calculator - Prominently Featured */}
           <div className="lg:col-span-3 order-1">
-            <div id="calculator">
+            <div id="calculator" className="-mt-8">
               <VehicleImportCalculator />
             </div>
           </div>
