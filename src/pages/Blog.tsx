@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +9,15 @@ import AdSpace from "@/components/AdSpace";
 
 const Blog = () => {
   const blogPosts = [
+    {
+      id: "ciak-vs-kra-lawsuit-2025",
+      title: "BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025",
+      description: "CIAK files urgent lawsuit challenging KRA's new CRSP schedule that increases import duties by up to 145% on popular vehicles.",
+      readTime: "8 min read",
+      date: "December 24, 2024",
+      excerpt: "Car Importers Association of Kenya files urgent court application against KRA's new CRSP schedule, claiming tax increases up to 145% on common vehicles.",
+      breaking: true
+    },
     {
       id: "toyota-prius-import-cost-kenya",
       title: "Toyota Prius Import Cost Kenya 2025: Complete Duty Calculator Guide",
@@ -94,16 +102,23 @@ const Blog = () => {
 
         <div className="grid gap-6">
           {blogPosts.map((post) => (
-            <Card key={post.id} className="hover:shadow-md transition-shadow">
+            <Card key={post.id} className={`hover:shadow-md transition-shadow ${post.breaking ? 'border-red-200 bg-red-50' : ''}`}>
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-500 flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    {post.readTime}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-500 flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      {post.readTime}
+                    </span>
+                    {post.breaking && (
+                      <span className="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold animate-pulse">
+                        BREAKING
+                      </span>
+                    )}
+                  </div>
                   <span className="text-sm text-gray-500">{post.date}</span>
                 </div>
-                <CardTitle className="text-xl hover:text-primary">
+                <CardTitle className={`text-xl hover:text-primary ${post.breaking ? 'text-red-800' : ''}`}>
                   <Link to={`/blog/${post.id}`}>
                     {post.title}
                   </Link>
@@ -114,7 +129,7 @@ const Blog = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 mb-4">{post.excerpt}</p>
-                <Button variant="outline" asChild>
+                <Button variant={post.breaking ? "default" : "outline"} asChild>
                   <Link to={`/blog/${post.id}`}>
                     Read More <ArrowRight className="h-4 w-4 ml-2" />
                   </Link>

@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,6 +21,7 @@ import WhatDeterminesDuty from "./pages/blog/WhatDeterminesDuty";
 import MostImportedCars2025 from "./pages/blog/MostImportedCars2025";
 import CRSPSchedule2025Changes from "./pages/blog/CRSPSchedule2025Changes";
 import ToyotaPriusImportCostKenya from "./pages/blog/ToyotaPriusImportCostKenya";
+import CIAKvsKRALawsuit2025 from "./pages/blog/CIAKvsKRALawsuit2025";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +48,7 @@ const App = () => (
           <Route path="/blog/most-imported-cars-2025" element={<MostImportedCars2025 />} />
           <Route path="/blog/crsp-schedule-2025-changes" element={<CRSPSchedule2025Changes />} />
           <Route path="/blog/toyota-prius-import-cost-kenya" element={<ToyotaPriusImportCostKenya />} />
+          <Route path="/blog/ciak-vs-kra-lawsuit-2025" element={<CIAKvsKRALawsuit2025 />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
