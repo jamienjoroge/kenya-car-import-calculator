@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -7,8 +8,26 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AdSpace from "@/components/AdSpace";
 
+interface BlogPost {
+  id: string;
+  title: string;
+  description: string;
+  readTime: string;
+  date: string;
+  excerpt: string;
+  breaking?: boolean;
+}
+
 const Blog = () => {
-  const blogPosts = [
+  const [dynamicPosts, setDynamicPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    // Load dynamic posts from localStorage
+    const savedPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+    setDynamicPosts(savedPosts);
+  }, []);
+
+  const staticBlogPosts = [
     {
       id: "ciak-vs-kra-lawsuit-2025",
       title: "BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025",
@@ -68,6 +87,9 @@ const Blog = () => {
     }
   ];
 
+  // Combine dynamic and static posts, with dynamic posts first
+  const allPosts = [...dynamicPosts, ...staticBlogPosts];
+
   return (
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
       <Navigation />
@@ -101,7 +123,7 @@ const Blog = () => {
         </div>
 
         <div className="grid gap-6">
-          {blogPosts.map((post) => (
+          {allPosts.map((post) => (
             <Card key={post.id} className={`hover:shadow-md transition-shadow ${post.breaking ? 'border-red-200 bg-red-50' : ''}`}>
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">

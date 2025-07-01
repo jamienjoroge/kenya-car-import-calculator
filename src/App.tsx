@@ -22,6 +22,10 @@ import MostImportedCars2025 from "./pages/blog/MostImportedCars2025";
 import CRSPSchedule2025Changes from "./pages/blog/CRSPSchedule2025Changes";
 import ToyotaPriusImportCostKenya from "./pages/blog/ToyotaPriusImportCostKenya";
 import CIAKvsKRALawsuit2025 from "./pages/blog/CIAKvsKRALawsuit2025";
+import Admin from "./pages/Admin";
+import BlogEditor from "./pages/BlogEditor";
+import BlogList from "./pages/BlogList";
+import DynamicBlogPost from "./pages/DynamicBlogPost";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +46,13 @@ const App = () => (
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/blog" element={<Blog />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/blog-editor" element={<BlogEditor />} />
+          <Route path="/admin/blog-list" element={<BlogList />} />
+          
+          {/* Static Blog Posts */}
           <Route path="/blog/how-to-import-car-kenya" element={<HowToImportCarKenya />} />
           <Route path="/blog/what-is-crsp" element={<WhatIsCRSP />} />
           <Route path="/blog/what-determines-duty-kenya" element={<WhatDeterminesDuty />} />
@@ -49,6 +60,10 @@ const App = () => (
           <Route path="/blog/crsp-schedule-2025-changes" element={<CRSPSchedule2025Changes />} />
           <Route path="/blog/toyota-prius-import-cost-kenya" element={<ToyotaPriusImportCostKenya />} />
           <Route path="/blog/ciak-vs-kra-lawsuit-2025" element={<CIAKvsKRALawsuit2025 />} />
+          
+          {/* Dynamic Blog Post Route - this catches any other blog URLs */}
+          <Route path="/blog/:slug" element={<DynamicBlogPost />} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
