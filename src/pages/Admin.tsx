@@ -27,7 +27,7 @@ const Admin = () => {
     setError('');
 
     // Simple authentication - replace with your actual credentials
-    if (email === 'admin@garimoto.co.ke' && password === 'GariMoto2025!') {
+    if (email === 'james@saharanova.co.ke' && password === 'GariMoto2025!') {
       localStorage.setItem('adminAuthenticated', 'true');
       setIsAuthenticated(true);
     } else {
@@ -99,7 +99,7 @@ const Admin = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@garimoto.co.ke"
+                  placeholder="james@saharanova.co.ke"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10"
