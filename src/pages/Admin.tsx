@@ -5,7 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useNavigate } from 'react-router-dom';
-import { Lock, User } from 'lucide-react';
+import { Lock, User, BarChart, Rss, FileText } from 'lucide-react';
+import RSSFeed from '@/components/RSSFeed';
+import SitemapGenerator from '@/components/SitemapGenerator';
 
 const Admin = () => {
   const [email, setEmail] = useState('');
@@ -70,10 +72,39 @@ const Admin = () => {
             
             <Card className="cursor-pointer hover:shadow-md transition-shadow">
               <CardHeader>
-                <CardTitle>Site Analytics</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart className="h-5 w-5" />
+                  Site Analytics
+                </CardTitle>
                 <CardDescription>View site performance and SEO metrics</CardDescription>
               </CardHeader>
             </Card>
+            
+            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/admin/seo-tools')}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Rss className="h-5 w-5" />
+                  SEO & Publishing Tools
+                </CardTitle>
+                <CardDescription>RSS feeds, sitemaps, and Google News setup</CardDescription>
+              </CardHeader>
+            </Card>
+            
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Content Management
+                </CardTitle>
+                <CardDescription>Manage categories, tags, and content structure</CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+          
+          {/* SEO Tools Section */}
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <RSSFeed />
+            <SitemapGenerator />
           </div>
         </div>
       </div>

@@ -18,6 +18,9 @@ interface BlogPost {
   readTime: string;
   date: string;
   breaking?: boolean;
+  category?: string;
+  tags?: string[];
+  author?: string;
 }
 
 const DynamicBlogPost = () => {
@@ -31,12 +34,95 @@ const DynamicBlogPost = () => {
       return;
     }
 
+    // Add structured data for SEO
+    const addStructuredData = (post: BlogPost) => {
+      const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": post.title,
+        "description": post.description,
+        "image": "https://garimoto.co.ke/favicon.ico",
+        "author": {
+          "@type": "Organization",
+          "name": post.author || "GariMoto Editorial"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "GariMoto",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://garimoto.co.ke/favicon.ico"
+          }
+        },
+        "datePublished": new Date(post.date).toISOString(),
+        "dateModified": new Date(post.date).toISOString(),
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": `https://garimoto.co.ke/blog/${post.slug}`
+        },
+        "articleSection": post.category || "Automotive",
+        "keywords": post.tags?.join(", ") || "car import, Kenya, CRSP, duty calculator"
+      };
+
+      // Remove existing structured data
+      const existingScript = document.querySelector('script[type="application/ld+json"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
+
+      // Add new structured data
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.text = JSON.stringify(structuredData);
+      document.head.appendChild(script);
+
+      // Update meta tags
+      document.title = `${post.title} | GariMoto`;
+      
+      // Update or create meta tags
+      const updateMetaTag = (property: string, content: string) => {
+        let meta = document.querySelector(`meta[property="${property}"]`) || 
+                   document.querySelector(`meta[name="${property}"]`);
+        if (!meta) {
+          meta = document.createElement('meta');
+          if (property.startsWith('og:') || property.startsWith('article:')) {
+            meta.setAttribute('property', property);
+          } else {
+            meta.setAttribute('name', property);
+          }
+          document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', content);
+      };
+
+      updateMetaTag('description', post.description);
+      updateMetaTag('keywords', post.tags?.join(', ') || 'car import, Kenya, CRSP, duty calculator');
+      updateMetaTag('author', post.author || 'GariMoto Editorial');
+      updateMetaTag('og:title', post.title);
+      updateMetaTag('og:description', post.description);
+      updateMetaTag('og:url', `https://garimoto.co.ke/blog/${post.slug}`);
+      updateMetaTag('og:type', 'article');
+      updateMetaTag('og:site_name', 'GariMoto');
+      updateMetaTag('article:author', post.author || 'GariMoto Editorial');
+      updateMetaTag('article:published_time', new Date(post.date).toISOString());
+      updateMetaTag('article:section', post.category || 'Automotive');
+      if (post.tags) {
+        post.tags.forEach(tag => {
+          const tagMeta = document.createElement('meta');
+          tagMeta.setAttribute('property', 'article:tag');
+          tagMeta.setAttribute('content', tag);
+          document.head.appendChild(tagMeta);
+        });
+      }
+    };
+
     // Try to load from localStorage first (for admin-created posts)
     const savedPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
     const foundPost = savedPosts.find((post: BlogPost) => post.slug === slug);
     
     if (foundPost) {
       setBlogPost(foundPost);
+      addStructuredData(foundPost);
       setLoading(false);
       return;
     }
@@ -90,13 +176,19 @@ const DynamicBlogPost = () => {
 
     const staticPost = staticPosts[slug];
     if (staticPost) {
-      setBlogPost({
+      const fullPost = {
         id: slug,
         slug,
         content: `<p>This is a placeholder for the ${staticPost.title} blog post. The full content will be available soon.</p>`,
         excerpt: staticPost.description || '',
+        category: 'Automotive',
+        tags: ['Car Import', 'Kenya', 'CRSP'],
+        author: 'GariMoto Editorial',
         ...staticPost
-      } as BlogPost);
+      } as BlogPost;
+      
+      setBlogPost(fullPost);
+      addStructuredData(fullPost);
     }
     
     setLoading(false);

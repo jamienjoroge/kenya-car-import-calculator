@@ -20,6 +20,9 @@ interface BlogPost {
   readTime: string;
   date: string;
   breaking?: boolean;
+  category?: string;
+  tags?: string[];
+  author?: string;
 }
 
 const BlogEditor = () => {
@@ -31,7 +34,12 @@ const BlogEditor = () => {
   const [content, setContent] = useState('');
   const [readTime, setReadTime] = useState('5 min read');
   const [isBreaking, setIsBreaking] = useState(false);
+  const [category, setCategory] = useState('');
+  const [tags, setTags] = useState('');
+  const [author, setAuthor] = useState('GariMoto Editorial');
   const [isSaving, setIsSaving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingPostId, setEditingPostId] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,6 +49,30 @@ const BlogEditor = () => {
       return;
     }
     setIsAuthenticated(true);
+    
+    // Check if we're editing an existing post
+    const urlParams = new URLSearchParams(window.location.search);
+    const editPostId = urlParams.get('edit');
+    
+    if (editPostId) {
+      const savedPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+      const postToEdit = savedPosts.find((post: BlogPost) => post.id === editPostId);
+      
+      if (postToEdit) {
+        setIsEditing(true);
+        setEditingPostId(editPostId);
+        setTitle(postToEdit.title);
+        setSlug(postToEdit.slug);
+        setDescription(postToEdit.description);
+        setExcerpt(postToEdit.excerpt);
+        setContent(postToEdit.content);
+        setReadTime(postToEdit.readTime);
+        setIsBreaking(postToEdit.breaking || false);
+        setCategory(postToEdit.category || '');
+        setTags(postToEdit.tags?.join(', ') || '');
+        setAuthor(postToEdit.author || 'GariMoto Editorial');
+      }
+    }
   }, [navigate]);
 
   const generateSlug = (title: string) => {
@@ -63,30 +95,46 @@ const BlogEditor = () => {
     setIsSaving(true);
     
     const blogPost: BlogPost = {
-      id: slug,
+      id: isEditing ? editingPostId : slug,
       title,
       slug,
       description,
       content,
       excerpt,
       readTime,
-      date: new Date().toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      }),
-      breaking: isBreaking
+      date: isEditing ? 
+        // Keep original date if editing
+        (() => {
+          const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+          const existingPost = existingPosts.find((post: BlogPost) => post.id === editingPostId);
+          return existingPost?.date || new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          });
+        })() :
+        // New post gets current date
+        new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        }),
+      breaking: isBreaking,
+      category: category.trim(),
+      tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0),
+      author: author.trim()
     };
 
     // Save to localStorage (in a real app, this would go to a database)
     const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-    const updatedPosts = existingPosts.filter((post: BlogPost) => post.id !== slug);
+    const updatedPosts = existingPosts.filter((post: BlogPost) => post.id !== (isEditing ? editingPostId : slug));
     updatedPosts.unshift(blogPost);
     localStorage.setItem('blogPosts', JSON.stringify(updatedPosts));
 
     setTimeout(() => {
       setIsSaving(false);
-      alert('Blog post saved successfully!');
+      alert(`Blog post ${isEditing ? 'updated' : 'saved'} successfully!`);
+      navigate('/admin/blog-list');
     }, 1000);
   };
 
@@ -128,8 +176,8 @@ const BlogEditor = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Create New Blog Post</CardTitle>
-            <CardDescription>Write and publish your blog content</CardDescription>
+            <CardTitle>{isEditing ? 'Edit Blog Post' : 'Create New Blog Post'}</CardTitle>
+            <CardDescription>{isEditing ? 'Update your blog content' : 'Write and publish your blog content'}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -171,6 +219,37 @@ const BlogEditor = () => {
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
                 placeholder="Brief excerpt for blog listing page"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="category">Category</Label>
+                <Input
+                  id="category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  placeholder="e.g., Legal, Educational, How-To Guides"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="author">Author</Label>
+                <Input
+                  id="author"
+                  value={author}
+                  onChange={(e) => setAuthor(e.target.value)}
+                  placeholder="Author name"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="tags">Tags</Label>
+              <Input
+                id="tags"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                placeholder="tag1, tag2, tag3 (comma separated)"
               />
             </div>
 
