@@ -45,6 +45,66 @@ const SitemapGenerator = () => {
         category: "Calculator Guides",
         tags: ["Toyota Prius", "Import Costs", "Duty Calculator"],
         author: "GariMoto Editorial"
+      },
+      {
+        id: "how-to-import-car-kenya",
+        slug: "how-to-import-car-kenya",
+        title: "How to Import a Car in Kenya",
+        description: "Complete step-by-step guide to importing vehicles into Kenya, from purchase to clearance at the port.",
+        readTime: "8 min read",
+        date: "December 15, 2024",
+        excerpt: "Learn the complete process of importing a car to Kenya, including documentation, shipping, and customs clearance procedures.",
+        category: "How-To Guides",
+        tags: ["Car Import", "Kenya", "Documentation"],
+        author: "GariMoto Editorial"
+      },
+      {
+        id: "what-is-crsp",
+        slug: "what-is-crsp",
+        title: "What is CRSP?",
+        description: "Understanding the Current Retail Selling Price system used by Kenya Revenue Authority for vehicle valuation.",
+        readTime: "5 min read",
+        date: "December 10, 2024",
+        excerpt: "CRSP determines how much duty you'll pay on your imported vehicle. Learn how it works and affects your import costs.",
+        category: "Educational",
+        tags: ["CRSP", "KRA", "Vehicle Valuation"],
+        author: "GariMoto Editorial"
+      },
+      {
+        id: "what-determines-duty-kenya",
+        slug: "what-determines-duty-kenya",
+        title: "What Determines Duty in Kenya?",
+        description: "Factors that influence import duty calculations for vehicles in Kenya including age, engine size, and value.",
+        readTime: "6 min read",
+        date: "December 8, 2024",
+        excerpt: "Discover the key factors that determine how much you'll pay in import duties when bringing a vehicle into Kenya.",
+        category: "Educational",
+        tags: ["Import Duties", "Kenya", "Vehicle Tax"],
+        author: "GariMoto Editorial"
+      },
+      {
+        id: "most-imported-cars-2025",
+        slug: "most-imported-cars-2025",
+        title: "2025 Most Imported Cars in Kenya",
+        description: "Analysis of trending vehicle imports and popular car models entering the Kenyan market in 2025.",
+        readTime: "7 min read",
+        date: "December 5, 2024",
+        excerpt: "See which car models are dominating imports in 2025 and understand the trends shaping Kenya's automotive market.",
+        category: "Market Analysis",
+        tags: ["Car Trends", "Kenya", "Market Analysis"],
+        author: "GariMoto Editorial"
+      },
+      {
+        id: "crsp-schedule-2025-changes",
+        slug: "crsp-schedule-2025-changes",
+        title: "CRSP Schedule 2025: What's Changed?",
+        description: "Detailed breakdown of the new CRSP schedule effective July 2025 and its impact on import duties.",
+        readTime: "6 min read",
+        date: "November 28, 2024",
+        excerpt: "The July 2025 CRSP schedule brings significant changes to vehicle valuations. Learn what's new and how it affects you.",
+        category: "Regulatory Updates",
+        tags: ["CRSP", "2025", "Regulatory Changes"],
+        author: "GariMoto Editorial"
       }
     ];
 

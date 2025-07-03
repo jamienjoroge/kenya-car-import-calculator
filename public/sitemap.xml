@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main Pages -->
   <url>
     <loc>https://garimoto.co.ke/</loc>
-    <lastmod>2024-12-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>http://garimoto.co.ke/</loc>
-    <lastmod>2024-12-24</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/compare</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/afford</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/popular</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+  
+  <!-- Blog Section -->
   <url>
     <loc>https://garimoto.co.ke/blog</loc>
-    <lastmod>2024-12-24</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
+  
+  <!-- Static Blog Posts -->
   <url>
     <loc>https://garimoto.co.ke/blog/ciak-vs-kra-lawsuit-2025</loc>
     <lastmod>2024-12-24</lastmod>
@@ -44,7 +43,7 @@
   </url>
   <url>
     <loc>https://garimoto.co.ke/blog/toyota-prius-import-cost-kenya</loc>
-    <lastmod>2024-12-23</lastmod>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -52,59 +51,63 @@
     <loc>https://garimoto.co.ke/blog/how-to-import-car-kenya</loc>
     <lastmod>2024-12-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/blog/what-is-crsp</loc>
     <lastmod>2024-12-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/blog/what-determines-duty-kenya</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/blog/most-imported-cars-2025</loc>
     <lastmod>2024-12-05</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/blog/crsp-schedule-2025-changes</loc>
     <lastmod>2024-11-28</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
+  
+  <!-- Information Pages -->
   <url>
     <loc>https://garimoto.co.ke/about</loc>
-    <lastmod>2024-12-15</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/contact</loc>
-    <lastmod>2024-12-15</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/sitemap</loc>
-    <lastmod>2024-12-15</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
+  
+  <!-- Legal Pages -->
   <url>
     <loc>https://garimoto.co.ke/privacy</loc>
-    <lastmod>2024-12-15</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/terms</loc>
-    <lastmod>2024-12-15</lastmod>
+    <lastmod>2025-01-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

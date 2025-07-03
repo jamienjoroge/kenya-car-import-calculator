@@ -18,6 +18,20 @@ const Sitemap = () => {
       ]
     },
     {
+      title: "Blog & Articles",
+      icon: FileText,
+      pages: [
+        { name: "Blog Home", path: "/blog", description: "Latest news and guides on car imports", icon: FileText },
+        { name: "BREAKING: Car Dealers Sue KRA", path: "/blog/ciak-vs-kra-lawsuit-2025", description: "Legal action against new CRSP schedule", icon: FileText },
+        { name: "Toyota Prius Import Guide", path: "/blog/toyota-prius-import-cost-kenya", description: "Complete cost breakdown and calculator", icon: FileText },
+        { name: "How to Import a Car", path: "/blog/how-to-import-car-kenya", description: "Step-by-step import process guide", icon: FileText },
+        { name: "What is CRSP?", path: "/blog/what-is-crsp", description: "Understanding vehicle valuation system", icon: FileText },
+        { name: "What Determines Duty?", path: "/blog/what-determines-duty-kenya", description: "Factors affecting import duties", icon: FileText },
+        { name: "Most Imported Cars 2025", path: "/blog/most-imported-cars-2025", description: "Popular vehicle import trends", icon: FileText },
+        { name: "CRSP Schedule Changes", path: "/blog/crsp-schedule-2025-changes", description: "2025 schedule updates and impacts", icon: FileText },
+      ]
+    },
+    {
       title: "Information Pages",
       icon: Info,
       pages: [
