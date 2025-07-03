@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 
 interface BlogPost {
   id: string;
@@ -46,25 +47,41 @@ export const useBlogEditor = () => {
     const editPostId = urlParams.get('edit');
     
     if (editPostId) {
-      const savedPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-      const postToEdit = savedPosts.find((post: BlogPost) => post.id === editPostId);
-      
-      if (postToEdit) {
-        setIsEditing(true);
-        setEditingPostId(editPostId);
-        setTitle(postToEdit.title);
-        setSlug(postToEdit.slug);
-        setDescription(postToEdit.description);
-        setExcerpt(postToEdit.excerpt);
-        setContent(postToEdit.content);
-        setReadTime(postToEdit.readTime);
-        setIsBreaking(postToEdit.breaking || false);
-        setCategory(postToEdit.category || '');
-        setTags(postToEdit.tags?.join(', ') || '');
-        setAuthor(postToEdit.author || 'GariMoto Editorial');
-      }
+      loadPostForEditing(editPostId);
     }
   }, [navigate]);
+
+  const loadPostForEditing = async (postId: string) => {
+    try {
+      const { data: post, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('id', postId)
+        .single();
+
+      if (error) {
+        console.error('Error loading post:', error);
+        return;
+      }
+
+      if (post) {
+        setIsEditing(true);
+        setEditingPostId(postId);
+        setTitle(post.title);
+        setSlug(post.slug);
+        setDescription(post.description);
+        setExcerpt(post.excerpt);
+        setContent(post.content);
+        setReadTime(post.read_time);
+        setIsBreaking(post.is_breaking || false);
+        setCategory(post.category || '');
+        setTags(post.tags?.join(', ') || '');
+        setAuthor(post.author || 'GariMoto Editorial');
+      }
+    } catch (error) {
+      console.error('Error loading post for editing:', error);
+    }
+  };
 
   const generateSlug = (title: string) => {
     return title
@@ -82,51 +99,56 @@ export const useBlogEditor = () => {
     }
   };
 
-  const saveBlogPost = () => {
+  const saveBlogPost = async () => {
     setIsSaving(true);
     
-    const blogPost: BlogPost = {
-      id: isEditing ? editingPostId : slug,
-      title,
-      slug,
-      description,
-      content,
-      excerpt,
-      readTime,
-      date: isEditing ? 
-        // Keep original date if editing
-        (() => {
-          const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-          const existingPost = existingPosts.find((post: BlogPost) => post.id === editingPostId);
-          return existingPost?.date || new Date().toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          });
-        })() :
-        // New post gets current date
-        new Date().toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
-        }),
-      breaking: isBreaking,
-      category: category.trim(),
-      tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0),
-      author: author.trim()
-    };
+    try {
+      const blogPostData = {
+        title,
+        slug,
+        description,
+        content,
+        excerpt,
+        read_time: readTime,
+        is_breaking: isBreaking,
+        category: category.trim() || null,
+        tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0),
+        author: author.trim()
+      };
 
-    // Save to localStorage (in a real app, this would go to a database)
-    const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-    const updatedPosts = existingPosts.filter((post: BlogPost) => post.id !== (isEditing ? editingPostId : slug));
-    updatedPosts.unshift(blogPost);
-    localStorage.setItem('blogPosts', JSON.stringify(updatedPosts));
+      if (isEditing) {
+        // Update existing post
+        const { error } = await supabase
+          .from('blog_posts')
+          .update(blogPostData)
+          .eq('id', editingPostId);
 
-    setTimeout(() => {
-      setIsSaving(false);
+        if (error) {
+          console.error('Error updating post:', error);
+          alert('Error updating blog post');
+          return;
+        }
+      } else {
+        // Create new post
+        const { error } = await supabase
+          .from('blog_posts')
+          .insert([blogPostData]);
+
+        if (error) {
+          console.error('Error creating post:', error);
+          alert('Error creating blog post');
+          return;
+        }
+      }
+
       alert(`Blog post ${isEditing ? 'updated' : 'saved'} successfully!`);
       navigate('/admin/blog-list');
-    }, 1000);
+    } catch (error) {
+      console.error('Error saving blog post:', error);
+      alert('Error saving blog post');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return {

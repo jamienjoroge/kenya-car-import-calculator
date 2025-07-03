@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface BlogPost {
   id: string;
@@ -16,13 +17,42 @@ interface BlogPost {
 }
 
 const RSSFeed = () => {
-  useEffect(() => {
-    generateRSSFeed();
-  }, []);
+  const [isGenerating, setIsGenerating] = useState(false);
 
-  const generateRSSFeed = () => {
-    // Get all blog posts
-    const dynamicPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+  const generateRSSFeed = async () => {
+    setIsGenerating(true);
+    
+    try {
+      // Get dynamic posts from database
+      const { data: dynamicPosts, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('published_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching blog posts:', error);
+        alert('Error fetching blog posts');
+        return;
+      }
+
+      // Transform database posts to expected format
+      const transformedDynamicPosts = (dynamicPosts || []).map(post => ({
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        description: post.description,
+        excerpt: post.excerpt,
+        readTime: post.read_time,
+        date: new Date(post.published_at).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        }),
+        breaking: post.is_breaking,
+        category: post.category,
+        tags: post.tags,
+        author: post.author
+      }));
     
     const staticBlogPosts: BlogPost[] = [
       {
@@ -112,7 +142,7 @@ const RSSFeed = () => {
       }
     ];
 
-    const allPosts = [...dynamicPosts, ...staticBlogPosts];
+    const allPosts = [...transformedDynamicPosts, ...staticBlogPosts];
     
     const formatDateForRSS = (dateString: string) => {
       const date = new Date(dateString);
@@ -154,16 +184,22 @@ const RSSFeed = () => {
   </channel>
 </rss>`;
 
-    // Create and download RSS file
-    const blob = new Blob([rssContent], { type: 'application/rss+xml' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'rss.xml';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      // Create and download RSS file
+      const blob = new Blob([rssContent], { type: 'application/rss+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'rss.xml';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error generating RSS feed:', error);
+      alert('Error generating RSS feed');
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -174,9 +210,10 @@ const RSSFeed = () => {
       </p>
       <button
         onClick={generateRSSFeed}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        disabled={isGenerating}
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Generate & Download RSS Feed
+        {isGenerating ? 'Generating...' : 'Generate & Download RSS Feed'}
       </button>
       <p className="text-sm text-gray-500 mt-2">
         Upload the generated rss.xml file to your website's root directory for Google News and RSS readers.

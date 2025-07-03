@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Edit, Trash2, Plus } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface BlogPost {
   id: string;
@@ -26,19 +27,8 @@ const BlogList = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const adminAuth = localStorage.getItem('adminAuthenticated');
-    if (adminAuth !== 'true') {
-      navigate('/admin');
-      return;
-    }
-    setIsAuthenticated(true);
-    
-    // Load dynamic posts from localStorage
-    const dynamicPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-    
-    // Static blog posts that are built-in
-    const staticBlogPosts: BlogPost[] = [
+  // Static blog posts that are built-in
+  const staticBlogPosts: BlogPost[] = [
       {
         id: "ciak-vs-kra-lawsuit-2025",
         slug: "ciak-vs-kra-lawsuit-2025",
@@ -132,13 +122,59 @@ const BlogList = () => {
         isStatic: true
       }
     ];
-    
-    // Combine all posts (dynamic first, then static)
-    const allPosts = [...dynamicPosts, ...staticBlogPosts];
-    setBlogPosts(allPosts);
+
+  useEffect(() => {
+    const adminAuth = localStorage.getItem('adminAuthenticated');
+    if (adminAuth !== 'true') {
+      navigate('/admin');
+      return;
+    }
+    setIsAuthenticated(true);
+    loadBlogPosts();
   }, [navigate]);
 
-  const deleteBlogPost = (postId: string) => {
+  const loadBlogPosts = async () => {
+    try {
+      // Load dynamic posts from database
+      const { data: dynamicPosts, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('published_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading blog posts:', error);
+        return;
+      }
+
+      // Transform database posts to expected format
+      const transformedDynamicPosts = (dynamicPosts || []).map(post => ({
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        description: post.description,
+        excerpt: post.excerpt,
+        readTime: post.read_time,
+        date: new Date(post.published_at).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        }),
+        breaking: post.is_breaking,
+        category: post.category,
+        tags: post.tags,
+        author: post.author,
+        isStatic: false
+      }));
+
+      // Combine all posts (dynamic first, then static)
+      const allPosts = [...transformedDynamicPosts, ...staticBlogPosts];
+      setBlogPosts(allPosts);
+    } catch (error) {
+      console.error('Error loading blog posts:', error);
+    }
+  };
+
+  const deleteBlogPost = async (postId: string) => {
     const postToDelete = blogPosts.find(post => post.id === postId);
     
     if (postToDelete?.isStatic) {
@@ -147,12 +183,24 @@ const BlogList = () => {
     }
     
     if (confirm('Are you sure you want to delete this blog post?')) {
-      const dynamicPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-      const updatedDynamicPosts = dynamicPosts.filter((post: BlogPost) => post.id !== postId);
-      localStorage.setItem('blogPosts', JSON.stringify(updatedDynamicPosts));
-      
-      // Reload all posts
-      window.location.reload();
+      try {
+        const { error } = await supabase
+          .from('blog_posts')
+          .delete()
+          .eq('id', postId);
+
+        if (error) {
+          console.error('Error deleting post:', error);
+          alert('Error deleting blog post');
+          return;
+        }
+
+        // Reload all posts
+        loadBlogPosts();
+      } catch (error) {
+        console.error('Error deleting blog post:', error);
+        alert('Error deleting blog post');
+      }
     }
   };
 
