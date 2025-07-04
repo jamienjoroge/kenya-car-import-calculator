@@ -1,3 +1,4 @@
+
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
@@ -14,16 +15,22 @@ Allow: /
 
 User-agent: *
 Allow: /
-Crawl-delay: 5
+Crawl-delay: 3
 
-# Sitemaps
-Sitemap: https://garimoto.co.ke/sitemap.xml
-Sitemap: https://garimoto.co.ke/news-sitemap.xml
-
-# Specific pages
+# Explicitly allow important directories
 Allow: /blog/
 Allow: /compare
 Allow: /afford
 Allow: /popular
 Allow: /about
 Allow: /contact
+
+# Disallow admin areas
+Disallow: /admin
+
+# Sitemaps - Google Search Console will find these
+Sitemap: https://garimoto.co.ke/sitemap.xml
+Sitemap: https://garimoto.co.ke/news-sitemap.xml
+
+# Host declaration for clarity
+Host: garimoto.co.ke

@@ -1,4 +1,5 @@
 import React from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface BlogPost {
   id: string;
@@ -16,9 +17,40 @@ interface BlogPost {
 }
 
 const SitemapGenerator = () => {
-  const generateSitemap = () => {
-    // Get all blog posts
-    const dynamicPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+  const generateSitemap = async () => {
+    // Get dynamic posts from database
+    let dynamicPosts: BlogPost[] = [];
+    try {
+      const { data: dbPosts, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('published_at', { ascending: false });
+
+      if (!error && dbPosts) {
+        dynamicPosts = dbPosts.map(post => ({
+          id: post.id,
+          slug: post.slug,
+          title: post.title,
+          description: post.description,
+          readTime: post.read_time,
+          date: new Date(post.published_at).toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          }),
+          excerpt: post.excerpt,
+          breaking: post.is_breaking,
+          category: post.category || 'Automotive',
+          tags: post.tags || [],
+          author: post.author
+        }));
+      }
+    } catch (error) {
+      console.error('Error loading database posts:', error);
+    }
+
+    // Get any remaining posts from localStorage as fallback
+    const localPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
     
     const staticBlogPosts: BlogPost[] = [
       {
@@ -108,7 +140,15 @@ const SitemapGenerator = () => {
       }
     ];
 
-    const allPosts = [...dynamicPosts, ...staticBlogPosts];
+    // Combine all posts, avoiding duplicates by slug
+    const allPosts = [...dynamicPosts];
+    
+    // Add local and static posts only if they don't exist in database
+    [...localPosts, ...staticBlogPosts].forEach(post => {
+      if (!allPosts.find(p => p.slug === post.slug)) {
+        allPosts.push(post);
+      }
+    });
     
     const formatDateForSitemap = (dateString: string) => {
       const date = new Date(dateString);
@@ -116,23 +156,23 @@ const SitemapGenerator = () => {
     };
 
     const staticPages = [
-      { url: 'https://garimoto.co.ke/', lastmod: '2024-12-24', changefreq: 'daily', priority: '1.0' },
-      { url: 'https://garimoto.co.ke/compare', lastmod: '2024-12-20', changefreq: 'weekly', priority: '0.8' },
-      { url: 'https://garimoto.co.ke/afford', lastmod: '2024-12-20', changefreq: 'weekly', priority: '0.8' },
-      { url: 'https://garimoto.co.ke/popular', lastmod: '2024-12-20', changefreq: 'weekly', priority: '0.7' },
-      { url: 'https://garimoto.co.ke/blog', lastmod: '2024-12-24', changefreq: 'daily', priority: '0.8' },
-      { url: 'https://garimoto.co.ke/about', lastmod: '2024-12-15', changefreq: 'monthly', priority: '0.5' },
-      { url: 'https://garimoto.co.ke/contact', lastmod: '2024-12-15', changefreq: 'monthly', priority: '0.5' },
-      { url: 'https://garimoto.co.ke/sitemap', lastmod: '2024-12-15', changefreq: 'monthly', priority: '0.3' },
-      { url: 'https://garimoto.co.ke/privacy', lastmod: '2024-12-15', changefreq: 'yearly', priority: '0.3' },
-      { url: 'https://garimoto.co.ke/terms', lastmod: '2024-12-15', changefreq: 'yearly', priority: '0.3' }
+      { url: 'https://garimoto.co.ke/', lastmod: '2025-01-04', changefreq: 'daily', priority: '1.0' },
+      { url: 'https://garimoto.co.ke/compare', lastmod: '2025-01-04', changefreq: 'weekly', priority: '0.8' },
+      { url: 'https://garimoto.co.ke/afford', lastmod: '2025-01-04', changefreq: 'weekly', priority: '0.8' },
+      { url: 'https://garimoto.co.ke/popular', lastmod: '2025-01-04', changefreq: 'weekly', priority: '0.7' },
+      { url: 'https://garimoto.co.ke/blog', lastmod: '2025-01-04', changefreq: 'daily', priority: '0.9' },
+      { url: 'https://garimoto.co.ke/about', lastmod: '2025-01-04', changefreq: 'monthly', priority: '0.6' },
+      { url: 'https://garimoto.co.ke/contact', lastmod: '2025-01-04', changefreq: 'monthly', priority: '0.6' },
+      { url: 'https://garimoto.co.ke/sitemap', lastmod: '2025-01-04', changefreq: 'monthly', priority: '0.4' },
+      { url: 'https://garimoto.co.ke/privacy', lastmod: '2025-01-04', changefreq: 'yearly', priority: '0.3' },
+      { url: 'https://garimoto.co.ke/terms', lastmod: '2025-01-04', changefreq: 'yearly', priority: '0.3' }
     ];
 
     const blogUrls = allPosts.map(post => ({
       url: `https://garimoto.co.ke/blog/${post.slug}`,
       lastmod: formatDateForSitemap(post.date),
       changefreq: post.breaking ? 'daily' : 'monthly',
-      priority: post.breaking ? '0.9' : '0.6'
+      priority: post.breaking ? '0.9' : '0.7'
     }));
 
     const allUrls = [...staticPages, ...blogUrls];
@@ -159,22 +199,68 @@ ${allUrls.map(page => `  <url>
     URL.revokeObjectURL(url);
   };
 
-  const generateGoogleNewsUrl = () => {
+  const generateGoogleNewsUrl = async () => {
+    // Get recent breaking news from database
+    let breakingPosts: BlogPost[] = [];
+    try {
+      const { data: dbPosts, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('is_breaking', true)
+        .gte('published_at', new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()) // Last 2 days
+        .order('published_at', { ascending: false });
+
+      if (!error && dbPosts) {
+        breakingPosts = dbPosts.map(post => ({
+          id: post.id,
+          slug: post.slug,
+          title: post.title,
+          description: post.description,
+          readTime: post.read_time,
+          date: new Date(post.published_at).toISOString(),
+          excerpt: post.excerpt,
+          breaking: post.is_breaking,
+          category: post.category || 'Automotive',
+          tags: post.tags || [],
+          author: post.author
+        }));
+      }
+    } catch (error) {
+      console.error('Error loading breaking news:', error);
+    }
+
+    // Include static breaking news if no database posts
+    if (breakingPosts.length === 0) {
+      breakingPosts = [{
+        id: "ciak-vs-kra-lawsuit-2025",
+        slug: "ciak-vs-kra-lawsuit-2025",
+        title: "BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025 - Import Duties Rise 145%",
+        description: "CIAK files urgent lawsuit against KRA's new CRSP schedule increasing import duties up to 145%.",
+        readTime: "8 min read",
+        date: "2024-12-24T08:00:00Z",
+        excerpt: "Car Importers Association files urgent court application.",
+        breaking: true,
+        category: "Legal",
+        tags: ["CRSP", "KRA", "Lawsuit", "Import Duties", "Kenya"],
+        author: "GariMoto Editorial"
+      }];
+    }
+
     const newsContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-  <url>
-    <loc>https://garimoto.co.ke/blog/ciak-vs-kra-lawsuit-2025</loc>
+${breakingPosts.map(post => `  <url>
+    <loc>https://garimoto.co.ke/blog/${post.slug}</loc>
     <news:news>
       <news:publication>
         <news:name>GariMoto</news:name>
         <news:language>en</news:language>
       </news:publication>
-      <news:publication_date>2024-12-24T00:00:00Z</news:publication_date>
-      <news:title>BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025</news:title>
-      <news:keywords>CRSP, KRA, Lawsuit, Import Duties, Kenya, Car Import</news:keywords>
+      <news:publication_date>${post.date}</news:publication_date>
+      <news:title>${post.title}</news:title>
+      <news:keywords>${post.tags?.join(', ') || 'Kenya, Car Import, CRSP, KRA'}</news:keywords>
     </news:news>
-  </url>
+  </url>`).join('\n')}
 </urlset>`;
 
     // Create and download Google News sitemap
@@ -191,16 +277,16 @@ ${allUrls.map(page => `  <url>
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
-      <h3 className="text-lg font-semibold mb-4">Sitemap Management</h3>
+      <h3 className="text-lg font-semibold mb-4">SEO Sitemap Management</h3>
       <p className="text-gray-600 mb-4">
-        Generate updated sitemaps for search engines and Google News.
+        Generate updated sitemaps including all database blog posts for optimal Google Search Console indexing.
       </p>
       <div className="space-y-3">
         <button
           onClick={generateSitemap}
           className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mr-3"
         >
-          Generate Main Sitemap
+          Generate Complete Sitemap
         </button>
         <button
           onClick={generateGoogleNewsUrl}
@@ -209,8 +295,18 @@ ${allUrls.map(page => `  <url>
           Generate News Sitemap
         </button>
       </div>
-      <p className="text-sm text-gray-500 mt-2">
-        Upload the generated XML files to your website's public directory and submit to Google Search Console.
+      <div className="mt-4 text-sm text-gray-600 bg-blue-50 p-3 rounded">
+        <h4 className="font-medium mb-2">SEO Optimization Features:</h4>
+        <ul className="list-disc list-inside space-y-1">
+          <li>Includes all database blog posts automatically</li>
+          <li>Prioritizes breaking news for faster indexing</li>
+          <li>Generates Google News sitemap for current articles</li>
+          <li>Uses proper lastmod dates from database</li>
+          <li>SEO-friendly URL structure maintained</li>
+        </ul>
+      </div>
+      <p className="text-xs text-gray-500 mt-3">
+        📋 After generating, upload XML files to your website's public directory and submit to Google Search Console for immediate indexing.
       </p>
     </div>
   );
