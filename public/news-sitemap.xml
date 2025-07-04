@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <!-- Breaking News Articles -->
+  <url>
+    <loc>https://garimoto.co.ke/blog/ciak-vs-kra-lawsuit-2025</loc>
+    <news:news>
+      <news:publication>
+        <news:name>GariMoto</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2024-12-24T08:00:00Z</news:publication_date>
+      <news:title>BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025 - Import Duties Rise 145%</news:title>
+      <news:keywords>CRSP, KRA, Lawsuit, Import Duties, Kenya, Car Import, CIAK, Tax Increase</news:keywords>
+    </news:news>
+  </url>
+  
+  <!-- Recent High-Value Articles -->
+  <url>
+    <loc>https://garimoto.co.ke/blog/toyota-prius-import-cost-kenya</loc>
+    <news:news>
+      <news:publication>
+        <news:name>GariMoto</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2024-12-20T10:00:00Z</news:publication_date>
+      <news:title>Toyota Prius Import Cost Kenya 2025: Save KES 500K+ with This Calculator</news:title>
+      <news:keywords>Toyota Prius, Import Cost, Kenya, CRSP Calculator, Duty Calculator, Hybrid Cars</news:keywords>
+    </news:news>
+  </url>
+  
+  <url>
+    <loc>https://garimoto.co.ke/blog/most-imported-cars-2025</loc>
+    <news:news>
+      <news:publication>
+        <news:name>GariMoto</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2024-12-05T09:00:00Z</news:publication_date>
+      <news:title>2025 Most Imported Cars in Kenya: Top 10 Models Dominating the Market</news:title>
+      <news:keywords>Car Trends, Kenya, Market Analysis, Import Statistics, Popular Cars 2025</news:keywords>
+    </news:news>
+  </url>
+</urlset>

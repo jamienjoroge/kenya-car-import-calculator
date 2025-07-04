@@ -7,6 +7,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import AdSpace from '@/components/AdSpace';
 import NotFound from './NotFound';
+import { supabase } from '@/integrations/supabase/client';
 
 interface BlogPost {
   id: string;
@@ -116,62 +117,101 @@ const DynamicBlogPost = () => {
       }
     };
 
-    // Try to load from localStorage first (for admin-created posts)
-    const savedPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-    const foundPost = savedPosts.find((post: BlogPost) => post.slug === slug);
-    
-    if (foundPost) {
-      setBlogPost(foundPost);
-      addStructuredData(foundPost);
-      setLoading(false);
-      return;
-    }
+    // Load blog post data
+    const loadBlogData = async () => {
+      // Try database first
+      try {
+        const { data: dbPost, error } = await supabase
+          .from('blog_posts')
+          .select('*')
+          .eq('slug', slug)
+          .single();
+
+        if (!error && dbPost) {
+          const formattedPost: BlogPost = {
+            id: dbPost.id,
+            title: dbPost.title,
+            slug: dbPost.slug,
+            description: dbPost.description,
+            content: dbPost.content,
+            excerpt: dbPost.excerpt,
+            readTime: dbPost.read_time,
+            date: new Date(dbPost.published_at).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            }),
+            breaking: dbPost.is_breaking,
+            category: dbPost.category || 'Automotive',
+            tags: dbPost.tags || [],
+            author: dbPost.author
+          };
+          setBlogPost(formattedPost);
+          addStructuredData(formattedPost);
+          setLoading(false);
+          return;
+        }
+      } catch (error) {
+        console.error('Error loading from database:', error);
+      }
+
+      // Fallback to localStorage
+      const savedPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+      const foundPost = savedPosts.find((post: BlogPost) => post.slug === slug);
+      
+      if (foundPost) {
+        setBlogPost(foundPost);
+        addStructuredData(foundPost);
+        setLoading(false);
+        return;
+      }
 
     // If not found in localStorage, check static blog posts
-    const staticPosts: Record<string, Partial<BlogPost>> = {
-      'ciak-vs-kra-lawsuit-2025': {
-        title: 'BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025',
-        description: 'CIAK files urgent lawsuit challenging KRA\'s new CRSP schedule that increases import duties by up to 145% on popular vehicles.',
-        readTime: '8 min read',
-        date: 'December 24, 2024',
-        breaking: true
-      },
-      'toyota-prius-import-cost-kenya': {
-        title: 'Toyota Prius Import Cost Kenya 2025: Complete Duty Calculator Guide',
-        description: 'Complete breakdown of Toyota Prius import costs including exact duty calculations, CRSP values, and money-saving tips.',
-        readTime: '10 min read',
-        date: 'December 20, 2024'
-      },
-      'how-to-import-car-kenya': {
-        title: 'How to Import a Car in Kenya',
-        description: 'Complete step-by-step guide to importing vehicles into Kenya, from purchase to clearance at the port.',
-        readTime: '8 min read',
-        date: 'December 15, 2024'
-      },
-      'what-is-crsp': {
-        title: 'What is CRSP?',
-        description: 'Understanding the Current Retail Selling Price system used by Kenya Revenue Authority for vehicle valuation.',
-        readTime: '5 min read',
-        date: 'December 10, 2024'
-      },
-      'what-determines-duty-kenya': {
-        title: 'What Determines Duty in Kenya?',
-        description: 'Factors that influence import duty calculations for vehicles in Kenya including age, engine size, and value.',
-        readTime: '6 min read',
-        date: 'December 8, 2024'
-      },
-      'most-imported-cars-2025': {
-        title: '2025 Most Imported Cars in Kenya',
-        description: 'Analysis of trending vehicle imports and popular car models entering the Kenyan market in 2025.',
-        readTime: '7 min read',
-        date: 'December 5, 2024'
-      },
-      'crsp-schedule-2025-changes': {
-        title: 'CRSP Schedule 2025: What\'s Changed?',
-        description: 'Detailed breakdown of the new CRSP schedule effective July 2025 and its impact on import duties.',
-        readTime: '6 min read',
-        date: 'November 28, 2024'
-      }
+      // Check static blog posts with SEO-optimized descriptions
+      const staticPosts: Record<string, Partial<BlogPost>> = {
+        'ciak-vs-kra-lawsuit-2025': {
+          title: 'BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025 - Import Duties Rise 145%',
+          description: 'CIAK files urgent lawsuit against KRA\'s new CRSP schedule increasing import duties up to 145%. Get latest updates on how this affects your car import costs.',
+          readTime: '8 min read',
+          date: 'December 24, 2024',
+          breaking: true
+        },
+        'toyota-prius-import-cost-kenya': {
+          title: 'Toyota Prius Import Cost Kenya 2025: Save KES 500K+ with Complete Guide',
+          description: 'Save KES 500K+ on Toyota Prius imports! Complete breakdown of 2025 CRSP values, exact duty calculations, and expert money-saving tips.',
+          readTime: '10 min read',
+          date: 'December 20, 2024'
+        },
+        'how-to-import-car-kenya': {
+          title: 'How to Import a Car in Kenya 2025: Complete Step-by-Step Guide + Cost Calculator',
+          description: 'Master car imports to Kenya! Complete 2025 guide with step-by-step process, document checklist, port clearance tips, and exact cost breakdowns.',
+          readTime: '8 min read',
+          date: 'December 15, 2024'
+        },
+        'what-is-crsp': {
+          title: 'What is CRSP Kenya 2025? Complete Guide to Vehicle Valuation System',
+          description: 'Master CRSP system! Learn how KRA values your imported vehicle, calculate exact duties, and avoid costly mistakes with our complete guide.',
+          readTime: '5 min read',
+          date: 'December 10, 2024'
+        },
+        'what-determines-duty-kenya': {
+          title: 'What Determines Car Import Duty in Kenya 2025? 7 Key Factors Explained',
+          description: 'Discover the 7 key factors determining your car import duty in Kenya. Learn how age, engine size, and CRSP value affect your total costs.',
+          readTime: '6 min read',
+          date: 'December 8, 2024'
+        },
+        'most-imported-cars-2025': {
+          title: '2025 Most Imported Cars in Kenya: Top 10 Models + Cost Analysis',
+          description: 'See the top 10 most imported cars in Kenya 2025! Complete analysis with import costs, market trends, and best value recommendations.',
+          readTime: '7 min read',
+          date: 'December 5, 2024'
+        },
+        'crsp-schedule-2025-changes': {
+          title: 'CRSP Schedule 2025 Changes: How New Rates Affect Your Import Costs',
+          description: 'Get ahead of CRSP 2025 changes! Detailed breakdown of new vehicle valuations and exactly how they impact your import duty calculations.',
+          readTime: '6 min read',
+          date: 'November 28, 2024'
+        }
     };
 
     const staticPost = staticPosts[slug];
@@ -190,8 +230,11 @@ const DynamicBlogPost = () => {
       setBlogPost(fullPost);
       addStructuredData(fullPost);
     }
-    
-    setLoading(false);
+      
+      setLoading(false);
+    };
+
+    loadBlogData();
   }, [slug]);
 
   if (loading) {
