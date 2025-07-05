@@ -1,6 +1,21 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <!-- Latest Breaking News -->
+  <url>
+    <loc>https://garimoto.co.ke/blog/crsp-schedule-halted-by-court-2025</loc>
+    <news:news>
+      <news:publication>
+        <news:name>GariMoto</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2025-01-05T09:00:00Z</news:publication_date>
+      <news:title>BREAKING: Court Halts KRA's New CRSP Schedule 2025 - Car Import Duties Frozen</news:title>
+      <news:keywords>CRSP halted, court stops CRSP, KRA lawsuit victory, car import duties frozen, Kenya court ruling, CIAK wins</news:keywords>
+    </news:news>
+  </url>
+  
   <!-- Breaking News Articles -->
   <url>
     <loc>https://garimoto.co.ke/blog/ciak-vs-kra-lawsuit-2025</loc>

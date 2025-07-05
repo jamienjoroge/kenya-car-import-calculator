@@ -49,10 +49,20 @@ const SitemapGenerator = () => {
       console.error('Error loading database posts:', error);
     }
 
-    // Get any remaining posts from localStorage as fallback
-    const localPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-    
     const staticBlogPosts: BlogPost[] = [
+      {
+        id: "crsp-schedule-halted-by-court-2025",
+        slug: "crsp-schedule-halted-by-court-2025",
+        title: "BREAKING: Court Halts KRA's New CRSP Schedule 2025 - Car Import Duties Frozen",
+        description: "🚨 VICTORY! High Court halts KRA's controversial CRSP schedule increasing car import duties by 145%. Get latest updates on what this means for Kenya car importers.",
+        readTime: "7 min read",
+        date: "January 5, 2025",
+        excerpt: "High Court issues temporary injunction halting KRA's new CRSP schedule that would have increased import duties by up to 145% on popular vehicles.",
+        breaking: true,
+        category: "Legal News",
+        tags: ["CRSP", "Court Ruling", "KRA", "Import Duties", "Victory"],
+        author: "GariMoto Editorial"
+      },
       {
         id: "ciak-vs-kra-lawsuit-2025",
         slug: "ciak-vs-kra-lawsuit-2025",
@@ -143,8 +153,8 @@ const SitemapGenerator = () => {
     // Combine all posts, avoiding duplicates by slug
     const allPosts = [...dynamicPosts];
     
-    // Add local and static posts only if they don't exist in database
-    [...localPosts, ...staticBlogPosts].forEach(post => {
+    // Add static posts only if they don't exist in database
+    staticBlogPosts.forEach(post => {
       if (!allPosts.find(p => p.slug === post.slug)) {
         allPosts.push(post);
       }
@@ -156,23 +166,23 @@ const SitemapGenerator = () => {
     };
 
     const staticPages = [
-      { url: 'https://garimoto.co.ke/', lastmod: '2025-01-04', changefreq: 'daily', priority: '1.0' },
-      { url: 'https://garimoto.co.ke/compare', lastmod: '2025-01-04', changefreq: 'weekly', priority: '0.8' },
-      { url: 'https://garimoto.co.ke/afford', lastmod: '2025-01-04', changefreq: 'weekly', priority: '0.8' },
-      { url: 'https://garimoto.co.ke/popular', lastmod: '2025-01-04', changefreq: 'weekly', priority: '0.7' },
-      { url: 'https://garimoto.co.ke/blog', lastmod: '2025-01-04', changefreq: 'daily', priority: '0.9' },
-      { url: 'https://garimoto.co.ke/about', lastmod: '2025-01-04', changefreq: 'monthly', priority: '0.6' },
-      { url: 'https://garimoto.co.ke/contact', lastmod: '2025-01-04', changefreq: 'monthly', priority: '0.6' },
-      { url: 'https://garimoto.co.ke/sitemap', lastmod: '2025-01-04', changefreq: 'monthly', priority: '0.4' },
-      { url: 'https://garimoto.co.ke/privacy', lastmod: '2025-01-04', changefreq: 'yearly', priority: '0.3' },
-      { url: 'https://garimoto.co.ke/terms', lastmod: '2025-01-04', changefreq: 'yearly', priority: '0.3' }
+      { url: 'https://garimoto.co.ke/', lastmod: '2025-01-05', changefreq: 'daily', priority: '1.0' },
+      { url: 'https://garimoto.co.ke/compare', lastmod: '2025-01-05', changefreq: 'weekly', priority: '0.8' },
+      { url: 'https://garimoto.co.ke/afford', lastmod: '2025-01-05', changefreq: 'weekly', priority: '0.8' },
+      { url: 'https://garimoto.co.ke/popular', lastmod: '2025-01-05', changefreq: 'weekly', priority: '0.7' },
+      { url: 'https://garimoto.co.ke/blog', lastmod: '2025-01-05', changefreq: 'daily', priority: '0.9' },
+      { url: 'https://garimoto.co.ke/about', lastmod: '2025-01-05', changefreq: 'monthly', priority: '0.6' },
+      { url: 'https://garimoto.co.ke/contact', lastmod: '2025-01-05', changefreq: 'monthly', priority: '0.6' },
+      { url: 'https://garimoto.co.ke/sitemap', lastmod: '2025-01-05', changefreq: 'monthly', priority: '0.4' },
+      { url: 'https://garimoto.co.ke/privacy', lastmod: '2025-01-05', changefreq: 'yearly', priority: '0.3' },
+      { url: 'https://garimoto.co.ke/terms', lastmod: '2025-01-05', changefreq: 'yearly', priority: '0.3' }
     ];
 
     const blogUrls = allPosts.map(post => ({
       url: `https://garimoto.co.ke/blog/${post.slug}`,
       lastmod: formatDateForSitemap(post.date),
       changefreq: post.breaking ? 'daily' : 'monthly',
-      priority: post.breaking ? '0.9' : '0.7'
+      priority: post.breaking ? '1.0' : '0.7'
     }));
 
     const allUrls = [...staticPages, ...blogUrls];
@@ -231,19 +241,34 @@ ${allUrls.map(page => `  <url>
 
     // Include static breaking news if no database posts
     if (breakingPosts.length === 0) {
-      breakingPosts = [{
-        id: "ciak-vs-kra-lawsuit-2025",
-        slug: "ciak-vs-kra-lawsuit-2025",
-        title: "BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025 - Import Duties Rise 145%",
-        description: "CIAK files urgent lawsuit against KRA's new CRSP schedule increasing import duties up to 145%.",
-        readTime: "8 min read",
-        date: "2024-12-24T08:00:00Z",
-        excerpt: "Car Importers Association files urgent court application.",
-        breaking: true,
-        category: "Legal",
-        tags: ["CRSP", "KRA", "Lawsuit", "Import Duties", "Kenya"],
-        author: "GariMoto Editorial"
-      }];
+      breakingPosts = [
+        {
+          id: "crsp-schedule-halted-by-court-2025",
+          slug: "crsp-schedule-halted-by-court-2025",
+          title: "BREAKING: Court Halts KRA's New CRSP Schedule 2025 - Car Import Duties Frozen",
+          description: "🚨 VICTORY! High Court halts KRA's controversial CRSP schedule.",
+          readTime: "7 min read",
+          date: "2025-01-05T09:00:00Z",
+          excerpt: "High Court issues temporary injunction halting KRA's new CRSP schedule.",
+          breaking: true,
+          category: "Legal News", 
+          tags: ["CRSP", "Court Ruling", "KRA", "Import Duties", "Victory", "Kenya"],
+          author: "GariMoto Editorial"
+        },
+        {
+          id: "ciak-vs-kra-lawsuit-2025", 
+          slug: "ciak-vs-kra-lawsuit-2025",
+          title: "BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025 - Import Duties Rise 145%",
+          description: "CIAK files urgent lawsuit against KRA's new CRSP schedule increasing import duties up to 145%.",
+          readTime: "8 min read",
+          date: "2024-12-24T08:00:00Z",
+          excerpt: "Car Importers Association files urgent court application.",
+          breaking: true,
+          category: "Legal",
+          tags: ["CRSP", "KRA", "Lawsuit", "Import Duties", "Kenya"],
+          author: "GariMoto Editorial"
+        }
+      ];
     }
 
     const newsContent = `<?xml version="1.0" encoding="UTF-8"?>
@@ -298,6 +323,7 @@ ${breakingPosts.map(post => `  <url>
       <div className="mt-4 text-sm text-gray-600 bg-blue-50 p-3 rounded">
         <h4 className="font-medium mb-2">SEO Optimization Features:</h4>
         <ul className="list-disc list-inside space-y-1">
+          <li>Enhanced permalink structure with proper canonical URLs</li>
           <li>Includes all database blog posts automatically</li>
           <li>Prioritizes breaking news for faster indexing</li>
           <li>Generates Google News sitemap for current articles</li>
