@@ -82,62 +82,108 @@ const FuelCalculator = () => {
 
         <div className="grid lg:grid-cols-2 gap-6">
           {/* Input Section */}
-          <Card>
+          <Card className="h-fit">
             <CardHeader>
-              <CardTitle>Calculate Fuel Efficiency</CardTitle>
-              <CardDescription>Enter your vehicle's fuel consumption data</CardDescription>
+              <CardTitle>🚗 Calculate Your Car's Fuel Efficiency</CardTitle>
+              <CardDescription>
+                Follow these simple steps to calculate your vehicle's fuel consumption and costs
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
+              {/* Step by step guide */}
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-blue-800 mb-2">📋 How to use this calculator:</h4>
+                <ol className="text-sm text-blue-700 space-y-1">
+                  <li>1. Fill your tank completely and note the odometer reading</li>
+                  <li>2. Drive normally until you need to refuel</li>
+                  <li>3. Note the new odometer reading and fuel amount added</li>
+                  <li>4. Enter the values below to get your results</li>
+                </ol>
+              </div>
+
               <div className="space-y-2">
-                <Label htmlFor="distance">Distance Traveled (KM)</Label>
+                <Label htmlFor="distance" className="text-base font-medium">
+                  📏 Distance Traveled (Kilometers)
+                </Label>
                 <Input
                   id="distance"
                   type="number"
-                  placeholder="e.g. 100"
+                  placeholder="Enter kilometers driven (e.g. 350)"
                   value={distance || ''}
                   onChange={(e) => setDistance(Number(e.target.value))}
+                  className="text-lg"
                 />
+                <p className="text-xs text-muted-foreground">
+                  💡 Tip: This is the difference between your two odometer readings
+                </p>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="fuel-used">Fuel Used (Litres)</Label>
+                <Label htmlFor="fuel-used" className="text-base font-medium">
+                  ⛽ Fuel Added (Litres)
+                </Label>
                 <Input
                   id="fuel-used"
                   type="number"
                   step="0.1"
-                  placeholder="e.g. 8.5"
+                  placeholder="Enter litres of fuel (e.g. 25.5)"
                   value={fuelUsed || ''}
                   onChange={(e) => setFuelUsed(Number(e.target.value))}
+                  className="text-lg"
                 />
+                <p className="text-xs text-muted-foreground">
+                  💡 Tip: Check your fuel receipt for the exact amount
+                </p>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="fuel-price">Current Fuel Price (KES per litre)</Label>
+                <Label htmlFor="fuel-price" className="text-base font-medium">
+                  💰 Fuel Price (KES per litre)
+                </Label>
                 <Input
                   id="fuel-price"
                   type="number"
-                  placeholder="e.g. 180"
+                  placeholder="Current fuel price (e.g. 180)"
                   value={fuelPrice || ''}
                   onChange={(e) => setFuelPrice(Number(e.target.value))}
+                  className="text-lg"
                 />
-                <p className="text-xs text-muted-foreground">Current average: KES 180/litre</p>
+                <p className="text-xs text-muted-foreground">
+                  💡 Current Kenya average: KES 180/litre | Check your receipt for exact price
+                </p>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="trip-distance">Plan Trip Distance (KM) - Optional</Label>
+                <Label htmlFor="trip-distance" className="text-base font-medium">
+                  🗺️ Plan a Trip (Optional)
+                </Label>
                 <Input
                   id="trip-distance"
                   type="number"
-                  placeholder="e.g. 480 (Nairobi to Mombasa)"
+                  placeholder="Trip distance in KM (e.g. 480)"
                   value={tripDistance || ''}
                   onChange={(e) => setTripDistance(Number(e.target.value))}
+                  className="text-lg"
                 />
+                <p className="text-xs text-muted-foreground">
+                  💡 Get cost estimates for your next journey
+                </p>
               </div>
               
-              <Button onClick={calculateFuelEfficiency} className="w-full">
-                <Calculator className="h-4 w-4 mr-2" />
-                Calculate Fuel Efficiency
+              <Button 
+                onClick={calculateFuelEfficiency} 
+                className="w-full text-lg py-6"
+                disabled={!distance || !fuelUsed}
+              >
+                <Calculator className="h-5 w-5 mr-2" />
+                Calculate My Fuel Efficiency
               </Button>
+              
+              {(!distance || !fuelUsed) && (
+                <p className="text-center text-sm text-muted-foreground">
+                  Please enter distance and fuel amount to calculate
+                </p>
+              )}
             </CardContent>
           </Card>
 
@@ -209,18 +255,18 @@ const FuelCalculator = () => {
             <CardDescription>Click to set trip distance quickly</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
               {popularRoutes.map((route, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   onClick={() => setTripDistance(route.distance)}
-                  className="flex justify-between"
+                  className="flex justify-between p-3 h-auto"
                 >
                   <span className="text-left">
-                    <div className="font-semibold text-xs">{route.name}</div>
+                    <div className="font-semibold text-sm">{route.name}</div>
                   </span>
-                  <span className="text-muted-foreground">{route.distance} km</span>
+                  <span className="text-muted-foreground font-medium">{route.distance} km</span>
                 </Button>
               ))}
             </div>

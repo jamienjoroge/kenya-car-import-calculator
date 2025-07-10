@@ -16,41 +16,43 @@ interface ChecklistItem {
   item: string;
   critical: boolean;
   checked: boolean;
+  repairCost: number; // Estimated repair cost in KES
+  points: number; // Points for scoring system
 }
 
 const VehicleInspection = () => {
   const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([
     // Engine & Performance
-    { id: '1', category: 'Engine & Performance', item: 'Engine oil level and condition', critical: true, checked: false },
-    { id: '2', category: 'Engine & Performance', item: 'Coolant level and leaks', critical: true, checked: false },
-    { id: '3', category: 'Engine & Performance', item: 'Battery terminals and charge', critical: true, checked: false },
-    { id: '4', category: 'Engine & Performance', item: 'Air filter condition', critical: false, checked: false },
-    { id: '5', category: 'Engine & Performance', item: 'Belt tension and condition', critical: false, checked: false },
+    { id: '1', category: 'Engine & Performance', item: 'Engine oil level and condition', critical: true, checked: false, repairCost: 5000, points: 10 },
+    { id: '2', category: 'Engine & Performance', item: 'Coolant level and leaks', critical: true, checked: false, repairCost: 8000, points: 10 },
+    { id: '3', category: 'Engine & Performance', item: 'Battery terminals and charge', critical: true, checked: false, repairCost: 12000, points: 10 },
+    { id: '4', category: 'Engine & Performance', item: 'Air filter condition', critical: false, checked: false, repairCost: 3000, points: 5 },
+    { id: '5', category: 'Engine & Performance', item: 'Belt tension and condition', critical: false, checked: false, repairCost: 6000, points: 5 },
     
     // Safety Systems
-    { id: '6', category: 'Safety Systems', item: 'Brake fluid level', critical: true, checked: false },
-    { id: '7', category: 'Safety Systems', item: 'Brake pad thickness', critical: true, checked: false },
-    { id: '8', category: 'Safety Systems', item: 'All lights functioning', critical: true, checked: false },
-    { id: '9', category: 'Safety Systems', item: 'Horn working', critical: false, checked: false },
-    { id: '10', category: 'Safety Systems', item: 'Seatbelts condition', critical: true, checked: false },
+    { id: '6', category: 'Safety Systems', item: 'Brake fluid level', critical: true, checked: false, repairCost: 4000, points: 15 },
+    { id: '7', category: 'Safety Systems', item: 'Brake pad thickness', critical: true, checked: false, repairCost: 25000, points: 15 },
+    { id: '8', category: 'Safety Systems', item: 'All lights functioning', critical: true, checked: false, repairCost: 8000, points: 10 },
+    { id: '9', category: 'Safety Systems', item: 'Horn working', critical: false, checked: false, repairCost: 2000, points: 3 },
+    { id: '10', category: 'Safety Systems', item: 'Seatbelts condition', critical: true, checked: false, repairCost: 15000, points: 12 },
     
     // Tires & Wheels
-    { id: '11', category: 'Tires & Wheels', item: 'Tire tread depth (minimum 1.6mm)', critical: true, checked: false },
-    { id: '12', category: 'Tires & Wheels', item: 'Tire pressure (including spare)', critical: true, checked: false },
-    { id: '13', category: 'Tires & Wheels', item: 'Wheel alignment check', critical: false, checked: false },
-    { id: '14', category: 'Tires & Wheels', item: 'Wheel balancing', critical: false, checked: false },
+    { id: '11', category: 'Tires & Wheels', item: 'Tire tread depth (minimum 1.6mm)', critical: true, checked: false, repairCost: 40000, points: 15 },
+    { id: '12', category: 'Tires & Wheels', item: 'Tire pressure (including spare)', critical: true, checked: false, repairCost: 2000, points: 8 },
+    { id: '13', category: 'Tires & Wheels', item: 'Wheel alignment check', critical: false, checked: false, repairCost: 5000, points: 5 },
+    { id: '14', category: 'Tires & Wheels', item: 'Wheel balancing', critical: false, checked: false, repairCost: 4000, points: 4 },
     
     // Body & Interior
-    { id: '15', category: 'Body & Interior', item: 'Mirror adjustment and condition', critical: true, checked: false },
-    { id: '16', category: 'Body & Interior', item: 'Windscreen cracks or chips', critical: true, checked: false },
-    { id: '17', category: 'Body & Interior', item: 'Dashboard warning lights', critical: true, checked: false },
-    { id: '18', category: 'Body & Interior', item: 'AC/Heating system', critical: false, checked: false },
+    { id: '15', category: 'Body & Interior', item: 'Mirror adjustment and condition', critical: true, checked: false, repairCost: 10000, points: 8 },
+    { id: '16', category: 'Body & Interior', item: 'Windscreen cracks or chips', critical: true, checked: false, repairCost: 20000, points: 12 },
+    { id: '17', category: 'Body & Interior', item: 'Dashboard warning lights', critical: true, checked: false, repairCost: 15000, points: 10 },
+    { id: '18', category: 'Body & Interior', item: 'AC/Heating system', critical: false, checked: false, repairCost: 25000, points: 6 },
     
     // Documentation
-    { id: '19', category: 'Documentation', item: 'Valid insurance certificate', critical: true, checked: false },
-    { id: '20', category: 'Documentation', item: 'Current inspection certificate', critical: true, checked: false },
-    { id: '21', category: 'Documentation', item: 'Vehicle registration (logbook)', critical: true, checked: false },
-    { id: '22', category: 'Documentation', item: 'Driver\'s license', critical: true, checked: false },
+    { id: '19', category: 'Documentation', item: 'Valid insurance certificate', critical: true, checked: false, repairCost: 18000, points: 5 },
+    { id: '20', category: 'Documentation', item: 'Current inspection certificate', critical: true, checked: false, repairCost: 8000, points: 8 },
+    { id: '21', category: 'Documentation', item: 'Vehicle registration (logbook)', critical: true, checked: false, repairCost: 0, points: 10 },
+    { id: '22', category: 'Documentation', item: 'Driver\'s license', critical: true, checked: false, repairCost: 5000, points: 5 },
   ]);
 
   const toggleItem = (id: string) => {
@@ -67,6 +69,32 @@ const VehicleInspection = () => {
   const criticalItems = checklistItems.filter(item => item.critical);
   const checkedCriticalItems = criticalItems.filter(item => item.checked).length;
   const progress = (checkedItems / totalItems) * 100;
+  
+  // Scoring system calculations
+  const totalPossiblePoints = checklistItems.reduce((sum, item) => sum + item.points, 0);
+  const earnedPoints = checklistItems.filter(item => item.checked).reduce((sum, item) => sum + item.points, 0);
+  const scorePercentage = totalPossiblePoints > 0 ? (earnedPoints / totalPossiblePoints) * 100 : 0;
+  
+  // Repair cost calculations
+  const failedItems = checklistItems.filter(item => !item.checked);
+  const totalRepairCost = failedItems.reduce((sum, item) => sum + item.repairCost, 0);
+  
+  // Purchase recommendation logic
+  const getPurchaseRecommendation = () => {
+    const criticalFailures = criticalItems.filter(item => !item.checked).length;
+    
+    if (scorePercentage >= 85 && criticalFailures === 0) {
+      return { status: 'EXCELLENT', color: 'text-green-600', bgColor: 'bg-green-50', message: 'Highly recommended for purchase. Vehicle is in excellent condition.' };
+    } else if (scorePercentage >= 70 && criticalFailures <= 2) {
+      return { status: 'GOOD', color: 'text-blue-600', bgColor: 'bg-blue-50', message: 'Good choice for purchase with minor repairs needed.' };
+    } else if (scorePercentage >= 55 && criticalFailures <= 4) {
+      return { status: 'FAIR', color: 'text-orange-600', bgColor: 'bg-orange-50', message: 'Consider purchase but budget for repairs.' };
+    } else {
+      return { status: 'POOR', color: 'text-red-600', bgColor: 'bg-red-50', message: 'Not recommended. Major repairs required.' };
+    }
+  };
+  
+  const recommendation = getPurchaseRecommendation();
 
   const generateReport = () => {
     const report = `
@@ -146,7 +174,7 @@ For professional vehicle inspection services in Kenya, visit GariMoto.co.ke
                 <Progress value={progress} className="h-3" />
               </div>
               
-              <div className="grid md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="text-center p-4 bg-blue-50 rounded-lg">
                   <div className="text-2xl font-bold text-blue-600">{checkedItems}</div>
                   <div className="text-sm text-blue-600">Items Completed</div>
@@ -154,6 +182,10 @@ For professional vehicle inspection services in Kenya, visit GariMoto.co.ke
                 <div className="text-center p-4 bg-orange-50 rounded-lg">
                   <div className="text-2xl font-bold text-orange-600">{checkedCriticalItems}/{criticalItems.length}</div>
                   <div className="text-sm text-orange-600">Critical Items</div>
+                </div>
+                <div className="text-center p-4 bg-purple-50 rounded-lg">
+                  <div className="text-2xl font-bold text-purple-600">{scorePercentage.toFixed(0)}%</div>
+                  <div className="text-sm text-purple-600">Vehicle Score</div>
                 </div>
                 <div className="text-center p-4 bg-green-50 rounded-lg">
                   <div className="text-2xl font-bold text-green-600">
@@ -165,6 +197,55 @@ For professional vehicle inspection services in Kenya, visit GariMoto.co.ke
             </div>
           </CardContent>
         </Card>
+
+        {/* Scoring & Recommendation */}
+        <div className="grid lg:grid-cols-2 gap-6 mb-6">
+          <Card className={`${recommendation.bgColor} border-2`}>
+            <CardHeader>
+              <CardTitle className={`${recommendation.color} text-xl`}>
+                Purchase Recommendation: {recommendation.status}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className={`${recommendation.color} mb-4`}>{recommendation.message}</p>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-medium">Vehicle Score:</span>
+                  <span className="font-bold">{scorePercentage.toFixed(1)}%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">Critical Issues:</span>
+                  <span className="font-bold">{criticalItems.length - checkedCriticalItems}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-red-50 border-red-200">
+            <CardHeader>
+              <CardTitle className="text-red-800">Estimated Repair Costs</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center mb-4">
+                <div className="text-3xl font-bold text-red-600">
+                  KES {totalRepairCost.toLocaleString()}
+                </div>
+                <div className="text-sm text-red-600">Total for all failed items</div>
+              </div>
+              {failedItems.length > 0 && (
+                <div className="space-y-2 max-h-32 overflow-y-auto">
+                  <h4 className="font-semibold text-sm text-red-800 mb-2">Items needing repair:</h4>
+                  {failedItems.map(item => (
+                    <div key={item.id} className="flex justify-between text-xs">
+                      <span className="truncate mr-2">{item.item}</span>
+                      <span className="font-semibold">KES {item.repairCost.toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Checklist by Category */}
         <div className="space-y-6">
@@ -186,27 +267,38 @@ For professional vehicle inspection services in Kenya, visit GariMoto.co.ke
                 <CardContent>
                   <div className="space-y-3">
                     {categoryItems.map(item => (
-                      <div key={item.id} className="flex items-center space-x-3">
+                      <div key={item.id} className="flex items-start space-x-3 py-2">
                         <Checkbox
                           checked={item.checked}
                           onCheckedChange={() => toggleItem(item.id)}
                           id={item.id}
+                          className="mt-1"
                         />
-                        <label
-                          htmlFor={item.id}
-                          className={`flex-1 cursor-pointer ${item.checked ? 'line-through text-muted-foreground' : ''}`}
-                        >
-                          {item.item}
-                        </label>
-                        {item.critical && (
-                          <Badge variant="destructive" className="text-xs">
-                            <AlertTriangle className="h-3 w-3 mr-1" />
-                            Critical
-                          </Badge>
-                        )}
-                        {item.checked && (
-                          <CheckCircle className="h-4 w-4 text-green-500" />
-                        )}
+                        <div className="flex-1 min-w-0">
+                          <label
+                            htmlFor={item.id}
+                            className={`block cursor-pointer text-sm sm:text-base ${item.checked ? 'line-through text-muted-foreground' : ''}`}
+                          >
+                            {item.item}
+                          </label>
+                          {!item.checked && item.repairCost > 0 && (
+                            <p className="text-xs text-red-600 mt-1">
+                              Repair cost: KES {item.repairCost.toLocaleString()}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex flex-col items-end space-y-1">
+                          {item.critical && (
+                            <Badge variant="destructive" className="text-xs">
+                              <AlertTriangle className="h-3 w-3 mr-1" />
+                              <span className="hidden sm:inline">Critical</span>
+                              <span className="sm:hidden">!</span>
+                            </Badge>
+                          )}
+                          {item.checked && (
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -217,14 +309,15 @@ For professional vehicle inspection services in Kenya, visit GariMoto.co.ke
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-center gap-4 mt-8">
-          <Button onClick={generateReport} className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+          <Button onClick={generateReport} className="flex items-center gap-2 justify-center">
             <Download className="h-4 w-4" />
             Download Report
           </Button>
           <Button 
             variant="outline" 
             onClick={() => setChecklistItems(items => items.map(item => ({ ...item, checked: false })))}
+            className="justify-center"
           >
             Reset Checklist
           </Button>
