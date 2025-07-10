@@ -9,6 +9,9 @@ import NotFound from "./pages/NotFound";
 import CompareCars from "./pages/CompareCars";
 import WhatCanIAfford from "./pages/WhatCanIAfford";
 import PopularCarsByYear from "./pages/PopularCarsByYear";
+import VehicleInspection from "./pages/VehicleInspection";
+import MaintenanceSchedule from "./pages/MaintenanceSchedule";
+import FuelCalculator from "./pages/FuelCalculator";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Sitemap from "./pages/Sitemap";
@@ -41,6 +44,9 @@ const App = () => (
           <Route path="/compare" element={<CompareCars />} />
           <Route path="/afford" element={<WhatCanIAfford />} />
           <Route path="/popular" element={<PopularCarsByYear />} />
+          <Route path="/vehicle-inspection" element={<VehicleInspection />} />
+          <Route path="/maintenance-schedule" element={<MaintenanceSchedule />} />
+          <Route path="/fuel-calculator" element={<FuelCalculator />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/sitemap" element={<Sitemap />} />
