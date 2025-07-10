@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, AlertCircle, CheckCircle, Clock, Wrench } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+import { Calendar, AlertCircle, CheckCircle, Clock, Wrench, Mail, Download } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SEOPermalinks from "@/components/SEOPermalinks";
@@ -20,12 +23,16 @@ interface MaintenanceItem {
   cost: number;
   priority: 'high' | 'medium' | 'low';
   category: string;
+  isCompleted: boolean;
 }
 
 const MaintenanceSchedule = () => {
   const [currentKm, setCurrentKm] = useState<number>(0);
   const [vehicleAge, setVehicleAge] = useState<number>(0);
-  const [maintenanceItems] = useState<MaintenanceItem[]>([
+  const [email, setEmail] = useState<string>('');
+  const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
+  const { toast } = useToast();
+  const [maintenanceItems, setMaintenanceItems] = useState<MaintenanceItem[]>([
     {
       id: '1',
       service: 'Engine Oil Change',
@@ -35,7 +42,8 @@ const MaintenanceSchedule = () => {
       lastServiceDate: '',
       cost: 3500,
       priority: 'high',
-      category: 'Engine'
+      category: 'Engine',
+      isCompleted: false
     },
     {
       id: '2',
@@ -46,7 +54,8 @@ const MaintenanceSchedule = () => {
       lastServiceDate: '',
       cost: 1500,
       priority: 'high',
-      category: 'Engine'
+      category: 'Engine',
+      isCompleted: false
     },
     {
       id: '3',
@@ -57,7 +66,8 @@ const MaintenanceSchedule = () => {
       lastServiceDate: '',
       cost: 2000,
       priority: 'medium',
-      category: 'Engine'
+      category: 'Engine',
+      isCompleted: false
     },
     {
       id: '4',
@@ -68,7 +78,8 @@ const MaintenanceSchedule = () => {
       lastServiceDate: '',
       cost: 8000,
       priority: 'high',
-      category: 'Safety'
+      category: 'Safety',
+      isCompleted: false
     },
     {
       id: '5',
@@ -79,7 +90,8 @@ const MaintenanceSchedule = () => {
       lastServiceDate: '',
       cost: 2000,
       priority: 'medium',
-      category: 'Tires'
+      category: 'Tires',
+      isCompleted: false
     },
     {
       id: '6',
@@ -90,7 +102,8 @@ const MaintenanceSchedule = () => {
       lastServiceDate: '',
       cost: 15000,
       priority: 'high',
-      category: 'Transmission'
+      category: 'Transmission',
+      isCompleted: false
     },
     {
       id: '7',
@@ -101,7 +114,8 @@ const MaintenanceSchedule = () => {
       lastServiceDate: '',
       cost: 4000,
       priority: 'medium',
-      category: 'Cooling'
+      category: 'Cooling',
+      isCompleted: false
     },
     {
       id: '8',
@@ -112,7 +126,8 @@ const MaintenanceSchedule = () => {
       lastServiceDate: '',
       cost: 6000,
       priority: 'medium',
-      category: 'Engine'
+      category: 'Engine',
+      isCompleted: false
     }
   ]);
 
@@ -152,6 +167,93 @@ const MaintenanceSchedule = () => {
     });
     
     return upcomingServices.reduce((total, item) => total + item.cost, 0);
+  };
+
+  const toggleServiceCompletion = (id: string) => {
+    setMaintenanceItems(items =>
+      items.map(item =>
+        item.id === id 
+          ? { 
+              ...item, 
+              isCompleted: !item.isCompleted,
+              lastServiceKm: !item.isCompleted ? currentKm : 0,
+              lastServiceDate: !item.isCompleted ? new Date().toISOString().split('T')[0] : ''
+            } 
+          : item
+      )
+    );
+  };
+
+  const sendEmailReport = async () => {
+    if (!email.trim()) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://tapmpahzwxsckbamdurms.supabase.co/functions/v1/send-maintenance-report`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          currentKm,
+          vehicleAge,
+          maintenanceItems,
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Report Sent",
+          description: "Maintenance report has been sent to your email.",
+        });
+        setIsEmailDialogOpen(false);
+        setEmail('');
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send maintenance report. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const downloadReport = () => {
+    const report = `
+VEHICLE MAINTENANCE REPORT
+Generated: ${new Date().toLocaleDateString()}
+Current Mileage: ${currentKm.toLocaleString()} KM
+Vehicle Age: ${vehicleAge} years
+
+MAINTENANCE STATUS:
+${maintenanceItems.map(item => {
+  const status = getServiceStatus(item);
+  return `${item.isCompleted ? '✅' : '❌'} ${item.service} - ${status.toUpperCase()}`;
+}).join('\n')}
+
+UPCOMING COSTS: KES ${calculateUpcomingCosts().toLocaleString()}
+
+For professional maintenance services in Kenya, visit GariMoto.co.ke
+    `;
+    
+    const blob = new Blob([report], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'maintenance-report.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const categories = [...new Set(maintenanceItems.map(item => item.category))];
@@ -259,18 +361,36 @@ const MaintenanceSchedule = () => {
                       const kmUntilService = item.intervalKm - kmSinceLastService;
                       
                       return (
-                        <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div key={item.id} className="flex items-center space-x-3 p-4 border rounded-lg">
+                          <Checkbox
+                            checked={item.isCompleted}
+                            onCheckedChange={() => toggleServiceCompletion(item.id)}
+                            id={`service-${item.id}`}
+                          />
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-2">
-                              <h4 className="font-semibold">{item.service}</h4>
-                              <Badge variant={getStatusColor(status)}>
-                                {getStatusIcon(status)}
-                                <span className="ml-1 capitalize">{status}</span>
-                              </Badge>
+                              <label htmlFor={`service-${item.id}`} className={`font-semibold cursor-pointer ${item.isCompleted ? 'line-through text-muted-foreground' : ''}`}>
+                                {item.service}
+                              </label>
+                              {!item.isCompleted && (
+                                <Badge variant={getStatusColor(status)}>
+                                  {getStatusIcon(status)}
+                                  <span className="ml-1 capitalize">{status}</span>
+                                </Badge>
+                              )}
+                              {item.isCompleted && (
+                                <Badge variant="outline" className="text-green-600 border-green-600">
+                                  <CheckCircle className="h-3 w-3 mr-1" />
+                                  Completed
+                                </Badge>
+                              )}
                             </div>
                             <div className="text-sm text-muted-foreground space-y-1">
                               <p>Every {item.intervalKm.toLocaleString()} km or {item.intervalMonths} months</p>
-                              {currentKm > 0 && (
+                              {item.isCompleted && item.lastServiceDate && (
+                                <p className="text-green-600">Last serviced: {item.lastServiceDate} at {item.lastServiceKm.toLocaleString()} km</p>
+                              )}
+                              {!item.isCompleted && currentKm > 0 && (
                                 <p>
                                   {status === 'overdue' 
                                     ? `Overdue by ${Math.abs(kmUntilService).toLocaleString()} km`
@@ -294,6 +414,48 @@ const MaintenanceSchedule = () => {
               </Card>
             );
           })}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+          <Button onClick={downloadReport} className="flex items-center gap-2 justify-center">
+            <Download className="h-4 w-4" />
+            Download Report
+          </Button>
+          
+          <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="flex items-center gap-2 justify-center">
+                <Mail className="h-4 w-4" />
+                Email Report
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Email Maintenance Report</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your.email@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setIsEmailDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={sendEmailReport}>
+                    Send Report
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
 
         {/* Maintenance Tips */}

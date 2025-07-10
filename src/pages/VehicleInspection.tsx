@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, AlertTriangle, Car, FileText, Download } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { CheckCircle, AlertTriangle, Car, FileText, Download, Edit3 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SEOPermalinks from "@/components/SEOPermalinks";
@@ -16,44 +19,47 @@ interface ChecklistItem {
   item: string;
   critical: boolean;
   checked: boolean;
-  repairCost: number; // Estimated repair cost in KES
+  repairCost: number; // User input repair cost in KES
   points: number; // Points for scoring system
+  comment: string; // User comments
 }
 
 const VehicleInspection = () => {
   const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([
     // Engine & Performance
-    { id: '1', category: 'Engine & Performance', item: 'Engine oil level and condition', critical: true, checked: false, repairCost: 5000, points: 10 },
-    { id: '2', category: 'Engine & Performance', item: 'Coolant level and leaks', critical: true, checked: false, repairCost: 8000, points: 10 },
-    { id: '3', category: 'Engine & Performance', item: 'Battery terminals and charge', critical: true, checked: false, repairCost: 12000, points: 10 },
-    { id: '4', category: 'Engine & Performance', item: 'Air filter condition', critical: false, checked: false, repairCost: 3000, points: 5 },
-    { id: '5', category: 'Engine & Performance', item: 'Belt tension and condition', critical: false, checked: false, repairCost: 6000, points: 5 },
+    { id: '1', category: 'Engine & Performance', item: 'Engine oil level and condition', critical: true, checked: false, repairCost: 0, points: 10, comment: '' },
+    { id: '2', category: 'Engine & Performance', item: 'Coolant level and leaks', critical: true, checked: false, repairCost: 0, points: 10, comment: '' },
+    { id: '3', category: 'Engine & Performance', item: 'Battery terminals and charge', critical: true, checked: false, repairCost: 0, points: 10, comment: '' },
+    { id: '4', category: 'Engine & Performance', item: 'Air filter condition', critical: false, checked: false, repairCost: 0, points: 5, comment: '' },
+    { id: '5', category: 'Engine & Performance', item: 'Belt tension and condition', critical: false, checked: false, repairCost: 0, points: 5, comment: '' },
     
     // Safety Systems
-    { id: '6', category: 'Safety Systems', item: 'Brake fluid level', critical: true, checked: false, repairCost: 4000, points: 15 },
-    { id: '7', category: 'Safety Systems', item: 'Brake pad thickness', critical: true, checked: false, repairCost: 25000, points: 15 },
-    { id: '8', category: 'Safety Systems', item: 'All lights functioning', critical: true, checked: false, repairCost: 8000, points: 10 },
-    { id: '9', category: 'Safety Systems', item: 'Horn working', critical: false, checked: false, repairCost: 2000, points: 3 },
-    { id: '10', category: 'Safety Systems', item: 'Seatbelts condition', critical: true, checked: false, repairCost: 15000, points: 12 },
+    { id: '6', category: 'Safety Systems', item: 'Brake fluid level', critical: true, checked: false, repairCost: 0, points: 15, comment: '' },
+    { id: '7', category: 'Safety Systems', item: 'Brake pad thickness', critical: true, checked: false, repairCost: 0, points: 15, comment: '' },
+    { id: '8', category: 'Safety Systems', item: 'All lights functioning', critical: true, checked: false, repairCost: 0, points: 10, comment: '' },
+    { id: '9', category: 'Safety Systems', item: 'Horn working', critical: false, checked: false, repairCost: 0, points: 3, comment: '' },
+    { id: '10', category: 'Safety Systems', item: 'Seatbelts condition', critical: true, checked: false, repairCost: 0, points: 12, comment: '' },
     
     // Tires & Wheels
-    { id: '11', category: 'Tires & Wheels', item: 'Tire tread depth (minimum 1.6mm)', critical: true, checked: false, repairCost: 40000, points: 15 },
-    { id: '12', category: 'Tires & Wheels', item: 'Tire pressure (including spare)', critical: true, checked: false, repairCost: 2000, points: 8 },
-    { id: '13', category: 'Tires & Wheels', item: 'Wheel alignment check', critical: false, checked: false, repairCost: 5000, points: 5 },
-    { id: '14', category: 'Tires & Wheels', item: 'Wheel balancing', critical: false, checked: false, repairCost: 4000, points: 4 },
+    { id: '11', category: 'Tires & Wheels', item: 'Tire tread depth (minimum 1.6mm)', critical: true, checked: false, repairCost: 0, points: 15, comment: '' },
+    { id: '12', category: 'Tires & Wheels', item: 'Tire pressure (including spare)', critical: true, checked: false, repairCost: 0, points: 8, comment: '' },
+    { id: '13', category: 'Tires & Wheels', item: 'Wheel alignment check', critical: false, checked: false, repairCost: 0, points: 5, comment: '' },
+    { id: '14', category: 'Tires & Wheels', item: 'Wheel balancing', critical: false, checked: false, repairCost: 0, points: 4, comment: '' },
     
     // Body & Interior
-    { id: '15', category: 'Body & Interior', item: 'Mirror adjustment and condition', critical: true, checked: false, repairCost: 10000, points: 8 },
-    { id: '16', category: 'Body & Interior', item: 'Windscreen cracks or chips', critical: true, checked: false, repairCost: 20000, points: 12 },
-    { id: '17', category: 'Body & Interior', item: 'Dashboard warning lights', critical: true, checked: false, repairCost: 15000, points: 10 },
-    { id: '18', category: 'Body & Interior', item: 'AC/Heating system', critical: false, checked: false, repairCost: 25000, points: 6 },
+    { id: '15', category: 'Body & Interior', item: 'Mirror adjustment and condition', critical: true, checked: false, repairCost: 0, points: 8, comment: '' },
+    { id: '16', category: 'Body & Interior', item: 'Windscreen cracks or chips', critical: true, checked: false, repairCost: 0, points: 12, comment: '' },
+    { id: '17', category: 'Body & Interior', item: 'Dashboard warning lights', critical: true, checked: false, repairCost: 0, points: 10, comment: '' },
+    { id: '18', category: 'Body & Interior', item: 'AC/Heating system', critical: false, checked: false, repairCost: 0, points: 6, comment: '' },
     
     // Documentation
-    { id: '19', category: 'Documentation', item: 'Valid insurance certificate', critical: true, checked: false, repairCost: 18000, points: 5 },
-    { id: '20', category: 'Documentation', item: 'Current inspection certificate', critical: true, checked: false, repairCost: 8000, points: 8 },
-    { id: '21', category: 'Documentation', item: 'Vehicle registration (logbook)', critical: true, checked: false, repairCost: 0, points: 10 },
-    { id: '22', category: 'Documentation', item: 'Driver\'s license', critical: true, checked: false, repairCost: 5000, points: 5 },
+    { id: '19', category: 'Documentation', item: 'Valid insurance certificate', critical: true, checked: false, repairCost: 0, points: 5, comment: '' },
+    { id: '20', category: 'Documentation', item: 'Current inspection certificate', critical: true, checked: false, repairCost: 0, points: 8, comment: '' },
+    { id: '21', category: 'Documentation', item: 'Vehicle registration (logbook)', critical: true, checked: false, repairCost: 0, points: 10, comment: '' },
+    { id: '22', category: 'Documentation', item: 'Driver\'s license', critical: true, checked: false, repairCost: 0, points: 5, comment: '' },
   ]);
+
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
   const toggleItem = (id: string) => {
     setChecklistItems(items =>
@@ -61,6 +67,34 @@ const VehicleInspection = () => {
         item.id === id ? { ...item, checked: !item.checked } : item
       )
     );
+  };
+
+  const updateRepairCost = (id: string, cost: number) => {
+    setChecklistItems(items =>
+      items.map(item =>
+        item.id === id ? { ...item, repairCost: cost } : item
+      )
+    );
+  };
+
+  const updateComment = (id: string, comment: string) => {
+    setChecklistItems(items =>
+      items.map(item =>
+        item.id === id ? { ...item, comment } : item
+      )
+    );
+  };
+
+  const toggleExpanded = (id: string) => {
+    setExpandedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
   };
 
   const categories = [...new Set(checklistItems.map(item => item.category))];
@@ -198,54 +232,56 @@ For professional vehicle inspection services in Kenya, visit GariMoto.co.ke
           </CardContent>
         </Card>
 
-        {/* Scoring & Recommendation */}
-        <div className="grid lg:grid-cols-2 gap-6 mb-6">
-          <Card className={`${recommendation.bgColor} border-2`}>
-            <CardHeader>
-              <CardTitle className={`${recommendation.color} text-xl`}>
-                Purchase Recommendation: {recommendation.status}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className={`${recommendation.color} mb-4`}>{recommendation.message}</p>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="font-medium">Vehicle Score:</span>
-                  <span className="font-bold">{scorePercentage.toFixed(1)}%</span>
+        {/* Scoring & Recommendation - Only show after completion */}
+        {checkedItems === totalItems && (
+          <div className="grid lg:grid-cols-2 gap-6 mb-6">
+            <Card className={`${recommendation.bgColor} border-2`}>
+              <CardHeader>
+                <CardTitle className={`${recommendation.color} text-xl`}>
+                  Purchase Recommendation: {recommendation.status}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className={`${recommendation.color} mb-4`}>{recommendation.message}</p>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="font-medium">Vehicle Score:</span>
+                    <span className="font-bold">{scorePercentage.toFixed(1)}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Critical Issues:</span>
+                    <span className="font-bold">{criticalItems.length - checkedCriticalItems}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="font-medium">Critical Issues:</span>
-                  <span className="font-bold">{criticalItems.length - checkedCriticalItems}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-red-50 border-red-200">
-            <CardHeader>
-              <CardTitle className="text-red-800">Estimated Repair Costs</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center mb-4">
-                <div className="text-3xl font-bold text-red-600">
-                  KES {totalRepairCost.toLocaleString()}
+            <Card className="bg-red-50 border-red-200">
+              <CardHeader>
+                <CardTitle className="text-red-800">Estimated Repair Costs</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center mb-4">
+                  <div className="text-3xl font-bold text-red-600">
+                    KES {totalRepairCost.toLocaleString()}
+                  </div>
+                  <div className="text-sm text-red-600">Total for all failed items</div>
                 </div>
-                <div className="text-sm text-red-600">Total for all failed items</div>
-              </div>
-              {failedItems.length > 0 && (
-                <div className="space-y-2 max-h-32 overflow-y-auto">
-                  <h4 className="font-semibold text-sm text-red-800 mb-2">Items needing repair:</h4>
-                  {failedItems.map(item => (
-                    <div key={item.id} className="flex justify-between text-xs">
-                      <span className="truncate mr-2">{item.item}</span>
-                      <span className="font-semibold">KES {item.repairCost.toLocaleString()}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+                {failedItems.length > 0 && (
+                  <div className="space-y-2 max-h-32 overflow-y-auto">
+                    <h4 className="font-semibold text-sm text-red-800 mb-2">Items needing repair:</h4>
+                    {failedItems.map(item => (
+                      <div key={item.id} className="flex justify-between text-xs">
+                        <span className="truncate mr-2">{item.item}</span>
+                        <span className="font-semibold">KES {item.repairCost.toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {/* Checklist by Category */}
         <div className="space-y-6">
@@ -267,38 +303,83 @@ For professional vehicle inspection services in Kenya, visit GariMoto.co.ke
                 <CardContent>
                   <div className="space-y-3">
                     {categoryItems.map(item => (
-                      <div key={item.id} className="flex items-start space-x-3 py-2">
-                        <Checkbox
-                          checked={item.checked}
-                          onCheckedChange={() => toggleItem(item.id)}
-                          id={item.id}
-                          className="mt-1"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <label
-                            htmlFor={item.id}
-                            className={`block cursor-pointer text-sm sm:text-base ${item.checked ? 'line-through text-muted-foreground' : ''}`}
-                          >
-                            {item.item}
-                          </label>
-                          {!item.checked && item.repairCost > 0 && (
-                            <p className="text-xs text-red-600 mt-1">
-                              Repair cost: KES {item.repairCost.toLocaleString()}
-                            </p>
-                          )}
+                      <div key={item.id} className="border rounded-lg p-3">
+                        <div className="flex items-start space-x-3">
+                          <Checkbox
+                            checked={item.checked}
+                            onCheckedChange={() => toggleItem(item.id)}
+                            id={item.id}
+                            className="mt-1"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <label
+                              htmlFor={item.id}
+                              className={`block cursor-pointer text-sm sm:text-base ${item.checked ? 'line-through text-muted-foreground' : ''}`}
+                            >
+                              {item.item}
+                            </label>
+                            {item.comment && (
+                              <p className="text-xs text-blue-600 mt-1 italic">
+                                Note: {item.comment}
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            {!item.checked && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => toggleExpanded(item.id)}
+                                className="h-8 px-2"
+                              >
+                                <Edit3 className="h-3 w-3" />
+                              </Button>
+                            )}
+                            {item.critical && (
+                              <Badge variant="destructive" className="text-xs">
+                                <AlertTriangle className="h-3 w-3 mr-1" />
+                                <span className="hidden sm:inline">Critical</span>
+                                <span className="sm:hidden">!</span>
+                              </Badge>
+                            )}
+                            {item.checked && (
+                              <CheckCircle className="h-4 w-4 text-green-500" />
+                            )}
+                          </div>
                         </div>
-                        <div className="flex flex-col items-end space-y-1">
-                          {item.critical && (
-                            <Badge variant="destructive" className="text-xs">
-                              <AlertTriangle className="h-3 w-3 mr-1" />
-                              <span className="hidden sm:inline">Critical</span>
-                              <span className="sm:hidden">!</span>
-                            </Badge>
-                          )}
-                          {item.checked && (
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                          )}
-                        </div>
+                        
+                        {/* Expandable section for repair cost and comments */}
+                        {expandedItems.has(item.id) && !item.checked && (
+                          <div className="mt-3 pt-3 border-t space-y-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              <div className="space-y-2">
+                                <Label htmlFor={`cost-${item.id}`} className="text-xs font-medium">
+                                  Repair Cost (KES)
+                                </Label>
+                                <Input
+                                  id={`cost-${item.id}`}
+                                  type="number"
+                                  placeholder="0"
+                                  value={item.repairCost || ''}
+                                  onChange={(e) => updateRepairCost(item.id, Number(e.target.value) || 0)}
+                                  className="h-8 text-sm"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor={`comment-${item.id}`} className="text-xs font-medium">
+                                  Comments
+                                </Label>
+                                <Textarea
+                                  id={`comment-${item.id}`}
+                                  placeholder="Add your observations..."
+                                  value={item.comment}
+                                  onChange={(e) => updateComment(item.id, e.target.value)}
+                                  className="h-16 text-sm resize-none"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
