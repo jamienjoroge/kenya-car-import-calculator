@@ -33,86 +33,89 @@ const MaintenanceSchedule = () => {
   const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
   const { toast } = useToast();
   const [maintenanceItems, setMaintenanceItems] = useState<MaintenanceItem[]>([
+    // High Priority - Kenya Climate Focused
     {
       id: '1',
-      service: 'Engine Oil Change',
+      service: 'Engine Oil & Filter Change',
       intervalKm: 5000,
-      intervalMonths: 6,
+      intervalMonths: 4,
       lastServiceKm: 0,
       lastServiceDate: '',
-      cost: 3500,
+      cost: 4500,
       priority: 'high',
       category: 'Engine',
       isCompleted: false
     },
     {
       id: '2',
-      service: 'Oil Filter Replacement',
-      intervalKm: 5000,
-      intervalMonths: 6,
+      service: 'Air Filter Replacement (Dust Protection)',
+      intervalKm: 8000,
+      intervalMonths: 8,
       lastServiceKm: 0,
       lastServiceDate: '',
-      cost: 1500,
+      cost: 2500,
       priority: 'high',
       category: 'Engine',
       isCompleted: false
     },
     {
       id: '3',
-      service: 'Air Filter Replacement',
-      intervalKm: 10000,
-      intervalMonths: 12,
+      service: 'Brake System Inspection & Service',
+      intervalKm: 12000,
+      intervalMonths: 10,
       lastServiceKm: 0,
       lastServiceDate: '',
-      cost: 2000,
-      priority: 'medium',
-      category: 'Engine',
-      isCompleted: false
-    },
-    {
-      id: '4',
-      service: 'Brake Pads Inspection',
-      intervalKm: 15000,
-      intervalMonths: 12,
-      lastServiceKm: 0,
-      lastServiceDate: '',
-      cost: 8000,
+      cost: 8500,
       priority: 'high',
       category: 'Safety',
       isCompleted: false
     },
     {
-      id: '5',
-      service: 'Tire Rotation',
+      id: '4',
+      service: 'Tire Rotation & Pressure Check',
       intervalKm: 8000,
       intervalMonths: 6,
       lastServiceKm: 0,
       lastServiceDate: '',
       cost: 2000,
-      priority: 'medium',
+      priority: 'high',
       category: 'Tires',
       isCompleted: false
     },
     {
-      id: '6',
-      service: 'Transmission Service',
-      intervalKm: 40000,
-      intervalMonths: 24,
+      id: '5',
+      service: 'AC System Service (Essential for Kenya)',
+      intervalKm: 15000,
+      intervalMonths: 12,
       lastServiceKm: 0,
       lastServiceDate: '',
-      cost: 15000,
+      cost: 6000,
       priority: 'high',
-      category: 'Transmission',
+      category: 'Comfort',
+      isCompleted: false
+    },
+    
+    // Medium Priority - Performance & Reliability
+    {
+      id: '6',
+      service: 'Battery & Charging System Check',
+      intervalKm: 10000,
+      intervalMonths: 8,
+      lastServiceKm: 0,
+      lastServiceDate: '',
+      cost: 3000,
+      priority: 'medium',
+      category: 'Electrical',
       isCompleted: false
     },
     {
       id: '7',
-      service: 'Coolant System Flush',
-      intervalKm: 30000,
-      intervalMonths: 24,
+      service: 'Coolant System Service',
+      intervalKm: 20000,
+      intervalMonths: 18,
       lastServiceKm: 0,
       lastServiceDate: '',
-      cost: 4000,
+      cost: 5000,
       priority: 'medium',
       category: 'Cooling',
       isCompleted: false
@@ -120,13 +123,75 @@ const MaintenanceSchedule = () => {
     {
       id: '8',
       service: 'Spark Plugs Replacement',
-      intervalKm: 20000,
-      intervalMonths: 18,
+      intervalKm: 15000,
+      intervalMonths: 15,
       lastServiceKm: 0,
       lastServiceDate: '',
-      cost: 6000,
+      cost: 7000,
       priority: 'medium',
       category: 'Engine',
+      isCompleted: false
+    },
+    {
+      id: '9',
+      service: 'Wheel Alignment & Balancing',
+      intervalKm: 12000,
+      intervalMonths: 12,
+      lastServiceKm: 0,
+      lastServiceDate: '',
+      cost: 4000,
+      priority: 'medium',
+      category: 'Tires',
+      isCompleted: false
+    },
+    {
+      id: '10',
+      service: 'Suspension System Check',
+      intervalKm: 25000,
+      intervalMonths: 20,
+      lastServiceKm: 0,
+      lastServiceDate: '',
+      cost: 12000,
+      priority: 'medium',
+      category: 'Suspension',
+      isCompleted: false
+    },
+    
+    // Long Term - Major Services
+    {
+      id: '11',
+      service: 'Transmission Service',
+      intervalKm: 40000,
+      intervalMonths: 30,
+      lastServiceKm: 0,
+      lastServiceDate: '',
+      cost: 18000,
+      priority: 'high',
+      category: 'Transmission',
+      isCompleted: false
+    },
+    {
+      id: '12',
+      service: 'Timing Belt Replacement',
+      intervalKm: 60000,
+      intervalMonths: 48,
+      lastServiceKm: 0,
+      lastServiceDate: '',
+      cost: 25000,
+      priority: 'high',
+      category: 'Engine',
+      isCompleted: false
+    },
+    {
+      id: '13',
+      service: 'Comprehensive Vehicle Inspection',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      lastServiceKm: 0,
+      lastServiceDate: '',
+      cost: 5000,
+      priority: 'medium',
+      category: 'General',
       isCompleted: false
     }
   ]);
@@ -458,20 +523,78 @@ For professional maintenance services in Kenya, visit GariMoto.co.ke
           </Dialog>
         </div>
 
-        {/* Maintenance Tips */}
-        <Card className="mt-6 bg-blue-50 border-blue-200">
+        {/* Enhanced Kenya-Specific Tips */}
+        <div className="grid md:grid-cols-2 gap-6 mt-6">
+          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+            <CardHeader>
+              <CardTitle className="text-blue-800 flex items-center gap-2">
+                🇰🇪 Kenya Driving Conditions Tips
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-blue-700">
+              <ul className="space-y-2 text-sm">
+                <li>• <strong>Dusty Roads:</strong> Change air filter every 8,000km (not 15,000km)</li>
+                <li>• <strong>Hot Climate:</strong> AC service essential - don't skip it</li>
+                <li>• <strong>Poor Roads:</strong> Check suspension and alignment frequently</li>
+                <li>• <strong>Stop-Start Traffic:</strong> More frequent brake inspections in Nairobi</li>
+                <li>• <strong>Fuel Quality:</strong> Use fuel system cleaners occasionally</li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+            <CardHeader>
+              <CardTitle className="text-green-800 flex items-center gap-2">
+                💰 Money-Saving Tips
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-green-700">
+              <ul className="space-y-2 text-sm">
+                <li>• <strong>Bulk Service:</strong> Do multiple services together for discounts</li>
+                <li>• <strong>Compare Prices:</strong> Industrial Area often 30% cheaper than town</li>
+                <li>• <strong>Genuine Parts:</strong> Worth the extra cost for critical components</li>
+                <li>• <strong>Service Records:</strong> Increases resale value by 10-15%</li>
+                <li>• <strong>Early Maintenance:</strong> Prevents expensive major repairs</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Popular Service Providers in Kenya */}
+        <Card className="mt-6 bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
           <CardHeader>
-            <CardTitle className="text-blue-800">💡 Maintenance Tips for Kenya</CardTitle>
+            <CardTitle className="text-orange-800">🔧 Popular Service Centers in Kenya</CardTitle>
           </CardHeader>
-          <CardContent className="text-blue-700">
-            <ul className="space-y-2 text-sm">
-              <li>• Change oil more frequently if driving in dusty conditions (common in Kenya)</li>
-              <li>• Check tire pressure weekly due to varying road conditions</li>
-              <li>• Service air conditioning regularly due to hot climate</li>
-              <li>• Inspect brakes more often if driving in hilly areas like Nairobi</li>
-              <li>• Use quality spare parts from authorized dealers</li>
-              <li>• Keep maintenance records for warranty and resale value</li>
-            </ul>
+          <CardContent>
+            <div className="grid md:grid-cols-3 gap-4 text-sm">
+              <div>
+                <h4 className="font-semibold text-orange-800 mb-2">Authorized Dealers</h4>
+                <ul className="space-y-1 text-orange-700">
+                  <li>• Toyota Kenya (Mombasa Rd)</li>
+                  <li>• General Motors (Nairobi)</li>
+                  <li>• Associated Vehicle Assemblers</li>
+                  <li>• DT Dobie (Multiple brands)</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-orange-800 mb-2">Independent Garages</h4>
+                <ul className="space-y-1 text-orange-700">
+                  <li>• Industrial Area (Cheapest)</li>
+                  <li>• River Road garages</li>
+                  <li>• Ngara automotive shops</li>
+                  <li>• Local neighborhood garages</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-orange-800 mb-2">Quick Service</h4>
+                <ul className="space-y-1 text-orange-700">
+                  <li>• Oil change centers</li>
+                  <li>• Total/Shell service stations</li>
+                  <li>• Mobile mechanic services</li>
+                  <li>• Online booking platforms</li>
+                </ul>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
