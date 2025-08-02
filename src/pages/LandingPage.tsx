@@ -16,7 +16,7 @@ const LandingPage = () => {
         title="Kenya Import Duty Calculator 2025 – CRSP Rates & Car Import Costs"
         description="Calculate Kenya car import duty instantly using official KRA CRSP values. Get updated 2025 rates for any make or model and estimate your total landing cost today."
         keywords="Kenya import duty calculator, KRA CRSP rates 2025, car import costs Kenya, vehicle import tax calculator, Kenya customs duty, import duty rates"
-        canonicalUrl="https://garimoto.co.ke/landing"
+        canonicalUrl="https://garimoto.co.ke/"
       />
       
       <Navigation />
@@ -47,7 +47,7 @@ const LandingPage = () => {
           </div>
 
           <Button size="lg" className="text-lg px-8 py-6" asChild>
-            <Link to="/">
+            <Link to="/calculator">
               🔹 Calculate Your Duty Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
@@ -219,7 +219,7 @@ const LandingPage = () => {
               Stop guessing your import costs – get an accurate estimate in seconds.
             </p>
             <Button size="lg" className="text-lg px-8 py-6" asChild>
-              <Link to="/">
+              <Link to="/calculator">
                 🔹 Launch Import Duty Calculator
                 <Calculator className="ml-2 h-5 w-5" />
               </Link>
