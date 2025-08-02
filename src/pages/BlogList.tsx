@@ -30,6 +30,20 @@ const BlogList = () => {
   // Static blog posts that are built-in
   const staticBlogPosts: BlogPost[] = [
       {
+        id: "compare-car-import-costs",
+        slug: "compare-car-import-costs", 
+        title: "Compare Car Import Costs Kenya 2025: Save Thousands on Your Vehicle Import",
+        description: "Use GariMoto's Compare Cars tool to compare import duties between different vehicles. Make informed decisions and save thousands on your car import to Kenya.",
+        readTime: "7 min read",
+        date: "January 2, 2025",
+        excerpt: "Learn how to use our Compare Cars tool to make informed decisions and potentially save 20-40% on your vehicle import costs to Kenya.",
+        breaking: false,
+        category: "Vehicle Tools", 
+        tags: ["Compare Cars", "Import Costs", "Vehicle Tools", "Money Saving"],
+        author: "GariMoto Editorial",
+        isStatic: true
+      },
+      {
         id: "ciak-vs-kra-lawsuit-2025",
         slug: "ciak-vs-kra-lawsuit-2025",
         title: "BREAKING: Car Dealers Sue KRA Over New CRSP Schedule 2025",
