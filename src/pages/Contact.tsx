@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Mail, MessageSquare, HelpCircle, Bug, Phone, MapPin, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
-import { SEOPermalinks } from "@/components/SEOPermalinks";
+import SEOPermalinks from "@/components/SEOPermalinks";
 import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {

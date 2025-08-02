@@ -1,9 +1,8 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calculator, Users, Target, Award, Shield, CheckCircle, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
-import { SEOPermalinks } from "@/components/SEOPermalinks";
+import SEOPermalinks from "@/components/SEOPermalinks";
 
 const About = () => {
   return (
