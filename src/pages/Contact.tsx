@@ -65,7 +65,7 @@ const Contact = () => {
       <SEOPermalinks 
         title="Contact Garimoto.co.ke - Support & Inquiries | Kenya Car Import Calculator"
         description="Get support for Garimoto.co.ke car import calculator. Contact us for technical help, CRSP data questions, or business inquiries. Fast response guaranteed."
-        canonical="https://garimoto.co.ke/contact"
+        canonicalUrl="https://garimoto.co.ke/contact"
       />
       
       <div className="container mx-auto px-4 py-8 max-w-6xl">

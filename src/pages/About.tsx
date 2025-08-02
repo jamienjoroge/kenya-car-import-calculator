@@ -10,7 +10,7 @@ const About = () => {
       <SEOPermalinks 
         title="About Garimoto.co.ke - Kenya's #1 Car Import Duty Calculator | KRA CRSP 2025"
         description="Learn about Garimoto.co.ke, Kenya's most trusted car import duty calculator. We provide accurate KRA-compliant calculations with the latest CRSP rates for 2025."
-        canonical="https://garimoto.co.ke/about"
+        canonicalUrl="https://garimoto.co.ke/about"
       />
       
       <div className="container mx-auto px-4 py-8 max-w-4xl">
