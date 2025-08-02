@@ -1,29 +1,59 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main Pages -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Main Pages - High Priority -->
   <url>
     <loc>https://garimoto.co.ke/</loc>
     <lastmod>2025-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://garimoto.co.ke/lovable-uploads/899d1529-b7aa-4c00-813d-01f1976ff0e6.png</image:loc>
+      <image:title>GariMoto Kenya Car Import Duty Calculator</image:title>
+      <image:caption>FREE calculator for Kenya car import duties using official KRA CRSP rates 2025</image:caption>
+    </image:image>
   </url>
+  
+  <!-- Calculator Tools -->
   <url>
     <loc>https://garimoto.co.ke/compare</loc>
     <lastmod>2025-01-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/afford</loc>
     <lastmod>2025-01-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://garimoto.co.ke/popular</loc>
     <lastmod>2025-01-05</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Vehicle Tools -->
+  <url>
+    <loc>https://garimoto.co.ke/vehicle-inspection</loc>
+    <lastmod>2025-01-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://garimoto.co.ke/maintenance-schedule</loc>
+    <lastmod>2025-01-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://garimoto.co.ke/fuel-calculator</loc>
+    <lastmod>2025-01-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   
   <!-- Blog Section -->
@@ -34,7 +64,7 @@
     <priority>0.9</priority>
   </url>
   
-  <!-- Static Blog Posts with SEO-optimized URLs -->
+  <!-- Breaking News - Highest Priority Blog Posts -->
   <url>
     <loc>https://garimoto.co.ke/blog/crsp-schedule-halted-by-court-2025</loc>
     <lastmod>2025-01-05</lastmod>
@@ -47,6 +77,8 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  
+  <!-- Popular Blog Posts -->
   <url>
     <loc>https://garimoto.co.ke/blog/toyota-prius-import-cost-kenya</loc>
     <lastmod>2024-12-20</lastmod>
@@ -101,7 +133,7 @@
     <loc>https://garimoto.co.ke/sitemap</loc>
     <lastmod>2025-01-05</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.5</priority>
   </url>
   
   <!-- Legal Pages -->
@@ -117,4 +149,5 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  
 </urlset>

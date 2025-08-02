@@ -1,4 +1,7 @@
 
+# Robots.txt for GariMoto.co.ke - Kenya Car Import Calculator
+# Optimized for better search engine crawling
+
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
@@ -13,24 +16,46 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: WhatsApp
+Allow: /
+
 User-agent: *
 Allow: /
-Crawl-delay: 3
+Crawl-delay: 2
 
-# Explicitly allow important directories
+# Explicitly allow important directories for better indexing
 Allow: /blog/
 Allow: /compare
 Allow: /afford
 Allow: /popular
 Allow: /about
 Allow: /contact
+Allow: /vehicle-inspection
+Allow: /maintenance-schedule
+Allow: /fuel-calculator
+Allow: /sitemap
 
-# Disallow admin areas
+# Disallow admin areas and non-public pages
 Disallow: /admin
+Disallow: /_*
+Disallow: /api/
 
-# Sitemaps - Google Search Console will find these
+# Sitemaps for Google Search Console
 Sitemap: https://garimoto.co.ke/sitemap.xml
 Sitemap: https://garimoto.co.ke/news-sitemap.xml
 
-# Host declaration for clarity
-Host: garimoto.co.ke
+# Host declaration for search engines
+Host: https://garimoto.co.ke
+
+# Additional directives for better SEO
+# Allow all image formats
+Allow: *.jpg
+Allow: *.jpeg  
+Allow: *.png
+Allow: *.gif
+Allow: *.svg
+Allow: *.webp
+
+# Allow CSS and JS files
+Allow: *.css
+Allow: *.js
