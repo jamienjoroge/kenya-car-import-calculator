@@ -1,9 +1,10 @@
+
 import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
-import Home from "./pages/Home";
-import Calculator from "./pages/Calculator";
+import LandingPage from "./pages/LandingPage";
+import Index from "./pages/Index";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
@@ -21,8 +22,8 @@ function App() {
       <Toaster />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/calculator" element={<Calculator />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/calculator" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
