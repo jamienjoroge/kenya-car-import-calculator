@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import SEOPermalinks from "@/components/SEOPermalinks";
 
 interface YearStats {
   year: number;
@@ -111,6 +112,11 @@ const PopularCarsByYear = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
+      <SEOPermalinks 
+        title="Popular Cars by Year Kenya | Vehicle Market Trends | CRSP Data | GariMoto"
+        description="Discover popular car models and trends by year in Kenya. Market insights, average prices, and vehicle statistics based on official CRSP data."
+        keywords="popular cars Kenya, vehicle market trends, Kenya car statistics, CRSP data analysis, automotive market Kenya"
+      />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <Button variant="outline" asChild className="mb-4">

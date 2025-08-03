@@ -8,6 +8,7 @@ import { useDutyCalculation } from "@/hooks/useDutyCalculation";
 import { calculateDuties } from "@/lib/calculation";
 import { VehicleSelector } from "@/components/VehicleSelector";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import SEOPermalinks from "@/components/SEOPermalinks";
 
 const CompareCars = () => {
   const defaultYear = (new Date().getFullYear() - 8).toString();
@@ -45,6 +46,11 @@ const CompareCars = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
+      <SEOPermalinks 
+        title="Compare Car Import Costs Kenya 2025 | Vehicle Duty Calculator | GariMoto"
+        description="Compare import duties and costs between different vehicles in Kenya. Side-by-side comparison tool to make informed car import decisions. Save thousands on your purchase."
+        keywords="compare car import costs Kenya, vehicle duty comparison, car import calculator, vehicle import cost comparison, Kenya car duties"
+      />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <Button variant="outline" asChild className="mb-4">

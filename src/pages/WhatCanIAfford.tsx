@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { calculateDuties } from "@/lib/calculation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import SEOPermalinks from "@/components/SEOPermalinks";
 
 interface AffordableVehicle {
   make_name: string;
@@ -108,6 +109,11 @@ const WhatCanIAfford = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
+      <SEOPermalinks 
+        title="What Car Can I Afford? Budget Calculator Kenya | Vehicle Finder | GariMoto"
+        description="Find vehicles within your budget in Kenya. Calculate total cost including import duties and find affordable cars. Smart vehicle finder for budget-conscious buyers."
+        keywords="what car can I afford Kenya, vehicle budget calculator, affordable cars Kenya, car financing calculator, vehicle finder by budget"
+      />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <Button variant="outline" asChild className="mb-4">

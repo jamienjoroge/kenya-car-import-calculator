@@ -29,6 +29,51 @@ const Blog = () => {
 
   const staticBlogPosts = [
     {
+      id: "fuel-calculator-guide",
+      title: "Free Fuel Calculator Kenya 2025: Track Your Car's Consumption & Trip Costs",
+      description: "Calculate your vehicle's fuel consumption and plan trip costs in Kenya. Free fuel efficiency calculator with real Kenya fuel prices.",
+      readTime: "8 min read",
+      date: "August 3, 2025",
+      excerpt: "Master your vehicle's fuel consumption with our comprehensive guide to calculating efficiency and planning trip costs on Kenyan roads.",
+      breaking: false
+    },
+    {
+      id: "vehicle-maintenance-guide", 
+      title: "Vehicle Maintenance Schedule Kenya 2025: Complete Service Tracker Guide",
+      description: "Master your car maintenance with our comprehensive guide for Kenya. Track service schedules and keep your vehicle roadworthy.",
+      readTime: "9 min read",
+      date: "August 3, 2025",
+      excerpt: "Never miss another service with our maintenance tracker designed specifically for Kenya's driving conditions.",
+      breaking: false
+    },
+    {
+      id: "vehicle-inspection-guide",
+      title: "Free Vehicle Inspection Checklist Kenya 2025: Professional Roadworthy Guide", 
+      description: "Comprehensive vehicle inspection checklist for Kenya. Ensure your car is roadworthy with our professional-grade safety checklist.",
+      readTime: "10 min read",
+      date: "August 3, 2025",
+      excerpt: "Master vehicle inspection with our comprehensive checklist designed for Kenya's road conditions.",
+      breaking: false
+    },
+    {
+      id: "budget-car-finder-guide",
+      title: "What Car Can I Afford in Kenya 2025? Budget Calculator & Vehicle Finder Guide",
+      description: "Find cars within your budget in Kenya with our complete guide. Calculate total ownership costs and make smart decisions.",
+      readTime: "8 min read", 
+      date: "August 3, 2025",
+      excerpt: "Discover which vehicles fit your budget with our comprehensive guide to car affordability in Kenya.",
+      breaking: false
+    },
+    {
+      id: "popular-cars-analysis-guide",
+      title: "Popular Cars by Year Kenya 2025: Market Trends & CRSP Data Analysis",
+      description: "Discover the most popular car models in Kenya by year with comprehensive market analysis and vehicle trends.",
+      readTime: "7 min read",
+      date: "August 3, 2025", 
+      excerpt: "Make informed car purchase decisions with comprehensive market insights based on official CRSP data.",
+      breaking: false
+    },
+    {
       id: "compare-car-import-costs",
       title: "Compare Car Import Costs Kenya 2025: Save Thousands on Your Vehicle Import",
       description: "Use GariMoto's Compare Cars tool to compare import duties between different vehicles. Make informed decisions and save thousands on your car import to Kenya.",
