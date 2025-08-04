@@ -29,6 +29,15 @@ const Blog = () => {
 
   const staticBlogPosts = [
     {
+      id: "crsp-schedule-halted-by-court-2025",
+      title: "BREAKING: Court Halts KRA's New CRSP Schedule Implementation",
+      description: "High Court issues temporary injunction following CIAK lawsuit, providing relief to car importers as legal battle continues over controversial duty increases.",
+      readTime: "6 min read",
+      date: "August 4, 2025",
+      excerpt: "High Court temporarily suspends KRA's new CRSP schedule implementation, providing immediate relief to vehicle importers across Kenya.",
+      breaking: true
+    },
+    {
       id: "fuel-calculator-guide",
       title: "Free Fuel Calculator Kenya 2025: Track Your Car's Consumption & Trip Costs",
       description: "Calculate your vehicle's fuel consumption and plan trip costs in Kenya. Free fuel efficiency calculator with real Kenya fuel prices.",
