@@ -7,6 +7,8 @@ import { ArrowLeft, Clock, ArrowRight } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AdSpace from "@/components/AdSpace";
+import NewsletterSignup from "@/components/NewsletterSignup";
+import BreadcrumbNav from "@/components/BreadcrumbNav";
 
 interface BlogPost {
   id: string;
@@ -28,6 +30,24 @@ const Blog = () => {
   }, []);
 
   const staticBlogPosts = [
+    {
+      id: "kenya-car-import-process-2025",
+      title: "Kenya Car Import Process 2025: Complete Step-by-Step Guide",
+      description: "Complete guide to importing cars to Kenya in 2025. Learn the 6-step process, required documents, costs, and avoid common mistakes",
+      readTime: "15 min read",
+      date: "August 4, 2025",
+      excerpt: "Everything you need to know about importing a car to Kenya in 2025, from choosing your vehicle to final registration. Updated with latest KRA regulations and court ruling impacts.",
+      breaking: false
+    },
+    {
+      id: "best-cars-import-kenya-1-million",
+      title: "Best Cars to Import to Kenya Under KES 1 Million (2025)",
+      description: "Discover the top 6 cars to import to Kenya under KES 1 million in 2025. Complete cost breakdown, fuel economy, reliability ratings included",
+      readTime: "12 min read",
+      date: "August 4, 2025",
+      excerpt: "Budget-friendly car import guide featuring Toyota Vitz, Honda Fit, Nissan Note and more. Complete cost analysis and money-saving tips for importers on a tight budget.",
+      breaking: false
+    },
     {
       id: "crsp-schedule-halted-by-court-2025",
       title: "BREAKING: Court Halts KRA's New CRSP Schedule Implementation",
@@ -156,6 +176,7 @@ const Blog = () => {
   return (
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
       <Navigation />
+      <BreadcrumbNav />
       
       {/* Header Ad */}
       <div className="w-full py-2 bg-white border-b">
@@ -222,6 +243,11 @@ const Blog = () => {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Newsletter Signup */}
+        <div className="my-8">
+          <NewsletterSignup />
         </div>
 
         {/* Mid-content Ad */}

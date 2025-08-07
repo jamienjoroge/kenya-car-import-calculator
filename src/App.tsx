@@ -26,6 +26,8 @@ import VehicleInspectionGuide from "./pages/blog/VehicleInspectionGuide";
 import BudgetCarFinderGuide from "./pages/blog/BudgetCarFinderGuide";
 import PopularCarsAnalysisGuide from "./pages/blog/PopularCarsAnalysisGuide";
 import CRSPScheduleHaltedByCourt2025 from "./pages/blog/CRSPScheduleHaltedByCourt2025";
+import KenyaCarImportProcess2025 from "./pages/blog/KenyaCarImportProcess2025";
+import BestCarsImportKenya1Million from "./pages/blog/BestCarsImportKenya1Million";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +60,8 @@ function App() {
           <Route path="/blog/budget-car-finder-guide" element={<BudgetCarFinderGuide />} />
           <Route path="/blog/popular-cars-analysis-guide" element={<PopularCarsAnalysisGuide />} />
           <Route path="/blog/crsp-schedule-halted-by-court-2025" element={<CRSPScheduleHaltedByCourt2025 />} />
+          <Route path="/blog/kenya-car-import-process-2025" element={<KenyaCarImportProcess2025 />} />
+          <Route path="/blog/best-cars-import-kenya-1-million" element={<BestCarsImportKenya1Million />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
