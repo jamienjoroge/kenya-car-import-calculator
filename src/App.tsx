@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
 import LandingPage from "./pages/LandingPage";
 import Index from "./pages/Index";
 import Blog from "./pages/Blog";
@@ -28,14 +29,17 @@ import PopularCarsAnalysisGuide from "./pages/blog/PopularCarsAnalysisGuide";
 import CRSPScheduleHaltedByCourt2025 from "./pages/blog/CRSPScheduleHaltedByCourt2025";
 import KenyaCarImportProcess2025 from "./pages/blog/KenyaCarImportProcess2025";
 import BestCarsImportKenya1Million from "./pages/blog/BestCarsImportKenya1Million";
+import AugustCRSPCourtRulingImpact from "./pages/blog/AugustCRSPCourtRulingImpact";
+import KRACRSPChaosImportNow from "./pages/blog/KRACRSPChaosImportNow";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Toaster />
-      <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <Toaster />
+        <ExitIntentPopup />
+        <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/calculator" element={<Index />} />
@@ -62,6 +66,8 @@ function App() {
           <Route path="/blog/crsp-schedule-halted-by-court-2025" element={<CRSPScheduleHaltedByCourt2025 />} />
           <Route path="/blog/kenya-car-import-process-2025" element={<KenyaCarImportProcess2025 />} />
           <Route path="/blog/best-cars-import-kenya-1-million" element={<BestCarsImportKenya1Million />} />
+          <Route path="/blog/august-crsp-court-ruling-impact" element={<AugustCRSPCourtRulingImpact />} />
+          <Route path="/blog/kra-crsp-chaos-import-now" element={<KRACRSPChaosImportNow />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

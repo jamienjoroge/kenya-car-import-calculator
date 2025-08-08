@@ -7,6 +7,7 @@ import SEOContent from "@/components/SEOContent";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SEOPermalinks from "@/components/SEOPermalinks";
+import RecentCalculations from "@/components/RecentCalculations";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -46,9 +47,12 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Enhanced Sidebar with Better Internal Linking */}
+            {/* Enhanced Sidebar with Better Internal Linking */}
           <div className="lg:col-span-1 order-2 space-y-4">
             <AdSpace slot="sidebar-ad" format="rectangle" style={{ width: "100%", height: "250px" }} />
+            
+            {/* Recent Calculations Widget */}
+            <RecentCalculations />
             
             {/* Enhanced Quick Tools with SEO-optimized internal links */}
             <div className="bg-white rounded-lg shadow-sm p-4">
