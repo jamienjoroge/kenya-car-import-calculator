@@ -8,6 +8,8 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SEOPermalinks from "@/components/SEOPermalinks";
 import RecentCalculations from "@/components/RecentCalculations";
+import TrustIndicators from "@/components/TrustIndicators";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -50,6 +52,9 @@ const Index = () => {
             {/* Enhanced Sidebar with Better Internal Linking */}
           <div className="lg:col-span-1 order-2 space-y-4">
             <AdSpace slot="sidebar-ad" format="rectangle" style={{ width: "100%", height: "250px" }} />
+            
+            {/* Trust Indicators */}
+            <TrustIndicators />
             
             {/* Recent Calculations Widget */}
             <RecentCalculations />
@@ -172,6 +177,7 @@ const Index = () => {
       <SEOContent />
       
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

@@ -31,6 +31,11 @@ import KenyaCarImportProcess2025 from "./pages/blog/KenyaCarImportProcess2025";
 import BestCarsImportKenya1Million from "./pages/blog/BestCarsImportKenya1Million";
 import AugustCRSPCourtRulingImpact from "./pages/blog/AugustCRSPCourtRulingImpact";
 import KRACRSPChaosImportNow from "./pages/blog/KRACRSPChaosImportNow";
+import ImportDutyCalculatorKenya2025 from "./pages/blog/ImportDutyCalculatorKenya2025";
+import JapaneseCarImportKenyaVsUAE from "./pages/blog/JapaneseCarImportKenyaVsUAE";
+import CarClearanceCostsMombasaPort2025 from "./pages/blog/CarClearanceCostsMombasaPort2025";
+import NairobiCarImport from "./pages/locations/NairobiCarImport";
+import MombasaCarImport from "./pages/locations/MombasaCarImport";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +73,11 @@ function App() {
           <Route path="/blog/best-cars-import-kenya-1-million" element={<BestCarsImportKenya1Million />} />
           <Route path="/blog/august-crsp-court-ruling-impact" element={<AugustCRSPCourtRulingImpact />} />
           <Route path="/blog/kra-crsp-chaos-import-now" element={<KRACRSPChaosImportNow />} />
+          <Route path="/blog/import-duty-calculator-kenya-2025" element={<ImportDutyCalculatorKenya2025 />} />
+          <Route path="/blog/japanese-car-import-kenya-vs-uae" element={<JapaneseCarImportKenyaVsUAE />} />
+          <Route path="/blog/car-clearance-costs-mombasa-port-2025" element={<CarClearanceCostsMombasaPort2025 />} />
+          <Route path="/locations/nairobi-car-import" element={<NairobiCarImport />} />
+          <Route path="/locations/mombasa-car-import" element={<MombasaCarImport />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
