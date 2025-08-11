@@ -36,6 +36,7 @@ import JapaneseCarImportKenyaVsUAE from "./pages/blog/JapaneseCarImportKenyaVsUA
 import CarClearanceCostsMombasaPort2025 from "./pages/blog/CarClearanceCostsMombasaPort2025";
 import NairobiCarImport from "./pages/locations/NairobiCarImport";
 import MombasaCarImport from "./pages/locations/MombasaCarImport";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 const queryClient = new QueryClient();
 
@@ -45,7 +46,8 @@ function App() {
         <Toaster />
         <ExitIntentPopup />
         <BrowserRouter>
-        <Routes>
+          <AnalyticsTracker measurementId="G-7FP92NE2JL" />
+          <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/calculator" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
