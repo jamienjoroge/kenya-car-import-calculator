@@ -31,6 +31,15 @@ const Blog = () => {
 
   const staticBlogPosts = [
     {
+      id: "buying-locally-vs-importing-kenya-2025",
+      title: "Buying Locally vs Importing a Car in Kenya: How Much Can You Save in 2025?",
+      description: "Compare local dealer prices vs importing costs in Kenya 2025. Real cost analysis shows potential savings of KES 300K-600K on popular models like Toyota Axio.",
+      readTime: "12 min read",
+      date: "August 21, 2025",
+      excerpt: "Discover how importing a car yourself can save you hundreds of thousands compared to buying from local dealers. Complete cost breakdown and decision guide included.",
+      breaking: false
+    },
+    {
       id: "kenya-car-import-process-2025",
       title: "Kenya Car Import Process 2025: Complete Step-by-Step Guide",
       description: "Complete guide to importing cars to Kenya in 2025. Learn the 6-step process, required documents, costs, and avoid common mistakes",
