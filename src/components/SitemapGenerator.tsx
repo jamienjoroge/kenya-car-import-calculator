@@ -137,6 +137,18 @@ const SitemapGenerator = () => {
         author: "GariMoto Editorial"
       },
       {
+        id: "buying-locally-vs-importing-kenya-2025",
+        slug: "buying-locally-vs-importing-kenya-2025",
+        title: "Buying Locally vs Importing a Car in Kenya: How Much Can You Save in 2025?",
+        description: "Complete cost comparison: buying locally vs importing cars in Kenya 2025. Discover which option saves you more money with real examples and expert analysis.",
+        readTime: "12 min read",
+        date: "August 21, 2025",
+        excerpt: "Should you buy locally or import? Get the complete cost breakdown comparing local vs import prices for popular car models in Kenya, plus expert tips to maximize savings.",
+        category: "Buying Guides",
+        tags: ["Local vs Import", "Cost Comparison", "Car Buying", "Kenya", "Money Saving"],
+        author: "GariMoto Editorial"
+      },
+      {
         id: "crsp-schedule-2025-changes",
         slug: "crsp-schedule-2025-changes",
         title: "CRSP Schedule 2025: What's Changed?",
