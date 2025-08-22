@@ -51,6 +51,19 @@ const SitemapGenerator = () => {
 
     const staticBlogPosts: BlogPost[] = [
       {
+        id: "ntsa-vehicle-inspection-guide-2025",
+        slug: "ntsa-vehicle-inspection-guide-2025",
+        title: "NTSA & Pre-Purchase Vehicle Inspections in Kenya (2025 Guide)",
+        description: "Learn about NTSA inspections and pre-purchase car checks in Kenya — costs, process, and why they save you money in 2025.",
+        readTime: "8 min read",
+        date: "August 22, 2025",
+        excerpt: "Complete guide to NTSA inspections vs pre-purchase checks. Learn costs, processes, and why both inspections can save you thousands in hidden repairs.",
+        breaking: false,
+        category: "Vehicle Inspections",
+        tags: ["NTSA Inspection", "Pre-Purchase Check", "Vehicle Safety", "TIMS Booking", "Roadworthy Certificate"],
+        author: "GariMoto Editorial"
+      },
+      {
         id: "crsp-schedule-halted-by-court-2025",
         slug: "crsp-schedule-halted-by-court-2025",
         title: "BREAKING: Court Halts KRA's New CRSP Schedule 2025 - Car Import Duties Frozen",

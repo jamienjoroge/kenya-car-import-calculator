@@ -31,6 +31,15 @@ const Blog = () => {
 
   const staticBlogPosts = [
     {
+      id: "ntsa-vehicle-inspection-guide-2025",
+      title: "NTSA & Pre-Purchase Vehicle Inspections in Kenya (2025 Guide)",
+      description: "Learn about NTSA inspections and pre-purchase car checks in Kenya — costs, process, and why they save you money in 2025.",
+      readTime: "8 min read",
+      date: "August 22, 2025",
+      excerpt: "Complete guide to NTSA inspections vs pre-purchase checks. Learn costs, processes, and why both inspections can save you thousands in hidden repairs.",
+      breaking: false
+    },
+    {
       id: "buying-locally-vs-importing-kenya-2025",
       title: "Buying Locally vs Importing a Car in Kenya: How Much Can You Save in 2025?",
       description: "Compare local dealer prices vs importing costs in Kenya 2025. Real cost analysis shows potential savings of KES 300K-600K on popular models like Toyota Axio.",
