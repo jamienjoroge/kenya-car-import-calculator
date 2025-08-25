@@ -31,6 +31,15 @@ const Blog = () => {
 
   const staticBlogPosts = [
     {
+      id: "japanese-auction-sheet-guide-2025",
+      title: "Japanese Auction Sheet Guide Kenya 2025: Master Car Import Inspections",
+      description: "Master Japanese auction sheets for smarter car imports to Kenya. Learn to decode grades, spot hidden damage, and avoid costly mistakes in 2025.",
+      readTime: "12 min read",
+      date: "August 25, 2025",
+      excerpt: "Complete guide to reading Japanese auction sheets like a pro. Decode grades, spot red flags, and make informed import decisions that save you thousands.",
+      breaking: false
+    },
+    {
       id: "ntsa-vehicle-inspection-guide-2025",
       title: "NTSA & Pre-Purchase Vehicle Inspections in Kenya (2025 Guide)",
       description: "Learn about NTSA inspections and pre-purchase car checks in Kenya — costs, process, and why they save you money in 2025.",

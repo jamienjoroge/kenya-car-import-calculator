@@ -51,6 +51,19 @@ const SitemapGenerator = () => {
 
     const staticBlogPosts: BlogPost[] = [
       {
+        id: "japanese-auction-sheet-guide-2025",
+        slug: "japanese-auction-sheet-guide-2025",
+        title: "Japanese Auction Sheet Guide Kenya 2025: Master Car Import Inspections",
+        description: "Master Japanese auction sheets for smarter car imports to Kenya. Learn to decode grades, spot hidden damage, and avoid costly mistakes in 2025.",
+        readTime: "12 min read",
+        date: "August 25, 2025",
+        excerpt: "Complete guide to reading Japanese auction sheets like a pro. Decode grades, spot red flags, and make informed import decisions that save you thousands.",
+        breaking: false,
+        category: "Import Guides",
+        tags: ["Japanese Auction Sheet", "Car Import", "Vehicle Inspection", "Auction Grades", "Import Guide"],
+        author: "GariMoto Editorial"
+      },
+      {
         id: "ntsa-vehicle-inspection-guide-2025",
         slug: "ntsa-vehicle-inspection-guide-2025",
         title: "NTSA & Pre-Purchase Vehicle Inspections in Kenya (2025 Guide)",
