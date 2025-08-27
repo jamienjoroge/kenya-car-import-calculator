@@ -10,7 +10,7 @@ interface AdSpaceProps {
 
 const AdSpace = ({ slot, format = "auto", style, className }: AdSpaceProps) => {
   // Generate unique ID for each ad slot
-  const adId = `ezoic-pub-ad-placeholder-${slot.replace(/[^a-zA-Z0-9]/g, '-')}`;
+  const adId = `ezoic-pub-ad-placeholder-${(slot || 'default').replace(/[^a-zA-Z0-9]/g, '-')}`;
   
   return (
     <div 

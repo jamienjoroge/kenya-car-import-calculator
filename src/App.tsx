@@ -2,6 +2,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "@/components/ui/toaster";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import LandingPage from "./pages/LandingPage";
@@ -46,6 +47,7 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
+    <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <Toaster />
         <ExitIntentPopup />
@@ -92,6 +94,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 

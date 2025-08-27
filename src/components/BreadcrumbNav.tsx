@@ -80,7 +80,7 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items }) => {
           </BreadcrumbItem>
           
           {breadcrumbItems.map((item, index) => (
-            <React.Fragment key={index}>
+            <React.Fragment key={`breadcrumb-${index}`}>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 {item.href ? (
