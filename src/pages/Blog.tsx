@@ -31,6 +31,15 @@ const Blog = () => {
 
   const staticBlogPosts = [
     {
+      id: "8-year-rule-kenya-2025",
+      title: "8-Year Rule for Car Imports in Kenya: Manufacture vs Registration Explained",
+      description: "Learn why Kenya only allows cars under 8 years old—from either manufacture or registration year. How it impacts importing to Kenya in 2025.",
+      readTime: "8 min read",
+      date: "August 27, 2025",
+      excerpt: "Understanding Kenya's 8-year rule is critical for car imports. Learn whether it's based on manufacture or registration date and how it affects your import plans.",
+      breaking: false
+    },
+    {
       id: "japanese-auction-sheet-guide-2025",
       title: "Japanese Auction Sheet Guide Kenya 2025: Master Car Import Inspections",
       description: "Master Japanese auction sheets for smarter car imports to Kenya. Learn to decode grades, spot hidden damage, and avoid costly mistakes in 2025.",
