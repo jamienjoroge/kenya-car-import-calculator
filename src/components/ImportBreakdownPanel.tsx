@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 
 interface BreakdownProps {
   crsp: number;
+  originalCrsp?: number;
+  depreciationRate?: number;
   importDuty: number;
   excise: number;
   vat: number;
@@ -17,6 +19,8 @@ interface BreakdownProps {
 
 export default function ImportBreakdownPanel({
   crsp,
+  originalCrsp,
+  depreciationRate,
   importDuty,
   excise,
   vat,
@@ -42,7 +46,20 @@ export default function ImportBreakdownPanel({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-2">
-          <div className="flex justify-between"><span>CRSP (KRA Valuation)</span> <span>{fmt(crsp)}</span></div>
+          {originalCrsp && originalCrsp !== crsp && (
+            <>
+              <div className="flex justify-between"><span>Original CRSP</span> <span>{fmt(originalCrsp)}</span></div>
+              <div className="flex justify-between text-sm text-muted-foreground">
+                <span>Depreciation ({depreciationRate ? (depreciationRate * 100).toFixed(1) : '0'}%)</span> 
+                <span>-{fmt(originalCrsp - crsp)}</span>
+              </div>
+              <div className="flex justify-between font-medium"><span>Depreciated CRSP</span> <span>{fmt(crsp)}</span></div>
+              <hr className="my-1"/>
+            </>
+          )}
+          {(!originalCrsp || originalCrsp === crsp) && (
+            <div className="flex justify-between"><span>CRSP (KRA Valuation)</span> <span>{fmt(crsp)}</span></div>
+          )}
           <div className="flex justify-between"><span>Import Duty <span className="text-xs">(25%)</span></span> <span>{fmt(importDuty)}</span></div>
           <div className="flex justify-between"><span>Excise Duty</span> <span>{fmt(excise)}</span></div>
           <div className="flex justify-between"><span>VAT <span className="text-xs">(16%)</span></span> <span>{fmt(vat)}</span></div>

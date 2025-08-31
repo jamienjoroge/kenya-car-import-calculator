@@ -119,6 +119,7 @@ export function calculateDuties({
 
   return {
     crsp: valueForDuty,
+    originalCrsp: crsp,
     depreciatedCrsp: valueForDuty,
     depreciationRate,
     importDuty,
