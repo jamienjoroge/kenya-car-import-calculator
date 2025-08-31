@@ -112,9 +112,9 @@ const SEOContent = () => {
             <h4 className="font-semibold text-green-800 mb-2">Current Import Duty Breakdown:</h4>
             <ul className="text-green-700 text-sm space-y-1">
               <li>• <strong>Import Duty:</strong> 25% of depreciated CRSP value</li>
-              <li>• <strong>Excise Duty:</strong> 25% of depreciated CRSP value</li>
-              <li>• <strong>VAT (Value Added Tax):</strong> 16% of depreciated CRSP</li>
-              <li>• <strong>IDF (Import Declaration Fee):</strong> 2.25% of depreciated CRSP</li>
+              <li>• <strong>Excise Duty:</strong> Variable rate (10-25%) applied on (CRSP + Import Duty)</li>
+              <li>• <strong>VAT (Value Added Tax):</strong> 16% of (CRSP + Import Duty + Excise + IDF + RDL)</li>
+              <li>• <strong>IDF (Import Declaration Fee):</strong> 3.5% of depreciated CRSP</li>
               <li>• <strong>RDL (Railway Development Levy):</strong> 2% of depreciated CRSP</li>
             </ul>
           </div>

@@ -3,13 +3,28 @@
 /**
  * Calculate KRA duties & costs using CRSP and user input.
  * Updated for 2025 based on official KRA methodology:
- * - CRSP already includes age adjustments (no manual depreciation)
- * - Import Duty: 25% of CRSP
- * - Excise Duty: Rate varies by engine size, applied on (CRSP + Import Duty)
- * - IDF: 3.5% of CRSP
- * - RDL: 2% of CRSP
- * - VAT: 16% of (CRSP + Import Duty + Excise + IDF + RDL)
+ * - Apply age-based depreciation to CRSP value
+ * - Import Duty: 25% of depreciated CRSP
+ * - Excise Duty: Rate varies by engine size, applied on (depreciated CRSP + Import Duty)
+ * - IDF: 3.5% of depreciated CRSP
+ * - RDL: 2% of depreciated CRSP
+ * - VAT: 16% of (depreciated CRSP + Import Duty + Excise + IDF + RDL)
  */
+
+export function calculateDepreciationRate(year: number): number {
+  const currentYear = new Date().getFullYear();
+  const vehicleAge = currentYear - year;
+  
+  // Official KRA depreciation rates based on vehicle age
+  if (vehicleAge < 0.5) return 0.05;      // 0-6 months: 5%
+  if (vehicleAge < 1) return 0.10;        // 6-12 months: 10%
+  if (vehicleAge < 2) return 0.15;        // 1-2 years: 15%
+  if (vehicleAge < 3) return 0.20;        // 2-3 years: 20%
+  if (vehicleAge < 4) return 0.30;        // 3-4 years: 30%
+  if (vehicleAge < 5) return 0.40;        // 4-5 years: 40%
+  if (vehicleAge < 6) return 0.50;        // 5-6 years: 50%
+  return 0.70;                            // 6+ years: 70%
+}
 
 export function calculateExciseRate(engineCapacity: number, fuelType: string): number {
   const fuelTypeLower = String(fuelType).toLowerCase();
@@ -57,8 +72,9 @@ export function calculateDuties({
   fuelType: string;
   shipping?: number;
 }) {
-  // CRSP is used as-is (no manual depreciation as it's already included)
-  const valueForDuty = crsp;
+  // Apply age-based depreciation to CRSP
+  const depreciationRate = calculateDepreciationRate(year);
+  const valueForDuty = Math.round(crsp * (1 - depreciationRate));
 
   // 1. Import Duty: 25% of CRSP
   const importDuty = Math.round(calculateImportDuty(fuelType, valueForDuty));
@@ -85,7 +101,10 @@ export function calculateDuties({
   const total = valueForDuty + totalTaxes + (shipping || 0);
 
   console.log('Calculation breakdown (2025 methodology):', {
-    crsp: valueForDuty,
+    originalCrsp: crsp,
+    vehicleAge: new Date().getFullYear() - year,
+    depreciationRate,
+    depreciatedCrsp: valueForDuty,
     importDuty,
     exciseRate,
     exciseBase,
@@ -100,8 +119,8 @@ export function calculateDuties({
 
   return {
     crsp: valueForDuty,
-    depreciatedCrsp: valueForDuty, // Keep for backward compatibility
-    depreciationRate: 0, // No manual depreciation applied
+    depreciatedCrsp: valueForDuty,
+    depreciationRate,
     importDuty,
     excise,
     vat,

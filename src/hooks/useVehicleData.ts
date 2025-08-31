@@ -6,9 +6,9 @@ import { logMakesData } from "@/utils/vehicleDataDebug";
 
 export function useVehicleData(selectedMake: string, selectedModel: string) {
   const { data: makes = [], isLoading: loadingMakes, error: makesError } = useQuery({
-    queryKey: ["makes"],
+    queryKey: ["makes", "v2"], // Updated cache key to force refresh
     queryFn: fetchMakes,
-    staleTime: 24 * 60 * 60 * 1000,
+    staleTime: 5 * 60 * 1000, // Reduced to 5 minutes for testing
   });
 
   // Log makes data when it changes
@@ -17,10 +17,10 @@ export function useVehicleData(selectedMake: string, selectedModel: string) {
   }, [makes, makesError]);
 
   const { data: models = [], isLoading: loadingModels } = useQuery({
-    queryKey: ["models", selectedMake],
+    queryKey: ["models", "v2", selectedMake], // Updated cache key to force refresh
     queryFn: () => fetchModelsForMake(selectedMake),
     enabled: !!selectedMake,
-    staleTime: 24 * 60 * 60 * 1000,
+    staleTime: 5 * 60 * 1000, // Reduced to 5 minutes for testing
   });
 
   const {

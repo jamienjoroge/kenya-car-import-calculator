@@ -1,49 +1,81 @@
 
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from '../integrations/supabase/client';
+
+// Updated to use batch fetching for all records
 
 export const fetchMakes = async (): Promise<string[]> => {
-  const { data, error } = await supabase
-    .from('crsp_data')
-    .select('make_name')
-    .order('make_name');
+  const allMakes = new Set<string>();
+  let from = 0;
+  const batchSize = 1000;
+  let hasMore = true;
 
-  if (error) {
-    console.error('Error fetching makes:', error);
-    throw error;
+  while (hasMore) {
+    const { data, error } = await supabase
+      .from('crsp_data')
+      .select('make_name')
+      .range(from, from + batchSize - 1)
+      .order('make_name');
+
+    if (error) {
+      console.error('Error fetching makes:', error);
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      break;
+    }
+
+    // Add unique make names to the set
+    data.forEach(item => {
+      if (item.make_name && item.make_name.trim() !== '') {
+        allMakes.add(item.make_name);
+      }
+    });
+
+    from += batchSize;
+    hasMore = data.length === batchSize;
   }
 
-  // Extract unique make names and filter out empty values
-  const uniqueMakes = [...new Set(
-    data
-      .map(item => item.make_name)
-      .filter(make => make && make.trim() !== '')
-  )];
-  
-  return uniqueMakes;
+  return Array.from(allMakes).sort();
 };
 
 export const fetchModelsForMake = async (make: string): Promise<string[]> => {
   if (!make) return [];
   
-  const { data, error } = await supabase
-    .from('crsp_data')
-    .select('model_name')
-    .eq('make_name', make)
-    .order('model_name');
+  const allModels = new Set<string>();
+  let from = 0;
+  const batchSize = 1000;
+  let hasMore = true;
 
-  if (error) {
-    console.error('Error fetching models:', error);
-    throw error;
+  while (hasMore) {
+    const { data, error } = await supabase
+      .from('crsp_data')
+      .select('model_name')
+      .eq('make_name', make)
+      .range(from, from + batchSize - 1)
+      .order('model_name');
+
+    if (error) {
+      console.error('Error fetching models:', error);
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      break;
+    }
+
+    // Add unique model names to the set
+    data.forEach(item => {
+      if (item.model_name && item.model_name.trim() !== '') {
+        allModels.add(item.model_name);
+      }
+    });
+
+    from += batchSize;
+    hasMore = data.length === batchSize;
   }
 
-  // Extract unique model names
-  const uniqueModels = [...new Set(
-    data
-      .map(item => item.model_name)
-      .filter(model => model && model.trim() !== '')
-  )];
-  
-  return uniqueModels;
+  return Array.from(allModels).sort();
 };
 
 export const fetchCrspRecord = async ({
