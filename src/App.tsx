@@ -39,6 +39,7 @@ import BuyingLocallyVsImportingKenya2025 from "./pages/blog/BuyingLocallyVsImpor
 import NTSAVehicleInspectionGuide2025 from "./pages/blog/NTSAVehicleInspectionGuide2025";
 import JapaneseAuctionSheetGuide2025 from "./pages/blog/JapaneseAuctionSheetGuide2025";
 import EightYearRuleKenya2025 from "./pages/blog/EightYearRuleKenya2025";
+import CalculateCarImportDutyKenya2025 from "./pages/blog/CalculateCarImportDutyKenya2025";
 import NairobiCarImport from "./pages/locations/NairobiCarImport";
 import MombasaCarImport from "./pages/locations/MombasaCarImport";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
@@ -88,6 +89,7 @@ function App() {
           <Route path="/blog/ntsa-vehicle-inspection-guide-2025" element={<NTSAVehicleInspectionGuide2025 />} />
           <Route path="/blog/japanese-auction-sheet-guide-2025" element={<JapaneseAuctionSheetGuide2025 />} />
           <Route path="/blog/8-year-rule-kenya-2025" element={<EightYearRuleKenya2025 />} />
+                <Route path="/blog/calculate-car-import-duty-kenya-2025" element={<CalculateCarImportDutyKenya2025 />} />
           <Route path="/locations/nairobi-car-import" element={<NairobiCarImport />} />
           <Route path="/locations/mombasa-car-import" element={<MombasaCarImport />} />
           <Route path="*" element={<NotFound />} />

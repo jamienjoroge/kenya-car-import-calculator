@@ -132,8 +132,6 @@ export default function VehicleImportCalculator() {
         <>
           <ImportBreakdownPanel
             crsp={breakdown.crsp}
-            depreciatedCrsp={breakdown.depreciatedCrsp}
-            depreciationRate={breakdown.depreciationRate}
             importDuty={breakdown.importDuty}
             excise={breakdown.excise}
             vat={breakdown.vat}

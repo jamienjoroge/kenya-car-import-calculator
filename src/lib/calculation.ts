@@ -2,45 +2,36 @@
 
 /**
  * Calculate KRA duties & costs using CRSP and user input.
- * Updated depreciation: 7+ years = 70% depreciation
- * Import Duty: 25% for all vehicles
- * Excise Duty: 25% of depreciated CRSP
- * VAT: 16% of depreciated CRSP  
- * IDF: 2.25% of depreciated CRSP
- * RDL: 2% of depreciated CRSP
+ * Updated for 2025 based on official KRA methodology:
+ * - CRSP already includes age adjustments (no manual depreciation)
+ * - Import Duty: 25% of CRSP
+ * - Excise Duty: Rate varies by engine size, applied on (CRSP + Import Duty)
+ * - IDF: 3.5% of CRSP
+ * - RDL: 2% of CRSP
+ * - VAT: 16% of (CRSP + Import Duty + Excise + IDF + RDL)
  */
 
-export function calculateDepreciationRate(vehicleYear: number) {
-  const currentYear = new Date().getFullYear();
-  const ageInYears = currentYear - vehicleYear;
+export function calculateExciseRate(engineCapacity: number, fuelType: string): number {
+  const fuelTypeLower = String(fuelType).toLowerCase();
   
-  console.log(`Vehicle year: ${vehicleYear}, Current year: ${currentYear}, Age in years: ${ageInYears}`);
-  
-  // Updated depreciation schedule based on accurate KRA rules
-  if (ageInYears < 0.5) {
-    console.log('Applying 5% depreciation (0-6 months)');
-    return 0.05;
-  } else if (ageInYears <= 1) {
-    console.log('Applying 10% depreciation (>6 months to 1 year)');
+  // Special rates for hybrids and EVs
+  if (fuelTypeLower.includes('hybrid')) {
+    console.log('Applying 10% excise rate for hybrid vehicle');
     return 0.10;
-  } else if (ageInYears <= 2) {
-    console.log('Applying 15% depreciation (>1 to 2 years)');
-    return 0.15;
-  } else if (ageInYears <= 3) {
-    console.log('Applying 20% depreciation (>2 to 3 years)');
+  }
+  
+  if (fuelTypeLower.includes('electric') || fuelTypeLower.includes('ev')) {
+    console.log('Applying 0% excise rate for electric vehicle');
+    return 0.00;
+  }
+  
+  // Engine capacity-based rates for petrol/diesel
+  if (engineCapacity <= 1500) {
+    console.log('Applying 20% excise rate for ≤1500cc vehicle');
     return 0.20;
-  } else if (ageInYears <= 4) {
-    console.log('Applying 30% depreciation (>3 to 4 years)');
-    return 0.30;
-  } else if (ageInYears <= 5) {
-    console.log('Applying 40% depreciation (>4 to 5 years)');
-    return 0.40;
-  } else if (ageInYears <= 6) {
-    console.log('Applying 50% depreciation (>5 to 6 years)');
-    return 0.50;
   } else {
-    console.log('Applying 70% depreciation (7+ years)');
-    return 0.70; // 70% for vehicles 7+ years old
+    console.log('Applying 25% excise rate for >1500cc vehicle');
+    return 0.25;
   }
 }
 
@@ -66,44 +57,51 @@ export function calculateDuties({
   fuelType: string;
   shipping?: number;
 }) {
-  // 1. Depreciation
-  const depRate = calculateDepreciationRate(year);
-  const depreciatedCrsp = Math.round(crsp * (1 - depRate));
+  // CRSP is used as-is (no manual depreciation as it's already included)
+  const valueForDuty = crsp;
 
-  // 2. Import Duty: 25% of depreciated CRSP
-  const importDuty = Math.round(calculateImportDuty(fuelType, depreciatedCrsp));
+  // 1. Import Duty: 25% of CRSP
+  const importDuty = Math.round(calculateImportDuty(fuelType, valueForDuty));
 
-  // 3. Excise Duty: 25% of depreciated CRSP (updated from 20%)
-  const excise = Math.round(depreciatedCrsp * 0.25);
+  // 2. Excise Duty: Rate varies by engine size, applied on (CRSP + Import Duty)
+  const exciseRate = calculateExciseRate(engineCapacity, fuelType);
+  const exciseBase = valueForDuty + importDuty;
+  const excise = Math.round(exciseBase * exciseRate);
 
-  // 4. VAT: 16% of depreciated CRSP (updated calculation base)
-  const vat = Math.round(depreciatedCrsp * 0.16);
+  // 3. IDF: 3.5% of CRSP
+  const idf = Math.round(valueForDuty * 0.035);
 
-  // 5. IDF: 2.25% of depreciated CRSP
-  const idf = Math.round(depreciatedCrsp * 0.0225);
+  // 4. RDL: 2% of CRSP
+  const rdl = Math.round(valueForDuty * 0.02);
 
-  // 6. RDL: 2% of depreciated CRSP
-  const rdl = Math.round(depreciatedCrsp * 0.02);
+  // 5. VAT: 16% of (CRSP + Import Duty + Excise + IDF + RDL)
+  const vatBase = valueForDuty + importDuty + excise + idf + rdl;
+  const vat = Math.round(vatBase * 0.16);
 
-  // 7. Total
-  const total = importDuty + excise + vat + idf + rdl + depreciatedCrsp + (shipping || 0);
+  // 6. Total taxes
+  const totalTaxes = importDuty + excise + vat + idf + rdl;
+  
+  // 7. Total landed cost
+  const total = valueForDuty + totalTaxes + (shipping || 0);
 
-  console.log('Calculation breakdown:', {
-    originalCrsp: crsp,
-    depreciationRate: depRate,
-    depreciatedCrsp,
+  console.log('Calculation breakdown (2025 methodology):', {
+    crsp: valueForDuty,
     importDuty,
+    exciseRate,
+    exciseBase,
     excise,
-    vat,
     idf,
     rdl,
+    vatBase,
+    vat,
+    totalTaxes,
     total
   });
 
   return {
-    crsp,
-    depreciatedCrsp,
-    depreciationRate: depRate,
+    crsp: valueForDuty,
+    depreciatedCrsp: valueForDuty, // Keep for backward compatibility
+    depreciationRate: 0, // No manual depreciation applied
     importDuty,
     excise,
     vat,

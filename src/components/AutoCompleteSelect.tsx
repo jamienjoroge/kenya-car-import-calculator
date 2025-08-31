@@ -2,6 +2,7 @@
 import * as React from "react";
 import { Command, CommandInput, CommandItem, CommandList, CommandEmpty } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 
 interface AutoCompleteSelectProps {
   value: string | undefined;
@@ -24,13 +25,7 @@ export function AutoCompleteSelect({
   const [inputValue, setInputValue] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
   
-  // Debug logging for options
-  React.useEffect(() => {
-    if (label === "Car Make") {
-      console.log('AutoCompleteSelect - Car Make options received:', options.length);
-      console.log('Car Make options sample (first 10):', options.slice(0, 10));
-    }
-  }, [options, label]);
+
   
   // Ensure options is always a safe array
   const safeOptions = React.useMemo(() => {
@@ -57,7 +52,6 @@ export function AutoCompleteSelect({
   }, [safeOptions, inputValue]);
 
   const handleInputChange = React.useCallback((val: string) => {
-    console.log('AutoCompleteSelect: input changing to:', val);
     setInputValue(val);
     setOpen(true);
     
@@ -68,7 +62,6 @@ export function AutoCompleteSelect({
   }, [onChange, value]);
 
   const handleSelect = React.useCallback((option: string) => {
-    console.log('AutoCompleteSelect: selecting option:', option);
     onChange(option);
     setInputValue("");
     setOpen(false);
@@ -142,17 +135,24 @@ export function AutoCompleteSelect({
           className="rounded-lg border shadow-md" 
           shouldFilter={false}
         >
-          <CommandInput
-            ref={inputRef}
-            value={displayValue}
-            onValueChange={handleInputChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
-            placeholder={placeholder}
-            disabled={disabled}
-            className="h-10"
-          />
+          <div className="relative">
+            <CommandInput
+              ref={inputRef}
+              value={displayValue}
+              onValueChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              onKeyDown={handleKeyDown}
+              placeholder={disabled ? "Loading..." : placeholder}
+              disabled={disabled}
+              className="h-10 pr-10"
+            />
+            {disabled && (
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+              </div>
+            )}
+          </div>
           <CommandList 
             className={cn(
               "absolute top-full left-0 right-0 z-50 bg-white border border-t-0 rounded-b-lg shadow-lg max-h-80 overflow-auto",
