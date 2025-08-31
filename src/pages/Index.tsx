@@ -16,8 +16,8 @@ const Index = () => {
   return (
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
       <SEOPermalinks 
-        title="Kenya Car Import Duty Calculator 2025 - FREE CRSP Calculator | GariMoto"
-        description="🎯 Calculate exact Kenya car import duty using official KRA CRSP rates 2025. FREE calculator with instant results for all vehicle makes. Save money on your car import!"
+        title="Kenya Import Duty Calculator 2025 – Instant KRA Car Tax Estimates"
+        description="Calculate your car import duty in Kenya instantly. Updated for 2025 with the latest KRA CRSP values. Free, accurate, and easy to use."
         keywords="Kenya car import duty calculator, KRA CRSP rates 2025, car import cost Kenya, vehicle import calculator, Kenya customs duty, CRSP schedule 2025, car import fees Kenya"
         canonicalUrl="https://garimoto.co.ke/"
         type="website"

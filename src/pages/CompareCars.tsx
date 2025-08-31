@@ -47,9 +47,11 @@ const CompareCars = () => {
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
-        title="Compare Car Import Costs Kenya 2025 | Vehicle Duty Calculator | GariMoto"
-        description="Compare import duties and costs between different vehicles in Kenya. Side-by-side comparison tool to make informed car import decisions. Save thousands on your purchase."
-        keywords="compare car import costs Kenya, vehicle duty comparison, car import calculator, vehicle import cost comparison, Kenya car duties"
+        title="Duty Calculator Kenya – Updated 2025 Car Tax Estimator"
+        description="Estimate your vehicle import taxes in seconds. Our Kenya Duty Calculator uses updated 2025 rates for accurate duty, VAT, and excise costs."
+        keywords="compare car import costs Kenya, vehicle duty comparison, KRA CRSP comparison 2025, car import cost calculator, Kenya vehicle comparison tool"
+        canonicalUrl="https://garimoto.co.ke/compare"
+        type="website"
       />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">

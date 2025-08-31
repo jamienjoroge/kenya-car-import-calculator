@@ -113,9 +113,11 @@ const PopularCarsByYear = () => {
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
-        title="Popular Cars by Year Kenya | Vehicle Market Trends | CRSP Data | GariMoto"
-        description="Discover popular car models and trends by year in Kenya. Market insights, average prices, and vehicle statistics based on official CRSP data."
-        keywords="popular cars Kenya, vehicle market trends, Kenya car statistics, CRSP data analysis, automotive market Kenya"
+        title="KRA Duty Calculator 2025 – Instant Import Duty Estimates"
+        description="Easily calculate your car import duty for 2025 in Kenya. Accurate, fast, and free KRA duty calculator for any make or model."
+        keywords="popular cars Kenya 2025, best cars to import Kenya, trending car models Kenya, popular vehicle imports, Kenya car market trends"
+        canonicalUrl="https://garimoto.co.ke/popular"
+        type="website"
       />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">

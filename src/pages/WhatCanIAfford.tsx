@@ -110,9 +110,11 @@ const WhatCanIAfford = () => {
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
-        title="What Car Can I Afford? Budget Calculator Kenya | Vehicle Finder | GariMoto"
-        description="Find vehicles within your budget in Kenya. Calculate total cost including import duties and find affordable cars. Smart vehicle finder for budget-conscious buyers."
-        keywords="what car can I afford Kenya, vehicle budget calculator, affordable cars Kenya, car financing calculator, vehicle finder by budget"
+        title="KRA Car Duty Calculator 2025 – Free Import Tax Estimator"
+        description="Get quick and reliable estimates for your car import taxes. KRA duty, VAT, and other fees calculated instantly with updated 2025 rates."
+        keywords="car budget calculator Kenya, what car can I afford Kenya, import budget calculator, Kenya car affordability, vehicle budget planner Kenya"
+        canonicalUrl="https://garimoto.co.ke/afford"
+        type="website"
       />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
