@@ -197,6 +197,14 @@ const Blog = () => {
       excerpt: "See which car models are dominating imports in 2025 and understand the trends shaping Kenya's automotive market."
     },
     {
+      id: "calculate-car-import-duty-kenya-2025",
+      title: "Step-by-Step: Calculate Car Import Duty in Kenya (2025)",
+      description: "Learn the exact steps to calculate KRA car import duty in Kenya using CRSP, excise, VAT, IDF & RDL—plus a worked example and common mistakes.",
+      readTime: "12 min read",
+      date: "September 1, 2025",
+      excerpt: "Master the complete process of calculating import duties in Kenya with our step-by-step guide covering CRSP, depreciation, and all applicable fees."
+    },
+    {
       id: "crsp-schedule-2025-changes",
       title: "CRSP Schedule 2025: What's Changed?",
       description: "Detailed breakdown of the new CRSP schedule effective July 2025 and its impact on import duties.",

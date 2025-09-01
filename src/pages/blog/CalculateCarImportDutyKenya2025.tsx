@@ -135,8 +135,8 @@ const CalculateCarImportDutyKenya2025 = () => {
         "url": "https://garimoto.co.ke/logo.png"
       }
     },
-    "datePublished": "2025-08-31",
-    "dateModified": "2025-08-31",
+    "datePublished": "2025-09-01",
+    "dateModified": "2025-09-01",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://garimoto.co.ke/blog/calculate-car-import-duty-kenya-2025"
@@ -191,7 +191,7 @@ const CalculateCarImportDutyKenya2025 = () => {
               Step-by-Step: Calculating Car Import Duty in Kenya (2025)
             </CardTitle>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>Published: August 31, 2025</span>
+              <span>Published: September 1, 2025</span>
               <span>•</span>
               <span>12 min read</span>
               <span>•</span>
