@@ -161,7 +161,7 @@ const MostImportedCars2025 = () => {
 
             <h2 className="text-2xl font-semibold mb-4 text-primary">Import Cost Considerations</h2>
             <p className="mb-4">
-              The new CRSP schedule effective July 2025 has impacted import costs:
+              The new CRSP schedule effective July 2024 has impacted import costs:
             </p>
             <div className="bg-yellow-50 border border-yellow-200 rounded p-4 mb-6">
               <h3 className="font-semibold text-yellow-800 mb-2">Cost Impact Summary:</h3>
@@ -188,7 +188,7 @@ const MostImportedCars2025 = () => {
               <h3 className="font-semibold text-green-800 mb-2">💡 Planning Your Import?</h3>
               <p className="text-green-700">
                 Use our <Link to="/" className="text-primary hover:underline">import calculator</Link> to 
-                estimate costs for any of these popular models. Our tool includes the latest 2025 CRSP 
+                estimate costs for any of these popular models. Our tool includes the latest 2024 CRSP 
                 values and helps you choose the most cost-effective option for your budget.
               </p>
             </div>

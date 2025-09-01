@@ -98,7 +98,7 @@ const KRACRSPChaosImportNow = () => {
               <span className="bg-orange-500 text-white px-2 py-1 rounded text-xs font-bold">URGENT</span>
               <div className="flex items-center gap-1 text-sm text-muted-foreground">
                 <Clock className="h-4 w-4" />
-                August 4, 2025 • 7 min read
+                January 15, 2025 • 7 min read
               </div>
             </div>
             <CardTitle className="text-3xl font-bold text-primary">
@@ -123,10 +123,10 @@ const KRACRSPChaosImportNow = () => {
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                 <h3 className="font-bold text-blue-800 mb-2">Quick Recap:</h3>
                 <ul className="text-blue-700 space-y-1 text-sm">
-                  <li>• KRA's new CRSP schedule (higher rates) was set for August 1, 2025</li>
-                  <li>• High Court suspended implementation on August 4, 2025</li>
+                  <li>• KRA's new CRSP schedule (higher rates) was set for January 1, 2025</li>
+              <li>• High Court suspended implementation on January 15, 2025</li>
                   <li>• Old (lower) rates remain in effect temporarily</li>
-                  <li>• Final court decision expected September 2025</li>
+                  <li>• Final court decision expected February 2025</li>
                   <li>• Importers face difficult timing decisions</li>
                 </ul>
               </div>

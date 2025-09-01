@@ -6,7 +6,7 @@
  * - Apply age-based depreciation to CRSP value
  * - Import Duty: 25% of depreciated CRSP
  * - Excise Duty: Rate varies by engine size, applied on (depreciated CRSP + Import Duty)
- * - IDF: 3.5% of depreciated CRSP
+ * - IDF: 2.25% of depreciated CRSP
  * - RDL: 2% of depreciated CRSP
  * - VAT: 16% of (depreciated CRSP + Import Duty + Excise + IDF + RDL)
  */
@@ -84,8 +84,8 @@ export function calculateDuties({
   const exciseBase = valueForDuty + importDuty;
   const excise = Math.round(exciseBase * exciseRate);
 
-  // 3. IDF: 3.5% of CRSP
-  const idf = Math.round(valueForDuty * 0.035);
+  // 3. IDF: 2.25% of CRSP
+  const idf = Math.round(valueForDuty * 0.0225);
 
   // 4. RDL: 2% of CRSP
   const rdl = Math.round(valueForDuty * 0.02);

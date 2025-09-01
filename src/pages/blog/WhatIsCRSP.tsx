@@ -6,11 +6,38 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AdSpace from "@/components/AdSpace";
+import StructuredData from "@/components/StructuredData";
 
 const WhatIsCRSP = () => {
+  const articleData = {
+    title: "What is CRSP? Complete Guide to Kenya's Car Import Valuation System",
+    description: "Learn everything about CRSP (Customs Reference Schedule Price) - Kenya's official car valuation system for import duty calculations. Updated for 2025.",
+    image: "https://garimoto.co.ke/images/what-is-crsp-kenya.jpg",
+    datePublished: "2024-12-20",
+    url: "https://garimoto.co.ke/blog/what-is-crsp"
+  };
+
   return (
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
       <Navigation />
+      
+      {/* SEO Meta Tags */}
+      <head>
+        <title>What is CRSP? Complete Guide to Kenya's Car Import Valuation System</title>
+        <meta name="description" content="Learn everything about CRSP (Customs Reference Schedule Price) - Kenya's official car valuation system for import duty calculations. Updated for 2025." />
+        <meta name="keywords" content="what is CRSP Kenya, Customs Reference Schedule Price, CRSP meaning, car import valuation Kenya, KRA CRSP system, import duty calculation Kenya" />
+        <meta property="og:title" content="What is CRSP? Complete Guide to Kenya's Car Import Valuation System" />
+        <meta property="og:description" content="Learn everything about CRSP (Customs Reference Schedule Price) - Kenya's official car valuation system for import duty calculations. Updated for 2025." />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://garimoto.co.ke/blog/what-is-crsp" />
+        <meta property="og:image" content="https://garimoto.co.ke/images/what-is-crsp-kenya.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="What is CRSP? Complete Guide to Kenya's Car Import Valuation System" />
+        <meta name="twitter:description" content="Learn everything about CRSP (Customs Reference Schedule Price) - Kenya's official car valuation system for import duty calculations. Updated for 2025." />
+        <meta name="twitter:image" content="https://garimoto.co.ke/images/what-is-crsp-kenya.jpg" />
+      </head>
+      
+      <StructuredData type="article" data={articleData} />
       
       <div className="max-w-4xl mx-auto px-4 py-8">
         <Button variant="outline" asChild className="mb-6">
@@ -110,7 +137,7 @@ const WhatIsCRSP = () => {
             <h2 className="text-2xl font-semibold mb-4 text-primary">CRSP Schedule Updates</h2>
             <p className="mb-6">
               KRA updates the CRSP schedule periodically to reflect market changes. The most recent 
-              update became effective in July 2025, with adjusted values for many vehicle makes and models. 
+              update became effective in July 2024, with adjusted values for many vehicle makes and models. 
               These updates can significantly impact your import costs.
             </p>
 
@@ -131,7 +158,7 @@ const WhatIsCRSP = () => {
               <p className="text-yellow-700">
                 Use our <Link to="/" className="text-primary hover:underline">CRSP-based calculator</Link> to 
                 get accurate import duty estimates before purchasing your vehicle. Our calculator uses the 
-                latest July 2025 CRSP schedule for precise calculations.
+                latest July 2024 CRSP schedule for precise calculations.
               </p>
             </div>
           </div>

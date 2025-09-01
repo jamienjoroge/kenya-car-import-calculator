@@ -77,7 +77,7 @@ const BuyingLocallyVsImportingKenya2025 = () => {
     },
     {
       question: "How do I calculate import duty in Kenya?",
-      answer: "Import duty in Kenya is calculated using the CRSP (Common Roll Schedule of Prices) value. The total includes Import Duty (25%), Excise Duty (20%), VAT (16%), plus clearing and registration fees. Our calculator provides accurate estimates."
+      answer: "Import duty in Kenya is calculated using the CRSP (Common Roll Schedule of Prices) value. The total includes Import Duty (25%), Excise Duty (25%), VAT (16%), plus clearing and registration fees. Our calculator provides accurate estimates."
     },
     {
       question: "What are the hidden costs of buying locally vs importing?",
@@ -118,7 +118,7 @@ const BuyingLocallyVsImportingKenya2025 = () => {
               Buying Locally vs Importing a Car in Kenya: How Much Can You Save in 2025?
             </CardTitle>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>Published: August 21, 2025</span>
+              <span>Published: January 20, 2025</span>
               <span>•</span>
               <span>12 min read</span>
               <span>•</span>

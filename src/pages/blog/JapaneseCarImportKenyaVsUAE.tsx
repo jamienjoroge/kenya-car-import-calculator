@@ -64,8 +64,8 @@ const JapaneseCarImportKenyaVsUAE = () => {
           title: "Japanese Car Import Kenya vs UAE - Complete Cost Comparison",
           description: "Comprehensive analysis comparing costs of importing Japanese cars from Kenya vs UAE including prices, shipping, and total expenses.",
           image: "https://garimoto.co.ke/lovable-uploads/899d1529-b7aa-4c00-813d-01f1976ff0e6.png",
-          datePublished: "2025-08-04",
-          dateModified: "2025-08-04"
+          datePublished: "2025-01-08",
+          dateModified: "2025-01-08"
         }}
       />
       
@@ -89,9 +89,9 @@ const JapaneseCarImportKenyaVsUAE = () => {
             </div>
             
             <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-              <span>Published: August 4, 2025</span>
+              <span>Published: January 8, 2025</span>
               <span>•</span>
-              <span>Updated: August 4, 2025</span>
+              <span>Updated: January 8, 2025</span>
               <span>•</span>
               <span>7 min read</span>
             </div>

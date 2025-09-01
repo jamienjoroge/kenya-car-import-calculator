@@ -140,7 +140,7 @@ const BestCarsImportKenya1Million = () => {
               Best Cars to Import to Kenya Under KES 1 Million (2025)
             </CardTitle>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>Published: August 4, 2025</span>
+              <span>Published: January 18, 2025</span>
               <span>•</span>
               <span>12 min read</span>
               <span>•</span>
@@ -317,7 +317,7 @@ const BestCarsImportKenya1Million = () => {
                       <span>KES 166,875</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Excise Duty (20%)</span>
+                      <span>Excise Duty (25%)</span>
                       <span>KES 133,500</span>
                     </div>
                     <div className="flex justify-between">

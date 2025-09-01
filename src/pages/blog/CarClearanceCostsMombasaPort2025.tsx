@@ -58,8 +58,8 @@ const CarClearanceCostsMombasaPort2025 = () => {
           title: "Car Clearance Costs Mombasa Port 2025 - Complete Fee Breakdown",
           description: "Comprehensive guide to all costs involved in clearing imported vehicles at Mombasa port including port fees, storage, and clearing agent charges.",
           image: "https://garimoto.co.ke/lovable-uploads/899d1529-b7aa-4c00-813d-01f1976ff0e6.png",
-          datePublished: "2025-08-04",
-          dateModified: "2025-08-04"
+          datePublished: "2025-01-05",
+    dateModified: "2025-01-05"
         }}
       />
 
@@ -85,9 +85,9 @@ const CarClearanceCostsMombasaPort2025 = () => {
             </div>
             
             <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-              <span>Published: August 4, 2025</span>
+              <span>Published: January 5, 2025</span>
               <span>•</span>
-              <span>Updated: August 4, 2025</span>
+              <span>Updated: January 5, 2025</span>
               <span>•</span>
               <span>8 min read</span>
             </div>

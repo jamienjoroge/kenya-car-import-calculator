@@ -56,8 +56,8 @@ const AugustCRSPCourtRulingImpact = () => {
           title: "August 2025 CRSP Court Ruling: What It Means for Your Car Import",
           description: "Court suspends KRA's new CRSP schedule affecting thousands of car importers",
           image: "https://garimoto.co.ke/lovable-uploads/899d1529-b7aa-4c00-813d-01f1976ff0e6.png",
-          datePublished: "2025-08-04",
-          dateModified: "2025-08-04"
+          datePublished: "2025-01-15",
+    dateModified: "2025-01-15"
         }}
       />
 
@@ -78,7 +78,7 @@ const AugustCRSPCourtRulingImpact = () => {
               <span className="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">BREAKING</span>
               <div className="flex items-center gap-1 text-sm text-muted-foreground">
                 <Clock className="h-4 w-4" />
-                August 4, 2025 • 5 min read
+                January 15, 2025 • 5 min read
               </div>
             </div>
             <CardTitle className="text-3xl font-bold text-primary">
@@ -93,7 +93,7 @@ const AugustCRSPCourtRulingImpact = () => {
             <Alert className="border-red-200 bg-red-50">
               <AlertTriangle className="h-4 w-4" />
               <AlertDescription className="font-medium">
-                <strong>URGENT UPDATE:</strong> The High Court has issued a temporary injunction halting the implementation of KRA's revised CRSP schedule that was set to take effect August 1, 2025. This affects all vehicle imports currently in transit or being processed.
+                <strong>URGENT UPDATE:</strong> The High Court has issued a temporary injunction halting the implementation of KRA's revised CRSP schedule that was set to take effect January 1, 2025. This affects all vehicle imports currently in transit or being processed.
               </AlertDescription>
             </Alert>
 
@@ -104,7 +104,7 @@ const AugustCRSPCourtRulingImpact = () => {
               </h2>
               
               <p className="text-muted-foreground leading-relaxed mb-4">
-                On August 4, 2025, Justice [Name] of the High Court issued a temporary restraining order preventing the Kenya Revenue Authority (KRA) from implementing its revised Customs Reference and Surveillance Prices (CRSP) schedule. The ruling came after a petition filed by the Kenya Association of Vehicle Importers challenging the legality and transparency of the new valuations.
+                On January 15, 2025, Justice [Name] of the High Court issued a temporary restraining order preventing the Kenya Revenue Authority (KRA) from implementing its revised Customs Reference and Surveillance Prices (CRSP) schedule. The ruling came after a petition filed by the Kenya Association of Vehicle Importers challenging the legality and transparency of the new valuations.
               </p>
 
               <h3 className="text-xl font-semibold mb-3">Key Court Findings:</h3>
@@ -184,19 +184,19 @@ const AugustCRSPCourtRulingImpact = () => {
                 <div className="flex items-start gap-3">
                   <div className="w-3 h-3 rounded-full bg-primary mt-2"></div>
                   <div>
-                    <strong>August 4, 2025:</strong> Court issues temporary injunction
+                    <strong>January 15, 2025:</strong> Court issues temporary injunction
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-3 h-3 rounded-full bg-yellow-500 mt-2"></div>
                   <div>
-                    <strong>August 15, 2025:</strong> KRA response due to court
+                    <strong>January 25, 2025:</strong> KRA response due to court
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-3 h-3 rounded-full bg-gray-400 mt-2"></div>
                   <div>
-                    <strong>September 2025:</strong> Final court hearing expected
+                    <strong>February 2025:</strong> Final court hearing expected
                   </div>
                 </div>
               </div>

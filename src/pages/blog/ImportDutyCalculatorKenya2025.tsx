@@ -59,8 +59,8 @@ const ImportDutyCalculatorKenya2025 = () => {
           title: "Import Duty Calculator Kenya 2025 - Complete Guide",
           description: "Comprehensive guide to calculating Kenya import duties using the official 2025 CRSP calculator with real-time KRA rates.",
           image: "https://garimoto.co.ke/lovable-uploads/899d1529-b7aa-4c00-813d-01f1976ff0e6.png",
-          datePublished: "2025-08-04",
-          dateModified: "2025-08-04"
+          datePublished: "2025-01-15",
+    dateModified: "2025-01-15"
         }}
       />
 
@@ -86,9 +86,9 @@ const ImportDutyCalculatorKenya2025 = () => {
             </div>
             
             <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-              <span>Published: August 4, 2025</span>
+              <span>Published: January 15, 2025</span>
               <span>•</span>
-              <span>Updated: August 4, 2025</span>
+              <span>Updated: January 15, 2025</span>
               <span>•</span>
               <span className="flex items-center gap-1">
                 <TrendingUp className="h-4 w-4" />
@@ -166,7 +166,7 @@ const ImportDutyCalculatorKenya2025 = () => {
                     <li>Value Added Tax (VAT) - 16%</li>
                     <li>Excise Duty (based on engine capacity)</li>
                     <li>Import Declaration Fee (IDF) - 2.25%</li>
-                    <li>Railway Development Levy (RDL) - 1.5%</li>
+                    <li>Railway Development Levy (RDL) - 2%</li>
                     <li>Additional clearance and handling fees</li>
                   </ul>
                 </div>

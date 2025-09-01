@@ -26,34 +26,40 @@ const CalculateCarImportDutyKenya2025 = () => {
       tips: ["Save the CRSP reference code/screenshot for your records", "If your trim isn't listed, use the closest match"]
     },
     {
-      step: "2", 
-      title: "Import Duty (ID)",
-      description: "Rate: Typically 25%. Base: CRSP (value for duty).",
-      formula: "Import Duty = 25% × CRSP"
+      step: "2",
+      title: "Apply Age-Based Depreciation",
+      description: "KRA applies depreciation to CRSP based on vehicle age: 5% per year for first 8 years, then 10% per year (maximum 70%).",
+      formula: "Depreciated CRSP = Original CRSP × (1 - Depreciation Rate)"
     },
     {
-      step: "3",
-      title: "Excise Duty (ED)", 
-      description: "Base: CRSP + Import Duty. Rates vary by engine size and fuel type.",
-      formula: "Excise = (CRSP + Import Duty) × Excise Rate"
+      step: "3", 
+      title: "Import Duty (ID)",
+      description: "Rate: Typically 25%. Base: Depreciated CRSP (value for duty).",
+      formula: "Import Duty = 25% × Depreciated CRSP"
     },
     {
       step: "4",
-      title: "IDF & RDL",
-      description: "Import Declaration Fee (3.5%) and Railway Development Levy (2%) of CRSP.",
-      formula: "IDF = 3.5% × CRSP, RDL = 2% × CRSP"
+      title: "Excise Duty (ED)", 
+      description: "Base: Depreciated CRSP + Import Duty. Rates vary by engine size and fuel type.",
+      formula: "Excise = (Depreciated CRSP + Import Duty) × Excise Rate"
     },
     {
       step: "5",
-      title: "VAT (16%)",
-      description: "Applied on the total of CRSP + Import Duty + Excise + IDF + RDL.",
-      formula: "VAT = 16% × (CRSP + ID + ED + IDF + RDL)"
+      title: "IDF & RDL",
+      description: "Import Declaration Fee (2.25%) and Railway Development Levy (2%) of Depreciated CRSP.",
+      formula: "IDF = 2.25% × Depreciated CRSP, RDL = 2% × Depreciated CRSP"
     },
     {
       step: "6",
+      title: "VAT (16%)",
+      description: "Applied on the total of Depreciated CRSP + Import Duty + Excise + IDF + RDL.",
+      formula: "VAT = 16% × (Depreciated CRSP + ID + ED + IDF + RDL)"
+    },
+    {
+      step: "7",
       title: "Total Taxes & Landed Cost",
       description: "Sum all taxes and add port/clearing/registration fees.",
-      formula: "Landed Cost = CRSP + Total Taxes + Port/Clearing Fees"
+      formula: "Landed Cost = Depreciated CRSP + Total Taxes + Port/Clearing Fees"
     }
   ];
 
@@ -66,8 +72,8 @@ const CalculateCarImportDutyKenya2025 = () => {
 
   const commonMistakes = [
     {
-      mistake: "Adding extra depreciation",
-      solution: "Not needed. CRSP already includes age adjustments."
+      mistake: "Ignoring age-based depreciation",
+      solution: "Apply KRA's depreciation schedule: 5% per year for first 8 years, then 10% per year (max 70%)."
     },
     {
       mistake: "Wrong excise bracket", 
@@ -104,6 +110,10 @@ const CalculateCarImportDutyKenya2025 = () => {
       {
         question: "Can I estimate using my auction price instead of CRSP?",
         answer: "No. KRA taxes are anchored on CRSP, not the auction price."
+      },
+      {
+        question: "How does vehicle age affect import duty?",
+        answer: "KRA applies age-based depreciation to CRSP values. Vehicles depreciate 5% per year for the first 8 years, then 10% per year thereafter, with a maximum depreciation of 70%."
       }
     ]
   };
@@ -125,8 +135,8 @@ const CalculateCarImportDutyKenya2025 = () => {
         "url": "https://garimoto.co.ke/logo.png"
       }
     },
-    "datePublished": "2025-01-01",
-    "dateModified": "2025-01-01",
+    "datePublished": "2025-08-31",
+    "dateModified": "2025-08-31",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://garimoto.co.ke/blog/calculate-car-import-duty-kenya-2025"
@@ -181,7 +191,7 @@ const CalculateCarImportDutyKenya2025 = () => {
               Step-by-Step: Calculating Car Import Duty in Kenya (2025)
             </CardTitle>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>Published: January 1, 2025</span>
+              <span>Published: August 31, 2025</span>
               <span>•</span>
               <span>12 min read</span>
               <span>•</span>
@@ -206,16 +216,17 @@ const CalculateCarImportDutyKenya2025 = () => {
               </h2>
               <ul className="space-y-2 text-green-700">
                 <li>• Start with <Link to="/blog/what-is-crsp" className="text-blue-600 hover:underline">CRSP</Link> for your exact make, model, year, and trim.</li>
-                <li>• Compute Import Duty (25%) on the value for duty (CRSP basis).</li>
-                <li>• Compute Excise Duty on (CRSP + Import Duty) — rate depends on engine/vehicle type.</li>
-                <li>• Add IDF (3.5%) and RDL (2%) on CRSP (or value for duty).</li>
-                <li>• Compute VAT (16%) on everything above: (CRSP + Import Duty + Excise + IDF + RDL).</li>
+                <li>• Apply age-based depreciation to CRSP (5% per year for first 8 years, then 10% per year, max 70%).</li>
+                <li>• Compute Import Duty (25%) on the depreciated CRSP value.</li>
+                <li>• Compute Excise Duty on (Depreciated CRSP + Import Duty) — rate depends on engine/vehicle type.</li>
+                <li>• Add IDF (2.25%) and RDL (2%) on Depreciated CRSP.</li>
+                <li>• Compute VAT (16%) on everything above: (Depreciated CRSP + Import Duty + Excise + IDF + RDL).</li>
                 <li>• Total Taxes = Import Duty + Excise + IDF + RDL + VAT.</li>
-                <li>• Landed Cost (ex-Mombasa) = Car price basis (CRSP proxy) + Total Taxes + port/clearing/number plates/registration (cash items).</li>
+                <li>• Landed Cost (ex-Mombasa) = Depreciated CRSP + Total Taxes + port/clearing/number plates/registration (cash items).</li>
               </ul>
               <div className="mt-4 p-3 bg-yellow-100 border border-yellow-300 rounded">
                 <p className="text-yellow-800 text-sm">
-                  💡 <strong>Depreciation:</strong> You don't apply extra depreciation manually. The CRSP already reflects age and market value for that model/year as per KRA's schedule.
+                  💡 <strong>Depreciation:</strong> KRA applies age-based depreciation to CRSP values. Vehicles depreciate 5% per year for the first 8 years, then 10% per year thereafter, with a maximum depreciation of 70%.
                 </p>
               </div>
             </div>
@@ -286,42 +297,48 @@ const CalculateCarImportDutyKenya2025 = () => {
                 <Calculator className="h-5 w-5 mr-2" />
                 Worked Example (Illustrative)
               </h2>
-              <p className="mb-4">Assume a 1.5L petrol sedan (≤1500 cc) with CRSP of KSh 1,000,000 and excise at 20%.</p>
+              <p className="mb-4">Assume a 5-year-old 1.5L petrol sedan (≤1500 cc) with original CRSP of KSh 1,000,000 and excise at 25%.</p>
               
               <div className="space-y-4">
                 <div className="bg-white p-4 rounded border">
-                  <h4 className="font-semibold mb-2">1. Import Duty (25%)</h4>
-                  <p className="font-mono text-sm">ID = 0.25 × 1,000,000 = KSh 250,000</p>
+                  <h4 className="font-semibold mb-2">1. Apply Depreciation (5 years × 5% = 25%)</h4>
+                  <p className="font-mono text-sm">Depreciated CRSP = 1,000,000 × (1 - 0.25) = KSh 750,000</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded border">
-                  <h4 className="font-semibold mb-2">2. Excise Duty (20% on CRSP + ID)</h4>
-                  <p className="font-mono text-sm">Base = 1,000,000 + 250,000 = 1,250,000</p>
-                  <p className="font-mono text-sm">ED = 0.20 × 1,250,000 = KSh 250,000</p>
+                  <h4 className="font-semibold mb-2">2. Import Duty (25%)</h4>
+                  <p className="font-mono text-sm">ID = 0.25 × 750,000 = KSh 187,500</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded border">
-                  <h4 className="font-semibold mb-2">3. IDF (3.5% of CRSP)</h4>
-                  <p className="font-mono text-sm">IDF = 0.035 × 1,000,000 = KSh 35,000</p>
+                  <h4 className="font-semibold mb-2">3. Excise Duty (25% on Depreciated CRSP + ID)</h4>
+                  <p className="font-mono text-sm">Base = 750,000 + 187,500 = 937,500</p>
+                  <p className="font-mono text-sm">ED = 0.25 × 937,500 = KSh 234,375</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded border">
-                  <h4 className="font-semibold mb-2">4. RDL (2% of CRSP)</h4>
-                  <p className="font-mono text-sm">RDL = 0.02 × 1,000,000 = KSh 20,000</p>
+                  <h4 className="font-semibold mb-2">4. IDF (2.25% of Depreciated CRSP)</h4>
+                  <p className="font-mono text-sm">IDF = 0.0225 × 750,000 = KSh 16,875</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded border">
-                  <h4 className="font-semibold mb-2">5. VAT (16% on CRSP + ID + ED + IDF + RDL)</h4>
-                  <p className="font-mono text-sm">VAT Base = 1,000,000 + 250,000 + 250,000 + 35,000 + 20,000 = 1,555,000</p>
-                  <p className="font-mono text-sm">VAT = 0.16 × 1,555,000 = KSh 248,800</p>
+                  <h4 className="font-semibold mb-2">5. RDL (2% of Depreciated CRSP)</h4>
+                  <p className="font-mono text-sm">RDL = 0.02 × 750,000 = KSh 15,000</p>
+                </div>
+                
+                <div className="bg-white p-4 rounded border">
+                  <h4 className="font-semibold mb-2">6. VAT (16% on Depreciated CRSP + ID + ED + IDF + RDL)</h4>
+                  <p className="font-mono text-sm">VAT Base = 750,000 + 187,500 + 234,375 + 16,875 + 15,000 = 1,203,750</p>
+                  <p className="font-mono text-sm">VAT = 0.16 × 1,203,750 = KSh 192,600</p>
                 </div>
                 
                 <div className="bg-blue-100 p-4 rounded border border-blue-300">
                   <h4 className="font-semibold mb-2 text-blue-800">Total Calculation</h4>
-                  <p className="font-mono text-sm">Total Taxes = 250,000 + 250,000 + 35,000 + 20,000 + 248,800 = KSh 803,800</p>
+                  <p className="font-mono text-sm">Total Taxes = 187,500 + 234,375 + 16,875 + 15,000 + 192,600 = KSh 646,350</p>
                   <p className="font-semibold mt-2">Indicative Landed Cost (ex-Mombasa)</p>
-                  <p className="font-mono text-sm">= CRSP 1,000,000 + Taxes 803,800 + Fees ~100,000</p>
-                  <p className="font-mono text-lg font-bold text-blue-800">≈ KSh 1,903,800</p>
+                  <p className="font-mono text-sm">= Depreciated CRSP 750,000 + Taxes 646,350 + Fees ~100,000</p>
+                  <p className="font-mono text-lg font-bold text-blue-800">≈ KSh 1,496,350</p>
+                  <p className="text-sm text-green-700 mt-2">💰 Savings from depreciation: ~KSh 450,950 vs new vehicle</p>
                 </div>
               </div>
               

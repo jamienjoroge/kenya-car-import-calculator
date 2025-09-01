@@ -36,7 +36,7 @@ const CRSPScheduleHaltedByCourt2025 = () => {
               </span>
               <span className="text-sm text-gray-500 flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                August 4, 2025
+                January 15, 2025
               </span>
             </div>
             <h1 className="text-4xl font-bold mb-4 text-primary">
@@ -51,7 +51,7 @@ const CRSPScheduleHaltedByCourt2025 = () => {
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle className="text-amber-800">Latest Development</AlertTitle>
             <AlertDescription className="text-amber-700">
-              As of August 4, 2025, the High Court has temporarily suspended the implementation of KRA's new CRSP schedule pending the hearing and determination of the case filed by CIAK.
+              As of January 15, 2025, the High Court has temporarily suspended the implementation of KRA's new CRSP schedule pending the hearing and determination of the case filed by CIAK.
             </AlertDescription>
           </Alert>
 

@@ -50,8 +50,8 @@ const JapaneseAuctionSheetGuide2025 = () => {
     title: "Japanese Auction Sheet Guide Kenya 2025: Master Car Import Inspections",
     description: "Complete guide to reading Japanese auction sheets for Kenya car imports. Learn grades, symbols, and inspection tips to avoid costly mistakes when importing from Japan.",
     author: "GariMoto Editorial",
-    datePublished: "2025-08-25",
-    dateModified: "2025-08-25",
+    datePublished: "2025-01-10",
+    dateModified: "2025-01-10",
     keywords: ["Japanese auction sheet", "Kenya car import", "auction grades", "vehicle inspection", "import guide"],
     content: "Master Japanese auction sheets to import better cars to Kenya. Learn to decode grades, symbols, and inspection maps to avoid costly mistakes and hidden damage."
   };
@@ -99,7 +99,7 @@ const JapaneseAuctionSheetGuide2025 = () => {
             <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
               <span>By GariMoto Editorial</span>
               <span>•</span>
-              <span>August 25, 2025</span>
+              <span>January 10, 2025</span>
               <span>•</span>
               <span>12 min read</span>
             </div>

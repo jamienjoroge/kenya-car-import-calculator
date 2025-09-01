@@ -54,7 +54,7 @@ const CIAKvsKRALawsuit2025 = () => {
               </h3>
               <p className="text-yellow-700">
                 Justice Jairus Ngaah at Mombasa High Court has declared this case urgent. KRA has 7 days to respond 
-                to the lawsuit filed on June 20, 2025. The new CRSP schedule was set to take effect July 1, 2025.
+                to the lawsuit filed on June 20, 2024. The new CRSP schedule was set to take effect July 1, 2024.
               </p>
             </div>
 
@@ -204,10 +204,10 @@ const CIAKvsKRALawsuit2025 = () => {
             <div className="bg-blue-50 border border-blue-200 rounded p-4 mb-6">
               <h4 className="font-semibold text-blue-800 mb-2">Court Timeline:</h4>
               <ul className="text-blue-700 space-y-1">
-                <li>• <strong>June 20, 2025:</strong> CIAK files urgent application</li>
+                <li>• <strong>June 20, 2024:</strong> CIAK files urgent application</li>
                 <li>• <strong>Same day:</strong> Justice Ngaah declares case urgent</li>
                 <li>• <strong>Current status:</strong> KRA has 7 days to respond</li>
-                <li>• <strong>July 1, 2025:</strong> Original CRSP implementation date</li>
+                <li>• <strong>July 1, 2024:</strong> Original CRSP implementation date</li>
               </ul>
             </div>
 

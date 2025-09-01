@@ -42,7 +42,7 @@ const NTSAVehicleInspectionGuide2025 = () => {
                 8 min read
               </span>
               <span>•</span>
-              <span>August 22, 2025</span>
+              <span>January 22, 2025</span>
               <span>•</span>
               <span>GariMoto Editorial</span>
             </div>

@@ -31,8 +31,8 @@ const EightYearRuleKenya2025 = () => {
         url: "https://garimoto.co.ke/logo.png"
       }
     },
-    datePublished: "2025-08-27",
-    dateModified: "2025-08-27",
+    datePublished: "2025-01-12",
+    dateModified: "2025-01-12",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://garimoto.co.ke/blog/8-year-rule-kenya-2025"

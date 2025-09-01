@@ -84,7 +84,7 @@ const KenyaCarImportProcess2025 = () => {
               Kenya Car Import Process 2025: Complete Step-by-Step Guide
             </CardTitle>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>Published: August 4, 2025</span>
+              <span>Published: January 12, 2025</span>
               <span>•</span>
               <span>15 min read</span>
               <span>•</span>
@@ -153,7 +153,7 @@ const KenyaCarImportProcess2025 = () => {
                   <span className="font-semibold text-yellow-800">Recent Changes</span>
                 </div>
                 <p className="text-yellow-700 text-sm">
-                  Following the court ruling on August 3, 2025, CRSP schedules remain unchanged. This provides continued savings for importers.
+                  Following the court ruling on January 15, 2025, CRSP schedules remain unchanged. This provides continued savings for importers.
                 </p>
               </div>
               

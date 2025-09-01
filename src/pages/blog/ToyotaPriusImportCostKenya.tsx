@@ -7,11 +7,38 @@ import { ArrowLeft, Calculator, DollarSign, Zap, Leaf } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AdSpace from "@/components/AdSpace";
+import StructuredData from "@/components/StructuredData";
 
 const ToyotaPriusImportCostKenya = () => {
+  const articleData = {
+    title: "Toyota Prius Import Cost Kenya 2025: Complete Duty Calculator Guide",
+    description: "Complete breakdown of Toyota Prius import costs to Kenya including exact duty calculations, CRSP values, and money-saving tips for 2018-2024 models.",
+    image: "https://garimoto.co.ke/images/toyota-prius-import-kenya.jpg",
+    datePublished: "2024-12-20",
+    url: "https://garimoto.co.ke/blog/toyota-prius-import-cost-kenya"
+  };
+
   return (
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
       <Navigation />
+      
+      {/* SEO Meta Tags */}
+      <head>
+        <title>Toyota Prius Import Cost Kenya 2025: Complete Duty Calculator Guide</title>
+        <meta name="description" content="Complete breakdown of Toyota Prius import costs to Kenya including exact duty calculations, CRSP values, and money-saving tips for 2018-2024 models." />
+        <meta name="keywords" content="Toyota Prius import cost Kenya, Prius duty calculator, hybrid car import Kenya, CRSP Prius values, Prius import duty 2025" />
+        <meta property="og:title" content="Toyota Prius Import Cost Kenya 2025: Complete Duty Calculator Guide" />
+        <meta property="og:description" content="Complete breakdown of Toyota Prius import costs to Kenya including exact duty calculations, CRSP values, and money-saving tips for 2018-2024 models." />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://garimoto.co.ke/blog/toyota-prius-import-cost-kenya" />
+        <meta property="og:image" content="https://garimoto.co.ke/images/toyota-prius-import-kenya.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Toyota Prius Import Cost Kenya 2025: Complete Duty Calculator Guide" />
+        <meta name="twitter:description" content="Complete breakdown of Toyota Prius import costs to Kenya including exact duty calculations, CRSP values, and money-saving tips for 2018-2024 models." />
+        <meta name="twitter:image" content="https://garimoto.co.ke/images/toyota-prius-import-kenya.jpg" />
+      </head>
+      
+      <StructuredData type="article" data={articleData} />
       
       {/* Header Ad */}
       <div className="w-full py-2 bg-white border-b">
