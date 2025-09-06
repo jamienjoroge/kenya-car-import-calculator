@@ -11,14 +11,17 @@ import RecentCalculations from "@/components/RecentCalculations";
 import TrustIndicators from "@/components/TrustIndicators";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { Link } from "react-router-dom";
+import { BookOpen, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import FAQSchema from "@/components/FAQSchema";
 
 const Index = () => {
   return (
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
       <SEOPermalinks 
-        title="Kenya Import Duty Calculator 2025 – Instant KRA Car Tax Estimates"
-        description="Calculate your car import duty in Kenya instantly. Updated for 2025 with the latest KRA CRSP values. Free, accurate, and easy to use."
-        keywords="Kenya car import duty calculator, KRA CRSP rates 2025, car import cost Kenya, vehicle import calculator, Kenya customs duty, CRSP schedule 2025, car import fees Kenya"
+        title="Kenya Car Import Duty Calculator 2025 – Free KRA Tax Estimator"
+        description="Instantly calculate car import duty in Kenya. Updated with 2025 KRA CRSP values. Free, accurate, and easy to use."
+        keywords="kenya car import duty calculator, kra tax calculator, import duty kenya, car clearance cost kenya, crsp calculator 2025"
         canonicalUrl="https://garimoto.co.ke/"
         type="website"
       />
@@ -29,6 +32,26 @@ const Index = () => {
           <AdSpace slot="top-banner" format="horizontal" style={{ height: "90px" }} />
         </div>
       </div>
+
+      {/* FAQ Schema */}
+      <FAQSchema faqs={[
+        {
+          question: "How is car import duty calculated in Kenya?",
+          answer: "Car import duty in Kenya is calculated using CRSP (Current Retail Selling Price) with age-based depreciation, then applying Import Duty (25%), Excise Duty (varies by engine size), IDF (2.25%), RDL (2%), and VAT (16%)."
+        },
+        {
+          question: "Do I use year of manufacture or registration?",
+          answer: "KRA uses the year of first registration for calculating age-based depreciation on CRSP values. The 8-year rule also applies to first registration year for import eligibility."
+        },
+        {
+          question: "What taxes are included in KRA duty?",
+          answer: "Total KRA taxes include Import Duty (25%), Excise Duty (varies), Import Declaration Fee (2.25%), Railway Development Levy (2%), and VAT (16%) calculated in sequence."
+        },
+        {
+          question: "Is depreciation applied manually?",
+          answer: "No, KRA applies automatic age-based depreciation to CRSP: 5% per year for first 8 years, then 10% per year thereafter, with maximum 70% depreciation."
+        }
+      ]} />
 
       {/* Navigation Header */}
       <Navigation />
@@ -57,7 +80,22 @@ const Index = () => {
             <TrustIndicators />
             
             {/* Recent Calculations Widget */}
-            <RecentCalculations />
+            {/* Internal Link to New Blog Article */}
+            <div className="bg-white rounded-lg p-6 shadow-sm border">
+              <h3 className="text-lg font-semibold mb-3 flex items-center">
+                <BookOpen className="h-5 w-5 mr-2 text-blue-600" />
+                Learn How We Calculate
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Understand the exact steps behind our calculations with CRSP, depreciation, and all KRA taxes.
+              </p>
+              <Button asChild variant="outline" size="sm" className="w-full">
+                <Link to="/blog/calculate-car-import-duty-kenya-2025">
+                  Read Our Complete Guide
+                  <ArrowRight className="h-4 w-4 ml-1" />
+                </Link>
+              </Button>
+            </div>
             
             {/* Enhanced Quick Tools with SEO-optimized internal links */}
             <div className="bg-white rounded-lg shadow-sm p-4">

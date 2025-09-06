@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Calculator, CheckCircle, AlertTriangle, FileText, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Calculator, CheckCircle, AlertTriangle, FileText, TrendingUp, BookOpen, ArrowRight } from 'lucide-react';
 
 const CalculateCarImportDutyKenya2025 = () => {
   const breadcrumbItems = [
@@ -164,7 +164,8 @@ const CalculateCarImportDutyKenya2025 = () => {
         type="article"
       />
       
-      <StructuredData schema={structuredDataSchema} />
+      <StructuredData type="article" data={structuredDataSchema} />
+      <StructuredData type="faq" data={faqData} />
       
       <Navigation />
       
@@ -409,6 +410,23 @@ const CalculateCarImportDutyKenya2025 = () => {
                 <Link to="/">
                   <Calculator className="h-5 w-5 mr-2" />
                   Calculate Import Duty Now
+                </Link>
+              </Button>
+            </div>
+
+            {/* Calculator CTA */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mt-8">
+              <h2 className="text-xl font-semibold mb-4 text-blue-800 flex items-center">
+                <Calculator className="h-5 w-5 mr-2" />
+                👉 Try Our Import Duty Calculator
+              </h2>
+              <p className="text-blue-700 mb-4">
+                Get your exact costs in seconds instead of calculating manually. Our calculator uses the latest CRSP values and applies all the steps above automatically.
+              </p>
+              <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+                <Link to="/">
+                  Calculate Your Import Duty Now
+                  <ArrowRight className="h-5 w-5 ml-2" />
                 </Link>
               </Button>
             </div>

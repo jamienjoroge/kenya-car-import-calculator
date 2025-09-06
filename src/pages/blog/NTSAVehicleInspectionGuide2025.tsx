@@ -7,17 +7,40 @@ import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SEOPermalinks from "@/components/SEOPermalinks";
+import FAQSchema from "@/components/FAQSchema";
 
 const NTSAVehicleInspectionGuide2025 = () => {
+  const faqData = {
+    questions: [
+      {
+        question: "How much does NTSA vehicle inspection cost in Kenya?",
+        answer: "NTSA vehicle inspection fees vary by vehicle type. Passenger cars typically cost KSh 2,000-3,000, while commercial vehicles may cost more. Additional fees apply for re-inspections if your vehicle fails the first inspection."
+      },
+      {
+        question: "What documents do I need for NTSA inspection?",
+        answer: "You need your logbook, national ID, insurance certificate, and any import documents if applicable. For used imports, you'll also need the pre-inspection certificate."
+      },
+      {
+        question: "How long does the NTSA inspection process take?",
+        answer: "The inspection itself takes 30-60 minutes, but waiting times can extend the total time to 2-4 hours depending on the inspection center and day of the week."
+      },
+      {
+        question: "Can I book NTSA inspection online?",
+        answer: "Yes, you can book NTSA vehicle inspection appointments through the TIMS portal. Online booking helps reduce waiting times and ensures slot availability."
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
-        title="NTSA & Pre-Purchase Vehicle Inspections in Kenya (2025 Guide)"
-        description="Learn about NTSA inspections and pre-purchase car checks in Kenya — costs, process, and why they save you money in 2025."
-        keywords="NTSA inspection Kenya, pre-purchase car inspection, vehicle inspection cost Kenya, TIMS booking, roadworthy certificate, car inspection checklist"
-        canonicalUrl="https://garimoto.co.ke/blog/ntsa-vehicle-inspection-guide-2025"
+        title="NTSA Vehicle Inspection in Kenya 2025 – Fees, Process & Tips"
+        description="Learn how NTSA vehicle inspection works in Kenya. Costs, documents required, inspection centers, and 2025 updates."
+        keywords="NTSA inspection Kenya, vehicle inspection cost Kenya, TIMS booking, roadworthy certificate, car inspection checklist"
+        canonicalUrl="https://garimoto.co.ke/blog/ntsa-vehicle-inspection"
         type="article"
       />
+      <FAQSchema faqs={faqData.questions} />
       
       <Navigation />
       

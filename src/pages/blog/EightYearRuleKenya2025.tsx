@@ -355,11 +355,9 @@ const EightYearRuleKenya2025 = () => {
             />
           </div>
 
-          <WhatsAppButton 
-            message="Check out this comprehensive guide on Kenya's 8-year rule for car imports: https://garimoto.co.ke/blog/8-year-rule-kenya-2025"
-          />
+          <WhatsAppButton />
 
-          <AdSpace />
+          <AdSpace slot="blog-bottom" />
         </article>
       </div>
 
