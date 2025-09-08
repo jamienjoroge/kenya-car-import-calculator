@@ -14,15 +14,16 @@ import { Link } from "react-router-dom";
 import { BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FAQSchema from "@/components/FAQSchema";
+import SoftwareApplicationSchema from "@/components/SoftwareApplicationSchema";
 
 const Index = () => {
   return (
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
       <SEOPermalinks 
-        title="Kenya Car Import Duty Calculator 2025 – Free KRA Tax Estimator"
-        description="Instantly calculate car import duty in Kenya. Updated with 2025 KRA CRSP values. Free, accurate, and easy to use."
-        keywords="kenya car import duty calculator, kra tax calculator, import duty kenya, car clearance cost kenya, crsp calculator 2025"
-        canonicalUrl="https://garimoto.co.ke/"
+        title="KRA Duty Calculator Kenya 2025 – Instant Import Tax Estimates"
+        description="Get accurate car import duty, VAT, and excise tax estimates in seconds. Powered by KRA CRSP values. Try it free today."
+        keywords="kra duty calculator kenya, import duty calculator kenya, kenya car import tax, crsp calculator 2025, kra tax calculator"
+        canonicalUrl="https://garimoto.co.ke/calculator"
         type="website"
       />
 
@@ -33,7 +34,7 @@ const Index = () => {
         </div>
       </div>
 
-      {/* FAQ Schema */}
+      {/* Enhanced Schema Markup */}
       <FAQSchema faqs={[
         {
           question: "How is car import duty calculated in Kenya?",
@@ -52,6 +53,14 @@ const Index = () => {
           answer: "No, KRA applies automatic age-based depreciation to CRSP: 5% per year for first 8 years, then 10% per year thereafter, with maximum 70% depreciation."
         }
       ]} />
+      
+      {/* Software Application Schema */}
+      <SoftwareApplicationSchema
+        name="Kenya Import Duty Calculator"
+        description="Free calculator to estimate car import duty in Kenya using official KRA CRSP values. Calculate import duty, VAT, excise tax and total landing costs instantly."
+        url="https://garimoto.co.ke/calculator"
+        applicationCategory="FinanceApplication"
+      />
 
       {/* Navigation Header */}
       <Navigation />

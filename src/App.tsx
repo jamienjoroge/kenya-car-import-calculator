@@ -34,6 +34,8 @@ import AugustCRSPCourtRulingImpact from "./pages/blog/AugustCRSPCourtRulingImpac
 import KRACRSPChaosImportNow from "./pages/blog/KRACRSPChaosImportNow";
 import ImportDutyCalculatorKenya2025 from "./pages/blog/ImportDutyCalculatorKenya2025";
 import JapaneseCarImportKenyaVsUAE from "./pages/blog/JapaneseCarImportKenyaVsUAE";
+import ImportDutyCalculatorKenya from "./pages/ImportDutyCalculatorKenya";
+import KRACRSPCalculatorExplained from "./pages/KRACRSPCalculatorExplained";
 import CarClearanceCostsMombasaPort2025 from "./pages/blog/CarClearanceCostsMombasaPort2025";
 import BuyingLocallyVsImportingKenya2025 from "./pages/blog/BuyingLocallyVsImportingKenya2025";
 import NTSAVehicleInspectionGuide2025 from "./pages/blog/NTSAVehicleInspectionGuide2025";
@@ -89,7 +91,9 @@ function App() {
           <Route path="/blog/ntsa-vehicle-inspection-guide-2025" element={<NTSAVehicleInspectionGuide2025 />} />
           <Route path="/blog/japanese-auction-sheet-guide-2025" element={<JapaneseAuctionSheetGuide2025 />} />
           <Route path="/blog/8-year-rule-kenya-2025" element={<EightYearRuleKenya2025 />} />
-                <Route path="/blog/calculate-car-import-duty-kenya-2025" element={<CalculateCarImportDutyKenya2025 />} />
+          <Route path="/blog/calculate-car-import-duty-kenya-2025" element={<CalculateCarImportDutyKenya2025 />} />
+          <Route path="/import-duty-calculator-kenya" element={<ImportDutyCalculatorKenya />} />
+          <Route path="/kra-crsp-calculator-explained" element={<KRACRSPCalculatorExplained />} />
           <Route path="/locations/nairobi-car-import" element={<NairobiCarImport />} />
           <Route path="/locations/mombasa-car-import" element={<MombasaCarImport />} />
           <Route path="*" element={<NotFound />} />
