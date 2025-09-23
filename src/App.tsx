@@ -36,6 +36,7 @@ import ImportDutyCalculatorKenya2025 from "./pages/blog/ImportDutyCalculatorKeny
 import JapaneseCarImportKenyaVsUAE from "./pages/blog/JapaneseCarImportKenyaVsUAE";
 import ImportDutyCalculatorKenya from "./pages/ImportDutyCalculatorKenya";
 import KRACRSPCalculatorExplained from "./pages/KRACRSPCalculatorExplained";
+import KRACRSPSeptember2025Update from "./pages/blog/KRACRSPSeptember2025Update";
 import CarClearanceCostsMombasaPort2025 from "./pages/blog/CarClearanceCostsMombasaPort2025";
 import BuyingLocallyVsImportingKenya2025 from "./pages/blog/BuyingLocallyVsImportingKenya2025";
 import NTSAVehicleInspectionGuide2025 from "./pages/blog/NTSAVehicleInspectionGuide2025";
@@ -80,6 +81,7 @@ function App() {
           <Route path="/blog/budget-car-finder-guide" element={<BudgetCarFinderGuide />} />
           <Route path="/blog/popular-cars-analysis-guide" element={<PopularCarsAnalysisGuide />} />
           <Route path="/blog/crsp-schedule-halted-by-court-2025" element={<CRSPScheduleHaltedByCourt2025 />} />
+          <Route path="/blog/kra-crsp-september-2025-update" element={<KRACRSPSeptember2025Update />} />
           <Route path="/blog/kenya-car-import-process-2025" element={<KenyaCarImportProcess2025 />} />
           <Route path="/blog/best-cars-import-kenya-1-million" element={<BestCarsImportKenya1Million />} />
           <Route path="/blog/august-crsp-court-ruling-impact" element={<AugustCRSPCourtRulingImpact />} />

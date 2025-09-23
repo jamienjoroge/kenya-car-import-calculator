@@ -12,9 +12,9 @@ const ImportDutyCalculatorKenya = () => {
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
-        title="Import Duty Calculator Kenya - Calculate KRA Car Tax (2025)"
-        description="Calculate import duty in Kenya using our free KRA calculator. Get instant estimates for car import costs, VAT, excise duty and CRSP values."
-        keywords="import duty calculator kenya, kra calculator, car import duty kenya, kenya customs calculator, crsp calculator"
+        title="Import Duty Calculator Kenya – KRA Car Tax Calculator 2025"
+        description="Calculate import duty in Kenya using our FREE KRA calculator. Get instant estimates for car import costs, VAT, excise duty using official CRSP values."
+        keywords="import duty calculator kenya, kra car duty calculator, car import duty calculator kenya, kenya customs calculator, crsp calculator"
         canonicalUrl="https://garimoto.co.ke/import-duty-calculator-kenya"
         type="website"
       />

@@ -20,10 +20,10 @@ const Index = () => {
   return (
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
       <SEOPermalinks 
-        title="KRA Duty Calculator Kenya 2025 – Instant Import Tax Estimates"
-        description="Get accurate car import duty, VAT, and excise tax estimates in seconds. Powered by KRA CRSP values. Try it free today."
-        keywords="kra duty calculator kenya, import duty calculator kenya, kenya car import tax, crsp calculator 2025, kra tax calculator"
-        canonicalUrl="https://garimoto.co.ke/calculator"
+        title="Import Duty Calculator Kenya – Official KRA CRSP Calculator 2025"
+        description="FREE car import duty calculator Kenya using official KRA CRSP rates. Calculate exact import costs instantly. Updated Sept 2025 with latest rates."
+        keywords="import duty calculator kenya, kra crsp calculator, kenya car import duty, kra duty calculator 2025, car import cost kenya"
+        canonicalUrl="https://garimoto.co.ke/"
         type="website"
       />
 
@@ -167,12 +167,12 @@ const Index = () => {
               </div>
             </div>
 
-            {/* SEO-Enhanced Featured Content */}
+            {/* Enhanced Featured Content */}
             <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-4">
-              <h4 className="font-bold mb-2">🆕 Latest CRSP Updates!</h4>
-              <p className="text-sm mb-3">Court halts KRA's new CRSP schedule - save thousands on import duties</p>
-              <Link to="/blog/crsp-schedule-halted-by-court-2025" className="bg-white text-blue-600 px-3 py-1 rounded text-sm font-semibold hover:bg-blue-50 transition-colors">
-                Read Breaking News →
+              <h4 className="font-bold mb-2">🆕 September 2025 Update!</h4>
+              <p className="text-sm mb-3">Latest KRA CRSP updates & what it means for importers</p>
+              <Link to="/blog/kra-crsp-september-2025-update" className="bg-white text-blue-600 px-3 py-1 rounded text-sm font-semibold hover:bg-blue-50 transition-colors">
+                Read Latest Update →
               </Link>
             </div>
 
