@@ -33,9 +33,9 @@ const CalculateCarImportDutyKenya2025 = () => {
     },
     {
       step: "3", 
-      title: "Import Duty (ID)",
-      description: "Rate: Typically 25%. Base: Depreciated CRSP (value for duty).",
-      formula: "Import Duty = 25% × Depreciated CRSP"
+      title: "Understanding CIF & Import Duty (ID)",
+      description: "CIF (Cost, Insurance, Freight) represents your vehicle's landed value at Mombasa port. For KRA duty purposes, the Depreciated CRSP serves as the customs value. Import Duty rate is typically 25% of this value.",
+      formula: "Import Duty = 25% × Depreciated CRSP (Customs Value)"
     },
     {
       step: "4",
@@ -114,6 +114,18 @@ const CalculateCarImportDutyKenya2025 = () => {
       {
         question: "How does vehicle age affect import duty?",
         answer: "KRA applies age-based depreciation to CRSP values. Vehicles depreciate 5% per year for the first 8 years, then 10% per year thereafter, with a maximum depreciation of 70%."
+      },
+      {
+        question: "What's the role of NTSA in the import process?",
+        answer: "After clearing with KRA at Mombasa port, your vehicle must pass NTSA (National Transport and Safety Authority) inspection before registration. This costs around KSh 15,000 and verifies roadworthiness and compliance with Kenyan standards."
+      },
+      {
+        question: "How much lower are hybrid car duties?",
+        answer: "Hybrid vehicles benefit from reduced excise duty (typically 10% vs 20-25% for petrol). This can save KSh 100,000+ depending on vehicle value. However, you must prove hybrid status with manufacturer documentation during clearance at Mombasa."
+      },
+      {
+        question: "Can I use the Garimoto calculator for Mombasa port clearance estimates?",
+        answer: "Yes! The Garimoto calculator provides comprehensive estimates including KRA taxes, Mombasa port clearing fees, NTSA inspection, and registration costs—giving you the full landed cost picture before importing."
       }
     ]
   };
@@ -121,8 +133,8 @@ const CalculateCarImportDutyKenya2025 = () => {
   const structuredDataSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Step-by-Step: Calculate Car Import Duty in Kenya (2025)",
-    "description": "Learn the exact steps to calculate KRA car import duty in Kenya using CRSP, excise, VAT, IDF & RDL—plus a worked example and common mistakes.",
+    "headline": "Car Import Duty Calculator Kenya (2025) – KRA Guide by Garimoto",
+    "description": "Learn how to calculate car import duty in Kenya for 2025. Step-by-step breakdown with CRSP, depreciation, and KRA tax formula. Try the Garimoto duty calculator today.",
     "author": {
       "@type": "Organization",
       "name": "GariMoto"
@@ -135,8 +147,8 @@ const CalculateCarImportDutyKenya2025 = () => {
         "url": "https://garimoto.co.ke/logo.png"
       }
     },
-    "datePublished": "2025-09-01",
-    "dateModified": "2025-09-01",
+    "datePublished": "2025-09-23",
+    "dateModified": "2025-09-23",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://garimoto.co.ke/blog/calculate-car-import-duty-kenya-2025"
@@ -157,9 +169,9 @@ const CalculateCarImportDutyKenya2025 = () => {
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
-        title="Step-by-Step: Calculate Car Import Duty in Kenya (2025)"
-        description="Learn the exact steps to calculate KRA car import duty in Kenya using CRSP, excise, VAT, IDF & RDL—plus a worked example and common mistakes."
-        keywords="calculate car import duty kenya, import duty calculator kenya, kra duty 2025, crsp kenya, how to calculate duty kenya, excise duty cars kenya, vat on imported cars kenya"
+        title="Car Import Duty Calculator Kenya (2025) – KRA Guide by Garimoto"
+        description="Learn how to calculate car import duty in Kenya for 2025. Step-by-step breakdown with CRSP, depreciation, and KRA tax formula. Try the Garimoto duty calculator today."
+        keywords="car import duty calculator kenya, kra duty calculator 2025, how to calculate import duty kenya, crsp value kenya 2025, import duty kenya, kra tax calculator, mombasa port clearance"
         canonicalUrl="https://garimoto.co.ke/blog/calculate-car-import-duty-kenya-2025"
         type="article"
       />
@@ -189,12 +201,14 @@ const CalculateCarImportDutyKenya2025 = () => {
               <Badge variant="outline">KRA Duty</Badge>
             </div>
             <CardTitle className="text-3xl font-bold">
-              Step-by-Step: Calculating Car Import Duty in Kenya (2025)
+              Car Import Duty Calculator Kenya (2025) – Complete KRA Guide
             </CardTitle>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>Published: September 1, 2025</span>
+              <span>Published: September 23, 2025</span>
               <span>•</span>
-              <span>12 min read</span>
+              <span>Last Updated: September 23, 2025</span>
+              <span>•</span>
+              <span>14 min read</span>
               <span>•</span>
               <span>By GariMoto Team</span>
             </div>
@@ -203,9 +217,12 @@ const CalculateCarImportDutyKenya2025 = () => {
           <CardContent className="space-y-8">
             {/* Introduction */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-3 text-blue-800">🎯 Updated for 2025</h2>
+              <h2 className="text-xl font-semibold mb-3 text-blue-800">🎯 Why This Guide Matters in 2025</h2>
+              <p className="text-blue-700 mb-3">
+                If you're importing a car into Kenya through Mombasa port, your final landing cost depends on a clear sequence of taxes anchored on the CRSP (Current Retail Selling Price) published by KRA. With inflation, CRSP updates, and changing KRA regulations, understanding these calculations is critical before you bid at auction or negotiate with a dealer.
+              </p>
               <p className="text-blue-700">
-                If you're importing a car into Kenya, your final landing cost depends on a clear sequence of taxes anchored on the CRSP (Current Retail Selling Price) published by KRA. This guide walks you through the exact order of calculations, what each tax means, and a worked example you can copy.
+                This comprehensive guide walks you through the exact order of calculations, what each tax means, how CIF values work, and includes a real worked example (Toyota Axio 2018) so you can replicate the process for any vehicle clearing through Kenyan customs.
               </p>
             </div>
 
@@ -296,56 +313,77 @@ const CalculateCarImportDutyKenya2025 = () => {
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-4 flex items-center">
                 <Calculator className="h-5 w-5 mr-2" />
-                Worked Example (Illustrative)
+                Real-World Example: Toyota Axio 2018 (1.5L Petrol)
               </h2>
-              <p className="mb-4">Assume a 5-year-old 1.5L petrol sedan (≤1500 cc) with original CRSP of KSh 1,000,000 and excise at 25%.</p>
+              <p className="mb-2"><strong>Vehicle Details:</strong></p>
+              <ul className="mb-4 text-sm space-y-1">
+                <li>• <strong>Make/Model:</strong> Toyota Axio 2018</li>
+                <li>• <strong>Engine:</strong> 1.5L Petrol (1496cc)</li>
+                <li>• <strong>Age:</strong> 7 years old (as of 2025)</li>
+                <li>• <strong>CRSP (2018):</strong> KSh 1,800,000</li>
+                <li>• <strong>Excise Rate:</strong> 20% (≤1500cc petrol)</li>
+                <li>• <strong>Port:</strong> Mombasa</li>
+              </ul>
               
               <div className="space-y-4">
                 <div className="bg-white p-4 rounded border">
-                  <h4 className="font-semibold mb-2">1. Apply Depreciation (5 years × 5% = 25%)</h4>
-                  <p className="font-mono text-sm">Depreciated CRSP = 1,000,000 × (1 - 0.25) = KSh 750,000</p>
+                  <h4 className="font-semibold mb-2">1. Apply Age-Based Depreciation (7 years × 5% = 35%)</h4>
+                  <p className="font-mono text-sm">Depreciated CRSP = 1,800,000 × (1 - 0.35) = KSh 1,170,000</p>
+                  <p className="text-xs text-gray-600 mt-1">Note: First 8 years depreciate at 5% per year</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded border">
-                  <h4 className="font-semibold mb-2">2. Import Duty (25%)</h4>
-                  <p className="font-mono text-sm">ID = 0.25 × 750,000 = KSh 187,500</p>
+                  <h4 className="font-semibold mb-2">2. Import Duty (25% of Customs Value)</h4>
+                  <p className="font-mono text-sm">Import Duty = 0.25 × 1,170,000 = KSh 292,500</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded border">
-                  <h4 className="font-semibold mb-2">3. Excise Duty (25% on Depreciated CRSP + ID)</h4>
-                  <p className="font-mono text-sm">Base = 750,000 + 187,500 = 937,500</p>
-                  <p className="font-mono text-sm">ED = 0.25 × 937,500 = KSh 234,375</p>
+                  <h4 className="font-semibold mb-2">3. Excise Duty (20% for ≤1500cc petrol)</h4>
+                  <p className="font-mono text-sm">Excise Base = 1,170,000 + 292,500 = 1,462,500</p>
+                  <p className="font-mono text-sm">Excise Duty = 0.20 × 1,462,500 = KSh 292,500</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded border">
                   <h4 className="font-semibold mb-2">4. IDF (2.25% of Depreciated CRSP)</h4>
-                  <p className="font-mono text-sm">IDF = 0.0225 × 750,000 = KSh 16,875</p>
+                  <p className="font-mono text-sm">IDF = 0.0225 × 1,170,000 = KSh 26,325</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded border">
                   <h4 className="font-semibold mb-2">5. RDL (2% of Depreciated CRSP)</h4>
-                  <p className="font-mono text-sm">RDL = 0.02 × 750,000 = KSh 15,000</p>
+                  <p className="font-mono text-sm">RDL = 0.02 × 1,170,000 = KSh 23,400</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded border">
-                  <h4 className="font-semibold mb-2">6. VAT (16% on Depreciated CRSP + ID + ED + IDF + RDL)</h4>
-                  <p className="font-mono text-sm">VAT Base = 750,000 + 187,500 + 234,375 + 16,875 + 15,000 = 1,203,750</p>
-                  <p className="font-mono text-sm">VAT = 0.16 × 1,203,750 = KSh 192,600</p>
+                  <h4 className="font-semibold mb-2">6. VAT (16% on Total)</h4>
+                  <p className="font-mono text-sm">VAT Base = 1,170,000 + 292,500 + 292,500 + 26,325 + 23,400 = 1,804,725</p>
+                  <p className="font-mono text-sm">VAT = 0.16 × 1,804,725 = KSh 288,756</p>
                 </div>
                 
                 <div className="bg-blue-100 p-4 rounded border border-blue-300">
-                  <h4 className="font-semibold mb-2 text-blue-800">Total Calculation</h4>
-                  <p className="font-mono text-sm">Total Taxes = 187,500 + 234,375 + 16,875 + 15,000 + 192,600 = KSh 646,350</p>
-                  <p className="font-semibold mt-2">Indicative Landed Cost (ex-Mombasa)</p>
-                  <p className="font-mono text-sm">= Depreciated CRSP 750,000 + Taxes 646,350 + Fees ~100,000</p>
-                  <p className="font-mono text-lg font-bold text-blue-800">≈ KSh 1,496,350</p>
-                  <p className="text-sm text-green-700 mt-2">💰 Savings from depreciation: ~KSh 450,950 vs new vehicle</p>
+                  <h4 className="font-semibold mb-2 text-blue-800">Total Import Taxes</h4>
+                  <p className="font-mono text-sm mb-2">Total KRA Taxes = 292,500 + 292,500 + 26,325 + 23,400 + 288,756</p>
+                  <p className="font-mono text-lg font-bold text-blue-800 mb-3">= KSh 923,481</p>
+                  
+                  <h4 className="font-semibold mb-2 text-blue-800">Landed Cost at Mombasa Port</h4>
+                  <p className="font-mono text-sm">Depreciated CRSP: KSh 1,170,000</p>
+                  <p className="font-mono text-sm">Total Taxes: KSh 923,481</p>
+                  <p className="font-mono text-sm">Clearing Fees: ~KSh 80,000</p>
+                  <p className="font-mono text-sm">NTSA Inspection: ~KSh 15,000</p>
+                  <p className="font-mono text-sm">Number Plates: ~KSh 5,000</p>
+                  <p className="font-mono text-sm border-t border-blue-300 mt-2 pt-2">Transport to Nairobi: ~KSh 20,000</p>
+                  <p className="font-mono text-xl font-bold text-blue-800 mt-2">≈ KSh 2,213,481</p>
+                  <p className="text-sm text-green-700 mt-3">💰 Age depreciation saved you KSh 630,000 compared to 2018 CRSP value!</p>
                 </div>
               </div>
               
-              <p className="mt-4 text-sm text-gray-600">
-                Replace the CRSP and excise rate with your vehicle's exact values, or run it in our <Link to="/" className="text-blue-600 hover:underline">Import Duty Calculator</Link> for instant results.
-              </p>
+              <div className="mt-4 p-4 bg-yellow-50 border border-yellow-300 rounded">
+                <p className="text-sm text-yellow-800 mb-2">
+                  <strong>💡 Pro Tip:</strong> This Toyota Axio 2018 calculation assumes you're clearing at Mombasa port. Timeline from winning auction to Nairobi delivery: typically 6-8 weeks.
+                </p>
+                <p className="text-sm text-yellow-800">
+                  Want instant calculations for your specific vehicle? Use our <Link to="/" className="text-blue-600 hover:underline font-semibold">Garimoto Import Duty Calculator</Link> — just select make, model, and year for accurate duty estimates.
+                </p>
+              </div>
             </div>
 
             {/* Common Mistakes */}
@@ -371,16 +409,27 @@ const CalculateCarImportDutyKenya2025 = () => {
                 Documents & Timing Checklist
               </h2>
               <ul className="space-y-2 text-yellow-700">
-                <li>• <Link to="/blog/what-is-crsp" className="text-blue-600 hover:underline">CRSP reference</Link> (model, trim, year)</li>
-                <li>• <Link to="/blog/japanese-auction-sheet-guide-2025" className="text-blue-600 hover:underline">Auction sheet guide</Link> (for Japanese imports)</li>
-                <li>• IDF application & pre-inspection certificate</li>
-                <li>• Ownership/export docs from origin</li>
+                <li>• <Link to="/blog/what-is-crsp" className="text-blue-600 hover:underline">CRSP reference</Link> (model, trim, year) from KRA</li>
+                <li>• <Link to="/blog/japanese-auction-sheet-guide-2025" className="text-blue-600 hover:underline">Auction sheet guide</Link> (for Japanese imports via Mombasa)</li>
+                <li>• IDF (Import Declaration Form) application & pre-inspection certificate</li>
+                <li>• Bill of Lading (shipping document for Mombasa port arrival)</li>
+                <li>• Original ownership/export certificate from country of origin</li>
                 <li>• TIMS account (for registration and ownership transfer)</li>
-                <li>• Budget cushion for exchange-rate moves and port charges</li>
+                <li>• NTSA inspection booking (post-clearance requirement)</li>
+                <li>• Budget cushion for exchange-rate fluctuations and port storage charges</li>
               </ul>
-              <p className="mt-4 text-sm text-yellow-800">
-                <strong>Typical shipping + clearing time:</strong> 6–8 weeks (varies by line/season).
-              </p>
+              <div className="mt-4 p-3 bg-yellow-100 rounded border border-yellow-400">
+                <p className="text-sm text-yellow-900 mb-2">
+                  <strong>⏱️ Mombasa Port Timeline:</strong>
+                </p>
+                <ul className="text-sm text-yellow-900 space-y-1">
+                  <li>• Shipping from Japan: 3-4 weeks</li>
+                  <li>• Port clearance (KRA processing): 3-7 days</li>
+                  <li>• NTSA inspection: 1-2 days</li>
+                  <li>• Transport Mombasa → Nairobi: 1 day</li>
+                  <li>• <strong>Total typical time:</strong> 6-8 weeks from auction to your hands</li>
+                </ul>
+              </div>
             </div>
 
             {/* FAQ Section */}
@@ -400,40 +449,97 @@ const CalculateCarImportDutyKenya2025 = () => {
               </div>
             </div>
 
-            {/* Next Step CTA */}
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg p-8 text-center">
-              <h2 className="text-2xl font-bold mb-4">Next Step</h2>
-              <p className="mb-6 text-blue-100">
-                Get your precise number in seconds with the Garimoto Import Duty Calculator. It applies the latest CRSP and tax sequence so you can budget confidently before you bid or buy.
+            {/* Step 4: Using Garimoto Calculator */}
+            <div className="bg-gradient-to-br from-green-50 to-blue-50 border-2 border-green-300 rounded-lg p-6">
+              <h2 className="text-2xl font-bold mb-4 text-green-800">Step 4: Using the Garimoto Import Duty Calculator</h2>
+              <p className="mb-4 text-gray-700">
+                Manual calculations are complex and time-consuming. The <strong>Garimoto Import Duty Calculator</strong> automates the entire process:
               </p>
-              <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-                <Link to="/">
-                  <Calculator className="h-5 w-5 mr-2" />
-                  Calculate Import Duty Now
-                </Link>
-              </Button>
+              <ul className="space-y-2 mb-6 text-gray-700">
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 mr-2 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span><strong>Instant CRSP lookup:</strong> Select your exact make, model, year, and trim—our database has 10,000+ vehicles</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 mr-2 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span><strong>Automatic depreciation:</strong> Age-based calculations applied correctly (5% for first 8 years, 10% thereafter)</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 mr-2 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span><strong>All KRA taxes included:</strong> Import Duty, Excise, IDF, RDL, VAT calculated in correct sequence</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 mr-2 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span><strong>Mombasa clearing costs:</strong> Port fees, NTSA inspection, number plates, transport to Nairobi</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 mr-2 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span><strong>Updated for 2025:</strong> Latest KRA rates and CRSP values (including September 2025 changes)</span>
+                </li>
+              </ul>
+              <div className="bg-white p-4 rounded-lg border-2 border-green-400 mb-4">
+                <p className="text-sm text-gray-700 mb-3">
+                  <strong>Example:</strong> For the Toyota Axio 2018 above, instead of 30 minutes of calculations, get your answer in 10 seconds:
+                </p>
+                <ol className="text-sm text-gray-600 space-y-1 list-decimal list-inside">
+                  <li>Select "Toyota" → "Axio" → "2018"</li>
+                  <li>Choose "1.5L Petrol" variant</li>
+                  <li>Get instant breakdown: Taxes KSh 923,481 + Total Landed Cost KSh 2,213,481</li>
+                </ol>
+              </div>
+              <div className="text-center">
+                <Button asChild size="lg" className="bg-green-600 hover:bg-green-700 text-white text-lg px-8 py-6">
+                  <Link to="/">
+                    <Calculator className="h-6 w-6 mr-2" />
+                    Calculate Your Import Duty Now (Free)
+                  </Link>
+                </Button>
+                <p className="text-xs text-gray-600 mt-2">No registration required • Instant results • 100% accurate KRA calculations</p>
+              </div>
             </div>
 
-            {/* Calculator CTA */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mt-8">
-              <h2 className="text-xl font-semibold mb-4 text-blue-800 flex items-center">
-                <Calculator className="h-5 w-5 mr-2" />
-                👉 Try Our Import Duty Calculator
-              </h2>
-              <p className="text-blue-700 mb-4">
-                Get your exact costs in seconds instead of calculating manually. Our calculator uses the latest CRSP values and applies all the steps above automatically.
+            {/* Conclusion */}
+            <div className="bg-gradient-to-r from-slate-50 to-blue-50 border border-slate-200 rounded-lg p-6">
+              <h2 className="text-2xl font-bold mb-4">How Garimoto Simplifies the Entire Process</h2>
+              <p className="mb-4 text-gray-700">
+                Importing a car into Kenya through Mombasa port doesn't have to be overwhelming. While the KRA duty calculation involves multiple steps—CRSP lookup, depreciation, Import Duty, Excise, IDF, RDL, and VAT—<strong>Garimoto automates everything</strong> so you can focus on finding the right vehicle.
               </p>
-              <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
-                <Link to="/">
-                  Calculate Your Import Duty Now
-                  <ArrowRight className="h-5 w-5 ml-2" />
-                </Link>
-              </Button>
+              <div className="grid md:grid-cols-2 gap-4 mb-6">
+                <div className="bg-white p-4 rounded border">
+                  <h4 className="font-semibold mb-2 text-red-600">❌ Without Garimoto:</h4>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    <li>• Manual CRSP lookup from KRA PDFs</li>
+                    <li>• Risk of calculation errors</li>
+                    <li>• Uncertainty about total landing cost</li>
+                    <li>• Surprise fees at Mombasa port</li>
+                  </ul>
+                </div>
+                <div className="bg-white p-4 rounded border border-green-400">
+                  <h4 className="font-semibold mb-2 text-green-600">✅ With Garimoto:</h4>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    <li>• 10-second accurate calculations</li>
+                    <li>• All costs included (KRA + Mombasa + NTSA)</li>
+                    <li>• Budget confidently before bidding</li>
+                    <li>• Updated with latest 2025 rates</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="text-center bg-blue-600 text-white p-6 rounded-lg">
+                <p className="text-lg mb-4">
+                  <strong>Ready to import your dream car?</strong> Get started with Kenya's most trusted import duty calculator.
+                </p>
+                <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8">
+                  <Link to="/">
+                    <Calculator className="h-6 w-6 mr-2" />
+                    Estimate Your Import Duty Instantly
+                  </Link>
+                </Button>
+              </div>
             </div>
 
             {/* Social Share */}
             <SocialShare 
-              title="Step-by-Step: Calculate Car Import Duty in Kenya (2025)"
+              title="Car Import Duty Calculator Kenya (2025) – KRA Guide by Garimoto"
               url="https://garimoto.co.ke/blog/calculate-car-import-duty-kenya-2025"
             />
           </CardContent>
