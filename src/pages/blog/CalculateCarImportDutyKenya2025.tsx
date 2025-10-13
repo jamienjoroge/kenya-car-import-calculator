@@ -176,7 +176,7 @@ const CalculateCarImportDutyKenya2025 = () => {
         type="article"
       />
       
-      <StructuredData type="article" data={structuredDataSchema} />
+      <StructuredData type="article" data={structuredDataSchema} dateModified="2025-09-23" />
       <StructuredData type="faq" data={faqData} />
       
       <Navigation />
@@ -196,7 +196,7 @@ const CalculateCarImportDutyKenya2025 = () => {
         <Card>
           <CardHeader>
             <div className="flex flex-wrap gap-2 mb-4">
-              <Badge variant="secondary">Updated for 2025</Badge>
+              <Badge variant="secondary" className="bg-green-100 text-green-800">✅ Updated September 2025</Badge>
               <Badge variant="outline">Import Guide</Badge>
               <Badge variant="outline">KRA Duty</Badge>
             </div>

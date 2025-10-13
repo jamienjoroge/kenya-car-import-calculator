@@ -71,6 +71,11 @@ const KRACRSPSeptember2025Update = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            <div className="bg-white p-3 rounded mb-3">
+              <p className="text-sm text-green-700">
+                <strong>Last Updated:</strong> September 23, 2025 • <strong>Status:</strong> Active rates in use
+              </p>
+            </div>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <h4 className="font-semibold text-green-800">What Changed:</h4>

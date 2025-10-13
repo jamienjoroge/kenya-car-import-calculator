@@ -31,6 +31,15 @@ const Blog = () => {
 
   const staticBlogPosts = [
     {
+      id: "kra-crsp-september-2025-update",
+      title: "KRA CRSP September 2025 Update – Import Duty Changes Kenya",
+      description: "Latest KRA CRSP updates September 2025. New import duty rates, court rulings impact, and what it means for car importers in Kenya.",
+      readTime: "6 min read",
+      date: "September 23, 2025",
+      excerpt: "KRA made minor adjustments to CRSP values for select vehicle models in September 2025. Learn what changed, what stayed the same, and how it affects your import costs.",
+      breaking: true
+    },
+    {
       id: "8-year-rule-kenya-2025",
       title: "8-Year Rule for Car Imports in Kenya: Manufacture vs Registration Explained",
       description: "Learn why Kenya only allows cars under 8 years old—from either manufacture or registration year. How it impacts importing to Kenya in 2025.",
@@ -201,7 +210,7 @@ const Blog = () => {
       title: "Step-by-Step: Calculate Car Import Duty in Kenya (2025)",
       description: "Learn the exact steps to calculate KRA car import duty in Kenya using CRSP, excise, VAT, IDF & RDL—plus a worked example and common mistakes.",
       readTime: "12 min read",
-      date: "September 1, 2025",
+      date: "September 23, 2025",
       excerpt: "Master the complete process of calculating import duties in Kenya with our step-by-step guide covering CRSP, depreciation, and all applicable fees."
     },
     {

@@ -31,7 +31,7 @@ const HeroSection = () => {
           </div>
           <div className="flex items-center gap-1 text-purple-600">
             <Calculator className="h-3 w-3" />
-            <span className="font-semibold">2025 CRSP Rates</span>
+            <span className="font-semibold">September 2025 CRSP</span>
           </div>
         </div>
       </div>

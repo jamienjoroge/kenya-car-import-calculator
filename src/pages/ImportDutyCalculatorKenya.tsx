@@ -6,6 +6,7 @@ import SEOPermalinks from "@/components/SEOPermalinks";
 import FAQSchema from "@/components/FAQSchema";
 import InternalLinkCTA from "@/components/InternalLinkCTA";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Calculator, BookOpen, TrendingUp } from "lucide-react";
 
 const ImportDutyCalculatorKenya = () => {
@@ -13,8 +14,8 @@ const ImportDutyCalculatorKenya = () => {
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
         title="Import Duty Calculator Kenya – KRA Car Tax Calculator 2025"
-        description="Calculate import duty in Kenya using our FREE KRA calculator. Get instant estimates for car import costs, VAT, excise duty using official CRSP values."
-        keywords="import duty calculator kenya, kra car duty calculator, car import duty calculator kenya, kenya customs calculator, crsp calculator"
+        description="⚡ Live September 2025 rates. Calculate import duty in Kenya using our FREE KRA calculator. Get instant estimates for car import costs using official CRSP values."
+        keywords="import duty calculator kenya, kra car duty calculator, car import duty calculator kenya, kenya customs calculator, crsp calculator, september 2025"
         canonicalUrl="https://garimoto.co.ke/import-duty-calculator-kenya"
         type="website"
       />
@@ -44,6 +45,11 @@ const ImportDutyCalculatorKenya = () => {
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header Section */}
         <div className="text-center mb-8">
+          <div className="flex justify-center mb-3">
+            <Badge variant="secondary" className="bg-green-100 text-green-800">
+              ✅ Updated September 2025
+            </Badge>
+          </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
             Import Duty Calculator Kenya
           </h1>

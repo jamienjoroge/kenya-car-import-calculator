@@ -3,9 +3,10 @@ import React from 'react';
 interface StructuredDataProps {
   type: 'calculator' | 'article' | 'faq';
   data: any;
+  dateModified?: string;
 }
 
-const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
+const StructuredData: React.FC<StructuredDataProps> = ({ type, data, dateModified }) => {
   const getSchema = () => {
     switch (type) {
       case 'calculator':
@@ -52,7 +53,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
             }
           },
           "datePublished": data.datePublished,
-          "dateModified": data.dateModified,
+          "dateModified": dateModified || data.dateModified,
           "articleSection": "Car Import"
         };
       
