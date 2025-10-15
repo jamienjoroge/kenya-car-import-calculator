@@ -2,6 +2,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <!-- Breaking News & Updates -->
+  <url>
+    <loc>https://garimoto.co.ke/blog/kra-crsp-september-2025-update</loc>
+    <news:news>
+      <news:publication>
+        <news:name>GariMoto</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2025-09-23T08:00:00Z</news:publication_date>
+      <news:title>KRA CRSP September 2025 Update: Latest Rate Changes</news:title>
+      <news:keywords>CRSP, September 2025, Kenya car import, KRA, duty rates, latest update</news:keywords>
+    </news:news>
+  </url>
+  
+  <url>
+    <loc>https://garimoto.co.ke/blog/calculate-car-import-duty-kenya-2025</loc>
+    <news:news>
+      <news:publication>
+        <news:name>GariMoto</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2025-09-23T08:00:00Z</news:publication_date>
+      <news:title>How to Calculate Car Import Duty in Kenya 2025: Complete Guide</news:title>
+      <news:keywords>import duty calculator, Kenya car import, CRSP, KRA, duty calculation, 2025 guide</news:keywords>
+    </news:news>
+  </url>
+  
   <!-- Latest Breaking News -->
   <url>
     <loc>https://garimoto.co.ke/blog/crsp-schedule-halted-by-court-2025</loc>

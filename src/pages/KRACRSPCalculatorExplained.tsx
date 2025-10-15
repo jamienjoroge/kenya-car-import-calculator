@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import SEOPermalinks from "@/components/SEOPermalinks";
 import FAQSchema from "@/components/FAQSchema";
 import InternalLinkCTA from "@/components/InternalLinkCTA";
+import LastVerifiedBadge from "@/components/LastVerifiedBadge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -15,8 +16,8 @@ const KRACRSPCalculatorExplained = () => {
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
         title="KRA CRSP Calculator Explained – Car Import Costs 2025"
-        description="Updated daily with latest KRA values. Understand how KRA CRSP calculator works for car imports in Kenya. Learn CRSP values, depreciation rates, and duty calculation."
-        keywords="kra crsp calculator, crsp calculator kenya, kra crsp values, car import crsp, kenya crsp calculator, september 2025"
+        description="⚡ Last Verified: Sept 23, 2025 | Master the KRA CRSP calculator with our complete 2025 guide. Learn exact depreciation formulas + tax calculations. Save KES 200K+ on import costs →"
+        keywords="kra crsp calculator, crsp calculator kenya, kra crsp values, car import crsp, kenya crsp calculator, september 2025, sept 23 2025"
         canonicalUrl="https://garimoto.co.ke/kra-crsp-calculator-explained"
         type="article"
       />
@@ -46,10 +47,11 @@ const KRACRSPCalculatorExplained = () => {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex justify-center mb-3">
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-3">
             <Badge variant="secondary" className="bg-green-100 text-green-800">
               ✅ Updated September 2025
             </Badge>
+            <LastVerifiedBadge />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
             KRA CRSP Calculator Explained

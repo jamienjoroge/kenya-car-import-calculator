@@ -2,6 +2,7 @@
 import VehicleImportCalculator from "@/components/VehicleImportCalculator";
 import AdSpace from "@/components/AdSpace";
 import HeroSection from "@/components/HeroSection";
+import LastVerifiedBadge from "@/components/LastVerifiedBadge";
 import FeatureCards from "@/components/FeatureCards";
 import SEOContent from "@/components/SEOContent";
 import Navigation from "@/components/Navigation";
@@ -21,8 +22,8 @@ const Index = () => {
     <div className="bg-gradient-to-bl from-blue-50 to-slate-50 min-h-screen">
       <SEOPermalinks 
         title="Import Duty Calculator Kenya – Official KRA CRSP Calculator 2025"
-        description="⚡ Live September 2025 rates. FREE car import duty calculator Kenya using official KRA CRSP values. Calculate exact import costs instantly."
-        keywords="import duty calculator kenya, kra crsp calculator, kenya car import duty, kra duty calculator 2025, car import cost kenya, september 2025"
+        description="⚡ UPDATED Sept 23, 2025 | Calculate exact KRA import duty in 30 seconds. Used by 15,000+ Kenyan importers. 100% FREE calculator with live September 2025 CRSP rates. Get instant results →"
+        keywords="import duty calculator kenya, kra crsp calculator, kenya car import duty, kra duty calculator 2025, car import cost kenya, september 2025, sept 23 2025, latest crsp rates"
         canonicalUrl="https://garimoto.co.ke/"
         type="website"
       />
@@ -68,6 +69,9 @@ const Index = () => {
       {/* Ultra Compact Hero Section */}
       <div className="pt-2 pb-2">
         <HeroSection />
+        <div className="flex justify-center mb-2">
+          <LastVerifiedBadge />
+        </div>
       </div>
 
       {/* Main Content Grid - Calculator Takes Center Stage */}

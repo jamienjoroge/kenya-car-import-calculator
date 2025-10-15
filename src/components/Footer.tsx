@@ -12,7 +12,7 @@ const Footer = () => {
         <Link to="/terms" className="hover:text-primary">Terms of Service</Link>
         <Link to="/sitemap" className="hover:text-primary">Sitemap</Link>
       </div>
-      <p>&copy; {new Date().getFullYear()} Kenya Vehicle Import Calculator · Updated for July 2025 CRSP Schedule·</p>
+      <p>&copy; {new Date().getFullYear()} Kenya Vehicle Import Calculator · Updated for September 2025 CRSP Schedule · Last Verified: Sept 23, 2025</p>
     </footer>
   );
 };

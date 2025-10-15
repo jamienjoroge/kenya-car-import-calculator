@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import SEOPermalinks from '@/components/SEOPermalinks';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
 import StructuredData from '@/components/StructuredData';
+import HowToSchema from '@/components/HowToSchema';
 import SocialShare from '@/components/SocialShare';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -169,11 +170,48 @@ const CalculateCarImportDutyKenya2025 = () => {
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
-        title="Car Import Duty Calculator Kenya (2025) – KRA Guide by Garimoto"
-        description="Learn how to calculate car import duty in Kenya for 2025. Step-by-step breakdown with CRSP, depreciation, and KRA tax formula. Try the Garimoto duty calculator today."
-        keywords="car import duty calculator kenya, kra duty calculator 2025, how to calculate import duty kenya, crsp value kenya 2025, import duty kenya, kra tax calculator, mombasa port clearance"
+        title="[2025 Guide] How to Calculate Car Import Duty Kenya | Save KES 200K+"
+        description="⚡ Updated Sept 23, 2025 | Step-by-step formula to calculate exact KRA import duty + VAT + IDF. Includes worked examples, depreciation tables & common mistakes. Read the full guide →"
+        keywords="calculate car import duty kenya, kenya import duty calculation, crsp calculator kenya, kra duty calculator, vehicle import tax kenya, how to calculate import duty, kenya customs duty calculation, sept 2025"
         canonicalUrl="https://garimoto.co.ke/blog/calculate-car-import-duty-kenya-2025"
         type="article"
+      />
+      
+      <HowToSchema 
+        name="How to Calculate Car Import Duty in Kenya"
+        description="Complete step-by-step guide to calculating car import duty in Kenya using KRA CRSP rates, including all taxes and fees."
+        totalTime="PT5M"
+        steps={[
+          {
+            name: "Determine the CRSP Value",
+            text: "Find your vehicle's Current Retail Selling Price (CRSP) from the official KRA database based on make, model, year, and engine capacity.",
+            url: "https://garimoto.co.ke/import-duty-calculator-kenya"
+          },
+          {
+            name: "Calculate Depreciation",
+            text: "Apply KRA's depreciation schedule: Year 1 = 25%, Year 2 = 37.5%, Year 3 = 50%, Year 4+ = 62.5% depreciation from CRSP."
+          },
+          {
+            name: "Calculate Import Duty",
+            text: "Multiply depreciated CRSP by 35% (standard rate) or 25% (EAC rate) for import duty amount."
+          },
+          {
+            name: "Calculate Excise Duty",
+            text: "Apply excise duty rate based on vehicle category: 20% for standard, 25% for mid-range, 30% for luxury, 35% for pick-ups."
+          },
+          {
+            name: "Calculate VAT",
+            text: "Add 16% VAT on the total of CRSP + Import Duty + Excise Duty."
+          },
+          {
+            name: "Add Fixed Fees",
+            text: "Include IDF (KES 3.5%), Railway Development Levy (KES 2%), and fixed fees (IDF: KES 60,000, RDL: KES 45,000)."
+          },
+          {
+            name: "Get Total Landing Cost",
+            text: "Sum all amounts for total import cost including customs, taxes, and fees."
+          }
+        ]}
       />
       
       <StructuredData type="article" data={structuredDataSchema} dateModified="2025-09-23" />
