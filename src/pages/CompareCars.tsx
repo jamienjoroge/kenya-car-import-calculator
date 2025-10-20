@@ -9,6 +9,7 @@ import { calculateDuties } from "@/lib/calculation";
 import { VehicleSelector } from "@/components/VehicleSelector";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import SEOPermalinks from "@/components/SEOPermalinks";
+import LastVerifiedBadge from "@/components/LastVerifiedBadge";
 
 const CompareCars = () => {
   const defaultYear = (new Date().getFullYear() - 8).toString();
@@ -47,8 +48,8 @@ const CompareCars = () => {
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
-        title="Duty Calculator Kenya – Updated 2025 Car Tax Estimator"
-        description="Estimate your vehicle import taxes in seconds. Our Kenya Duty Calculator uses updated 2025 rates for accurate duty, VAT, and excise costs."
+        title="Compare Car Import Costs Kenya 2025 | Side-by-Side Calculator | GariMoto"
+        description="Compare import duties for 3 vehicles side-by-side. Toyota vs Honda vs Nissan comparison tool with updated October 2025 CRSP rates. Make smarter buying decisions."
         keywords="compare car import costs Kenya, vehicle duty comparison, KRA CRSP comparison 2025, car import cost calculator, Kenya vehicle comparison tool"
         canonicalUrl="https://garimoto.co.ke/compare"
         type="website"
@@ -66,9 +67,12 @@ const CompareCars = () => {
             <GitCompare className="h-6 w-6 text-primary" />
             <h1 className="text-3xl font-bold text-primary">Compare Cars</h1>
           </div>
-          <p className="text-muted-foreground">
-            Compare import costs between different vehicles side by side
-          </p>
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <p className="text-muted-foreground">
+              Compare import costs between different vehicles side by side
+            </p>
+            <LastVerifiedBadge />
+          </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">

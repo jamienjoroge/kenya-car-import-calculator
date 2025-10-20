@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { calculateDuties } from "@/lib/calculation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import SEOPermalinks from "@/components/SEOPermalinks";
+import LastVerifiedBadge from "@/components/LastVerifiedBadge";
 
 interface AffordableVehicle {
   make_name: string;
@@ -110,8 +111,8 @@ const WhatCanIAfford = () => {
   return (
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
-        title="KRA Car Duty Calculator 2025 – Free Import Tax Estimator"
-        description="Get quick and reliable estimates for your car import taxes. KRA duty, VAT, and other fees calculated instantly with updated 2025 rates."
+        title="What Car Can I Afford in Kenya 2025? | Budget Calculator | GariMoto"
+        description="Find vehicles within your budget including import duties. Enter KES 500K-3M and discover 20+ cars you can afford. Updated October 2025 with CRSP rates."
         keywords="car budget calculator Kenya, what car can I afford Kenya, import budget calculator, Kenya car affordability, vehicle budget planner Kenya"
         canonicalUrl="https://garimoto.co.ke/afford"
         type="website"
@@ -129,9 +130,12 @@ const WhatCanIAfford = () => {
             <DollarSign className="h-6 w-6 text-primary" />
             <h1 className="text-3xl font-bold text-primary">What Can I Afford?</h1>
           </div>
-          <p className="text-muted-foreground">
-            Find vehicles within your budget range including vehicle cost + import duties + shipping
-          </p>
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <p className="text-muted-foreground">
+              Find vehicles within your budget range including vehicle cost + import duties + shipping
+            </p>
+            <LastVerifiedBadge />
+          </div>
         </div>
 
         <Card className="mb-8">

@@ -12,6 +12,7 @@ import { Calendar, AlertCircle, CheckCircle, Clock, Wrench, Mail, Download } fro
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SEOPermalinks from "@/components/SEOPermalinks";
+import LastVerifiedBadge from "@/components/LastVerifiedBadge";
 
 interface MaintenanceItem {
   id: string;
@@ -338,9 +339,12 @@ For professional maintenance services in Kenya, visit GariMoto.co.ke
           <h1 className="text-3xl font-bold mb-4 text-primary">
             🔧 Car Maintenance Schedule Tracker
           </h1>
-          <p className="text-lg text-muted-foreground mb-4">
-            Keep your vehicle in perfect condition with our maintenance schedule tracker
-          </p>
+          <div className="flex items-center justify-center gap-4 flex-wrap mb-4">
+            <p className="text-lg text-muted-foreground">
+              Keep your vehicle in perfect condition with our maintenance schedule tracker
+            </p>
+            <LastVerifiedBadge />
+          </div>
         </div>
 
         {/* Vehicle Information Input */}

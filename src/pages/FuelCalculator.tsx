@@ -9,6 +9,7 @@ import { Fuel, Calculator, TrendingUp, MapPin } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SEOPermalinks from "@/components/SEOPermalinks";
+import LastVerifiedBadge from "@/components/LastVerifiedBadge";
 
 const FuelCalculator = () => {
   const [distance, setDistance] = useState<number>(0);
@@ -54,7 +55,7 @@ const FuelCalculator = () => {
     <div className="min-h-screen bg-gradient-to-bl from-blue-50 to-slate-50">
       <SEOPermalinks 
         title="Fuel Consumption Calculator Kenya | Car Fuel Economy Tracker | GariMoto"
-        description="Calculate your vehicle's fuel consumption and costs in Kenya. Track fuel efficiency, plan trip costs, and optimize your car's fuel economy. Free calculator with KES pricing."
+        description="Calculate your vehicle's fuel consumption and costs in Kenya. Track fuel efficiency, plan trip costs, and optimize your car's fuel economy. Updated October 2025 with current KES fuel prices."
         keywords="fuel consumption calculator Kenya, car fuel economy, fuel efficiency calculator, trip cost calculator, fuel prices Kenya, vehicle fuel consumption"
       />
       
@@ -68,7 +69,7 @@ const FuelCalculator = () => {
           <p className="text-lg text-muted-foreground mb-4">
             Calculate your vehicle's fuel efficiency and plan your travel costs in Kenya
           </p>
-          <div className="flex justify-center gap-4 mb-6">
+          <div className="flex justify-center gap-4 flex-wrap mb-6">
             <Badge variant="secondary" className="text-sm">
               <Fuel className="h-4 w-4 mr-1" />
               Real Kenya Fuel Prices
@@ -77,6 +78,7 @@ const FuelCalculator = () => {
               <Calculator className="h-4 w-4 mr-1" />
               Accurate Calculations
             </Badge>
+            <LastVerifiedBadge />
           </div>
         </div>
 

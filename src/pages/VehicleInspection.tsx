@@ -12,6 +12,7 @@ import { CheckCircle, AlertTriangle, Car, FileText, Download, Edit3 } from "luci
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SEOPermalinks from "@/components/SEOPermalinks";
+import LastVerifiedBadge from "@/components/LastVerifiedBadge";
 
 interface ChecklistItem {
   id: string;
@@ -278,7 +279,7 @@ For professional vehicle inspection services in Kenya, visit GariMoto.co.ke
           <p className="text-lg text-muted-foreground mb-4">
             Ensure your vehicle is roadworthy and safe with our comprehensive inspection checklist
           </p>
-          <div className="flex justify-center gap-4 mb-6">
+          <div className="flex justify-center gap-4 flex-wrap mb-6">
             <Badge variant="secondary" className="text-sm">
               <Car className="h-4 w-4 mr-1" />
               Kenya Roadworthy Standards
@@ -287,6 +288,7 @@ For professional vehicle inspection services in Kenya, visit GariMoto.co.ke
               <CheckCircle className="h-4 w-4 mr-1" />
               Professional Grade
             </Badge>
+            <LastVerifiedBadge />
           </div>
         </div>
 
