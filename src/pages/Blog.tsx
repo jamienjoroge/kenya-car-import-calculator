@@ -103,6 +103,15 @@ const Blog = () => {
       breaking: true
     },
     {
+      id: "maintenance-schedule-oct-2025",
+      title: "Car Maintenance Schedule Kenya Q4 2025: Rainy Season Prep Checklist",
+      description: "Complete Q4 2025 maintenance guide with rainy season prep checklist and October 2025 service costs for Kenya.",
+      readTime: "12 min read",
+      date: "October 20, 2025",
+      excerpt: "Prepare your vehicle for Kenya's short rains with our comprehensive Q4 maintenance guide, including critical safety checks and service costs.",
+      breaking: false
+    },
+    {
       id: "fuel-calculator-guide",
       title: "Free Fuel Calculator Kenya 2025: Track Your Car's Consumption & Trip Costs",
       description: "Calculate your vehicle's fuel consumption and plan trip costs in Kenya. Free fuel efficiency calculator with real Kenya fuel prices.",

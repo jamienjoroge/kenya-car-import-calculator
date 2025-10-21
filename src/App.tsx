@@ -27,6 +27,7 @@ import VehicleMaintenanceGuide from "./pages/blog/VehicleMaintenanceGuide";
 import VehicleInspectionGuide from "./pages/blog/VehicleInspectionGuide";
 import BudgetCarFinderGuide from "./pages/blog/BudgetCarFinderGuide";
 import PopularCarsAnalysisGuide from "./pages/blog/PopularCarsAnalysisGuide";
+import MaintenanceScheduleOct2025 from "./pages/blog/MaintenanceScheduleOct2025";
 import CRSPScheduleHaltedByCourt2025 from "./pages/blog/CRSPScheduleHaltedByCourt2025";
 import KenyaCarImportProcess2025 from "./pages/blog/KenyaCarImportProcess2025";
 import BestCarsImportKenya1Million from "./pages/blog/BestCarsImportKenya1Million";
@@ -80,6 +81,7 @@ function App() {
           <Route path="/blog/vehicle-inspection-guide" element={<VehicleInspectionGuide />} />
           <Route path="/blog/budget-car-finder-guide" element={<BudgetCarFinderGuide />} />
           <Route path="/blog/popular-cars-analysis-guide" element={<PopularCarsAnalysisGuide />} />
+          <Route path="/blog/maintenance-schedule-oct-2025" element={<MaintenanceScheduleOct2025 />} />
           <Route path="/blog/crsp-schedule-halted-by-court-2025" element={<CRSPScheduleHaltedByCourt2025 />} />
           <Route path="/blog/kra-crsp-september-2025-update" element={<KRACRSPSeptember2025Update />} />
           <Route path="/blog/kenya-car-import-process-2025" element={<KenyaCarImportProcess2025 />} />
