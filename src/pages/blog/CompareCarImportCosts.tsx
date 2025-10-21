@@ -21,8 +21,8 @@ const CompareCarImportCosts = () => {
       <Navigation />
       <BreadcrumbNav 
         items={[
-          { label: "Blog", path: "/blog" },
-          { label: "Compare Car Import Costs", path: "/blog/compare-car-import-costs" }
+          { label: "Blog", href: "/blog" },
+          { label: "Compare Car Import Costs", href: "/blog/compare-car-import-costs" }
         ]} 
       />
 

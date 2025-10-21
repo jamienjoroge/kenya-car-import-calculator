@@ -22,8 +22,8 @@ const FuelCalculatorGuide = () => {
       <Navigation />
       <BreadcrumbNav 
         items={[
-          { label: "Blog", path: "/blog" },
-          { label: "Fuel Calculator Guide", path: "/blog/fuel-calculator-guide" }
+          { label: "Blog", href: "/blog" },
+          { label: "Fuel Calculator Guide", href: "/blog/fuel-calculator-guide" }
         ]} 
       />
 
