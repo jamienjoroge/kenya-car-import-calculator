@@ -9,7 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Calculator, Wrench, FileCheck, Fuel, TrendingUp, BookOpen } from "lucide-react";
+import { Calculator, Wrench, FileCheck, Fuel, TrendingUp, BookOpen, DollarSign, Shield } from "lucide-react";
 
 const Navigation = () => {
   return (
@@ -98,6 +98,28 @@ const Navigation = () => {
                       </div>
                       <p className="text-sm text-muted-foreground">
                         Find vehicles within your budget
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link to="/loan-calculator" className="block p-3 rounded-md hover:bg-muted transition-colors">
+                      <div className="flex items-center gap-2 mb-1">
+                        <DollarSign className="h-4 w-4 text-primary" />
+                        <span className="font-medium">Loan Calculator</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Calculate monthly car loan payments
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Link to="/insurance-calculator" className="block p-3 rounded-md hover:bg-muted transition-colors">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Shield className="h-4 w-4 text-primary" />
+                        <span className="font-medium">Insurance Estimator</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Compare insurance quotes instantly
                       </p>
                     </Link>
                   </NavigationMenuLink>

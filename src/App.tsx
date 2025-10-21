@@ -19,6 +19,8 @@ import PopularCarsByYear from "./pages/PopularCarsByYear";
 import VehicleInspection from "./pages/VehicleInspection";
 import MaintenanceSchedule from "./pages/MaintenanceSchedule";
 import FuelCalculator from "./pages/FuelCalculator";
+import LoanCalculator from "./pages/LoanCalculator";
+import InsuranceCalculator from "./pages/InsuranceCalculator";
 import NotFound from "./pages/NotFound";
 import DynamicBlogPost from "./pages/DynamicBlogPost";
 import CompareCarImportCosts from "./pages/blog/CompareCarImportCosts";
@@ -74,6 +76,8 @@ function App() {
           <Route path="/vehicle-inspection" element={<VehicleInspection />} />
           <Route path="/maintenance-schedule" element={<MaintenanceSchedule />} />
           <Route path="/fuel-calculator" element={<FuelCalculator />} />
+          <Route path="/loan-calculator" element={<LoanCalculator />} />
+          <Route path="/insurance-calculator" element={<InsuranceCalculator />} />
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />
           <Route path="/blog/compare-car-import-costs" element={<CompareCarImportCosts />} />
           <Route path="/blog/fuel-calculator-guide" element={<FuelCalculatorGuide />} />
