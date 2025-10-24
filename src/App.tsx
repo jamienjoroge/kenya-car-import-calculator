@@ -13,6 +13,7 @@ import About from "./pages/About";
 import Admin from "./pages/Admin";
 import BlogEditor from "./pages/BlogEditor";
 import BlogList from "./pages/BlogList";
+import DataUploadPage from "./pages/DataUploadPage";
 import CompareCars from "./pages/CompareCars";
 import WhatCanIAfford from "./pages/WhatCanIAfford";
 import PopularCarsByYear from "./pages/PopularCarsByYear";
@@ -69,6 +70,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/blog-editor" element={<BlogEditor />} />
           <Route path="/admin/blog-list" element={<BlogList />} />
+          <Route path="/admin/data-upload" element={<DataUploadPage />} />
           <Route path="/compare-cars" element={<CompareCars />} />
           <Route path="/compare" element={<CompareCars />} />
           <Route path="/afford" element={<WhatCanIAfford />} />

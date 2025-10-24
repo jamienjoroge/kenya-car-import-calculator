@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useNavigate } from 'react-router-dom';
-import { Lock, User, BarChart, Rss, FileText } from 'lucide-react';
+import { Lock, User, BarChart, Rss, FileText, Upload } from 'lucide-react';
 import RSSFeed from '@/components/RSSFeed';
 import SitemapGenerator from '@/components/SitemapGenerator';
 
@@ -97,6 +97,16 @@ const Admin = () => {
                   Content Management
                 </CardTitle>
                 <CardDescription>Manage categories, tags, and content structure</CardDescription>
+              </CardHeader>
+            </Card>
+            
+            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/admin/data-upload')}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Upload className="h-5 w-5" />
+                  Bulk Data Upload
+                </CardTitle>
+                <CardDescription>Upload Excel files to bulk update CRSP database</CardDescription>
               </CardHeader>
             </Card>
           </div>
