@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
 interface ExcelRow {
   make_name: string;
   model_name: string;
-  year: number;
+  year?: number;
   crsp_value: number;
   engine_capacity: number;
   fuel_type?: string;
@@ -40,6 +40,7 @@ export default function DataUpload() {
   const [showMapping, setShowMapping] = useState(false);
   const [availableColumns, setAvailableColumns] = useState<string[]>([]);
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
+  const [defaultYear, setDefaultYear] = useState<string>('2025');
   const [columnMapping, setColumnMapping] = useState<ColumnMapping>({
     make_name: '',
     model_name: '',
@@ -62,6 +63,11 @@ export default function DataUpload() {
         setAvailableColumns(columns);
         setShowMapping(true);
         
+        // For CSV files with July 2025 data, suggest 2025 as default year
+        if (selectedFile.name.toLowerCase().includes('2025')) {
+          setDefaultYear('2025');
+        }
+        
         // Improved auto-mapping for your specific column structure
         const autoMapping: ColumnMapping = { ...columnMapping };
         columns.forEach(col => {
@@ -82,14 +88,14 @@ export default function DataUpload() {
             console.log(`Mapped model_name to: ${col}`);
           }
           
-          // Map CRSP - look for "CRSP" in the column name
+          // Map CRSP - look for "CRSP" or "CRSP (KES.)" in the column name
           if (original.includes('crsp')) {
             autoMapping.crsp_value = col;
             console.log(`Mapped crsp_value to: ${col}`);
           }
           
-          // Map Engine Capacity - look for "engine" and "capacity"
-          if (original.includes('engine') && original.includes('capacity')) {
+          // Map Engine Capacity - look for "engine" and "capacity" or just "engine capacity"
+          if (original.includes('engine') && (original.includes('capacity') || normalized.includes('enginecapacity'))) {
             autoMapping.engine_capacity = col;
             console.log(`Mapped engine_capacity to: ${col}`);
           }
@@ -142,7 +148,16 @@ export default function DataUpload() {
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-          const headers = (jsonData[0] as string[]) || [];
+          
+          // Find the first row with actual data (skip empty rows)
+          let headers: string[] = [];
+          for (const row of jsonData as any[]) {
+            if (row && row.length > 0 && row.some((cell: any) => cell !== null && cell !== undefined && cell !== '')) {
+              headers = row.filter((cell: any) => cell !== null && cell !== undefined && cell !== '').map((cell: any) => String(cell).trim());
+              if (headers.length > 0) break;
+            }
+          }
+          
           resolve(headers);
         } catch (error) {
           reject(error);
@@ -170,8 +185,9 @@ export default function DataUpload() {
       if (!row.crsp_value || row.crsp_value <= 0) {
         issues.push('Missing or invalid CRSP value');
       }
-      if (!row.engine_capacity || row.engine_capacity <= 0) {
-        issues.push('Missing or invalid engine capacity');
+      // Note: Year is now optional, engine_capacity validation relaxed for EVs
+      if (!row.engine_capacity && !row.fuel_type?.toLowerCase().includes('electric')) {
+        issues.push('Missing engine capacity');
       }
 
       if (issues.length === 0) {
@@ -213,12 +229,32 @@ export default function DataUpload() {
               }
             }
             
+            // Use default year if no year found
+            if (!yearValue && defaultYear) {
+              yearValue = defaultYear;
+            }
+            
+            // Clean CRSP value - remove commas, spaces, and currency symbols
+            const crspRaw = String(row[columnMapping.crsp_value] || '0');
+            const crspCleaned = crspRaw.replace(/[^\d.-]/g, ''); // Remove everything except digits, dots, and minus
+            
+            // Clean engine capacity - handle "EV", "kWh", and numeric values
+            const engineRaw = String(row[columnMapping.engine_capacity] || '');
+            let engineCapacity = 0;
+            if (engineRaw.toLowerCase().includes('ev') || engineRaw.toLowerCase().includes('kwh')) {
+              // For EVs, store battery capacity in kWh as engine capacity (e.g., 63 kWh = 63000)
+              const kWhMatch = engineRaw.match(/\d+/);
+              engineCapacity = kWhMatch ? parseInt(kWhMatch[0]) * 1000 : 0;
+            } else {
+              engineCapacity = parseInt(engineRaw.replace(/[^\d]/g, '')) || 0;
+            }
+            
             const processedRow = {
               make_name: String(row[columnMapping.make_name] || '').trim(),
               model_name: String(modelValue || '').trim(),
-              year: parseInt(yearValue || '0'),
-              crsp_value: parseFloat(String(row[columnMapping.crsp_value] || '0').replace(/[^\d.-]/g, '')),
-              engine_capacity: parseInt(String(row[columnMapping.engine_capacity] || '0').replace(/[^\d]/g, '')),
+              year: parseInt(String(yearValue || '0')),
+              crsp_value: parseFloat(crspCleaned),
+              engine_capacity: engineCapacity,
               fuel_type: columnMapping.fuel_type ? String(row[columnMapping.fuel_type] || '').trim() || null : null,
               body_type: columnMapping.body_type ? String(row[columnMapping.body_type] || '').trim() || null : null,
               transmission_type: columnMapping.transmission_type ? String(row[columnMapping.transmission_type] || '').trim() || null : null,
@@ -253,7 +289,7 @@ export default function DataUpload() {
       return;
     }
 
-    // Check required mappings
+    // Check required mappings (year is now optional)
     const requiredFields = ['make_name', 'model_name', 'crsp_value', 'engine_capacity'];
     const missingMappings = requiredFields.filter(field => !columnMapping[field as keyof ColumnMapping]);
     
@@ -261,6 +297,16 @@ export default function DataUpload() {
       toast({
         title: "Missing column mappings",
         description: `Please map the following required columns: ${missingMappings.join(', ')}`,
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Validate default year if no year column mapped
+    if (!columnMapping.year && (!defaultYear || parseInt(defaultYear) < 1900 || parseInt(defaultYear) > 2030)) {
+      toast({
+        title: "Invalid default year",
+        description: "Please enter a valid default year (1900-2030) for records without a year.",
         variant: "destructive"
       });
       return;
@@ -331,7 +377,7 @@ export default function DataUpload() {
   };
 
   const requiredFields = ['make_name', 'model_name', 'crsp_value', 'engine_capacity'];
-  const optionalFields = ['fuel_type', 'body_type', 'transmission_type'];
+  const optionalFields = ['year', 'fuel_type', 'body_type', 'transmission_type'];
 
   return (
     <Card className="max-w-4xl mx-auto">
@@ -341,7 +387,7 @@ export default function DataUpload() {
           Upload CRSP Data
         </CardTitle>
         <CardDescription>
-          Upload an Excel file (.xlsx, .xls) containing vehicle CRSP data. 
+          Upload an Excel file (.xlsx, .xls) or CSV file containing vehicle CRSP data. 
           Invalid rows will be automatically filtered out and only valid data will be uploaded.
         </CardDescription>
       </CardHeader>
@@ -350,11 +396,32 @@ export default function DataUpload() {
           <Input
             id="file-input"
             type="file"
-            accept=".xlsx,.xls"
+            accept=".xlsx,.xls,.csv"
             onChange={handleFileChange}
             disabled={uploading}
           />
         </div>
+        
+        {showMapping && !columnMapping.year && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <Label htmlFor="default-year" className="text-sm font-medium mb-2 block">
+              Default Year (for records without year)
+            </Label>
+            <Input
+              id="default-year"
+              type="number"
+              min="1900"
+              max="2030"
+              value={defaultYear}
+              onChange={(e) => setDefaultYear(e.target.value)}
+              className="max-w-[200px]"
+              placeholder="2025"
+            />
+            <p className="text-xs text-blue-600 mt-1">
+              This year will be used for all records that don't have a year specified
+            </p>
+          </div>
+        )}
         
         {file && (
           <div className="text-sm text-muted-foreground">
@@ -446,7 +513,7 @@ export default function DataUpload() {
               </div>
 
               <div>
-                <h4 className="font-medium text-sm mb-3 text-gray-600">Optional Fields</h4>
+                <h4 className="font-medium text-sm mb-3 text-gray-600">Optional Fields {!columnMapping.year && '(Year will use default)'}</h4>
                 {optionalFields.map(field => (
                   <div key={field} className="mb-3">
                     <Label htmlFor={field} className="text-sm font-medium">

@@ -42,11 +42,14 @@ export default function DataUploadPage() {
         <DataUpload />
         
         <div className="mt-8 p-4 bg-muted rounded-lg">
-          <h2 className="font-semibold mb-2">Excel Format Requirements:</h2>
+          <h2 className="font-semibold mb-2">Excel/CSV Format Requirements:</h2>
           <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-            <li><strong>Required columns:</strong> Make, Model, Year (or in Model), CRSP Value, Engine Capacity</li>
-            <li><strong>Optional columns:</strong> Fuel Type, Body Type, Transmission</li>
-            <li>File formats: .xlsx or .xls</li>
+            <li><strong>Required columns:</strong> Make, Model, CRSP Value, Engine Capacity</li>
+            <li><strong>Optional columns:</strong> Year, Fuel Type, Body Type, Transmission</li>
+            <li><strong>File formats:</strong> .xlsx, .xls, or .csv</li>
+            <li>If Year is not in the file, you can set a default year (e.g., 2025 for new vehicles)</li>
+            <li>CRSP values with commas and spaces will be automatically cleaned</li>
+            <li>Electric vehicles: Engine capacity can be in kWh (e.g., "63 kWh")</li>
             <li>Invalid rows will be automatically filtered out</li>
             <li>You'll see a validation summary before upload</li>
           </ul>
