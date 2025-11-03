@@ -3,7 +3,7 @@ import { supabase } from '../integrations/supabase/client';
 
 // Updated to use batch fetching for all records
 
-export const fetchMakes = async (): Promise<string[]> => {
+export const fetchMakes = async (crspVersion: string = '2025'): Promise<string[]> => {
   const allMakes = new Set<string>();
   let from = 0;
   const batchSize = 1000;
@@ -13,6 +13,7 @@ export const fetchMakes = async (): Promise<string[]> => {
     const { data, error } = await supabase
       .from('crsp_data')
       .select('make_name')
+      .eq('crsp_version', crspVersion)
       .range(from, from + batchSize - 1)
       .order('make_name');
 
@@ -39,7 +40,7 @@ export const fetchMakes = async (): Promise<string[]> => {
   return Array.from(allMakes).sort();
 };
 
-export const fetchModelsForMake = async (make: string): Promise<string[]> => {
+export const fetchModelsForMake = async (make: string, crspVersion: string = '2025'): Promise<string[]> => {
   if (!make) return [];
   
   const allModels = new Set<string>();
@@ -52,6 +53,7 @@ export const fetchModelsForMake = async (make: string): Promise<string[]> => {
       .from('crsp_data')
       .select('model_name')
       .eq('make_name', make)
+      .eq('crsp_version', crspVersion)
       .range(from, from + batchSize - 1)
       .order('model_name');
 
@@ -81,15 +83,18 @@ export const fetchModelsForMake = async (make: string): Promise<string[]> => {
 export const fetchCrspRecord = async ({
   make,
   model,
+  crspVersion = '2025',
 }: {
   make: string;
   model: string;
+  crspVersion?: string;
 }) => {
   const { data, error } = await supabase
     .from('crsp_data')
     .select('*')
     .eq('make_name', make)
     .eq('model_name', model)
+    .eq('crsp_version', crspVersion)
     .limit(1)
     .single();
 

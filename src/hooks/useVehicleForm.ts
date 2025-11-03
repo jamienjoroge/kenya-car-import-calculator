@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { vehicleFormSchema, type VehicleFormValues } from "@/lib/vehicleFormSchema";
@@ -18,6 +18,8 @@ export function useVehicleForm() {
   const selectedModel = form.watch("model");
   const selectedYear = form.watch("year");
   const shippingCostInput = form.watch("shipping");
+  
+  const [crspVersion, setCrspVersion] = useState<string>('2025');
 
   const handleMakeChange = (value: string) => {
     console.log('Make changing to:', value);
@@ -45,5 +47,7 @@ export function useVehicleForm() {
     handleMakeChange,
     handleModelChange,
     handleYearChange,
+    crspVersion,
+    setCrspVersion,
   };
 }

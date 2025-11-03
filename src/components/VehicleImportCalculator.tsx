@@ -1,6 +1,8 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 import CurrencyToggle from "./CurrencyToggle";
 import ImportBreakdownPanel from "./ImportBreakdownPanel";
 import { QuotePDFButton } from "./QuotePDFButton";
@@ -28,7 +30,9 @@ export default function VehicleImportCalculator() {
     shippingCostInput,
     handleMakeChange,
     handleModelChange,
-    handleYearChange
+    handleYearChange,
+    crspVersion,
+    setCrspVersion
   } = useVehicleForm();
 
   const {
@@ -39,7 +43,7 @@ export default function VehicleImportCalculator() {
     loadingModels,
     loadingCrsp,
     crspError,
-  } = useVehicleData(selectedMake, selectedModel);
+  } = useVehicleData(selectedMake, selectedModel, crspVersion);
 
   const { breakdown, setBreakdown } = useDutyCalculation(
     crspRecord,
@@ -88,15 +92,58 @@ export default function VehicleImportCalculator() {
           <h2 className="text-2xl font-bold mb-2 text-primary">🚗 FREE Kenya Car Import Calculator</h2>
           <p className="text-lg font-semibold text-green-600 mb-2">Get Instant Duty Estimates - No Registration Required!</p>
           <p className="text-muted-foreground text-base">
-            Calculate exact import costs using official KRA rules and 2025 CRSP database
+            Calculate exact import costs using official KRA rules and CRSP database
           </p>
+        </div>
+
+        {/* CRSP Version Toggle */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 mb-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-foreground">CRSP Version:</span>
+              <Badge variant={crspVersion === '2025' ? 'default' : 'secondary'} className="text-xs">
+                {crspVersion === '2025' ? 'July 2025 (Latest)' : '2018 (Old)'}
+              </Badge>
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                variant={crspVersion === '2018' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => {
+                  setCrspVersion('2018');
+                  form.setValue("make", "");
+                  form.setValue("model", "");
+                  setBreakdown(null);
+                }}
+              >
+                2018 CRSP
+              </Button>
+              <Button 
+                variant={crspVersion === '2025' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => {
+                  setCrspVersion('2025');
+                  form.setValue("make", "");
+                  form.setValue("model", "");
+                  setBreakdown(null);
+                }}
+              >
+                July 2025 CRSP
+              </Button>
+            </div>
+          </div>
+          {crspVersion === '2025' && (
+            <p className="text-xs text-muted-foreground mt-2 text-center">
+              ⚠️ Using July 2025 CRSP - Latest official KRA values (200-400% higher than 2018)
+            </p>
+          )}
         </div>
         
         {/* Trust Indicators */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
           <div className="flex justify-center gap-6 text-sm">
-            <span className="text-blue-700">✅ Official 2025 CRSP Rates</span>
-            <span className="text-blue-700">✅ KRA Approved Values</span>
+            <span className="text-blue-700">✅ Official KRA CRSP Values</span>
+            <span className="text-blue-700">✅ KRA Approved Calculations</span>
             <span className="text-blue-700">✅ Instant Results</span>
           </div>
         </div>

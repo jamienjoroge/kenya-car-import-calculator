@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Lock, User, BarChart, Rss, FileText, Upload } from 'lucide-react';
 import RSSFeed from '@/components/RSSFeed';
 import SitemapGenerator from '@/components/SitemapGenerator';
+import UploadNewCrspButton from '@/components/UploadNewCrspButton';
 
 const Admin = () => {
   const [email, setEmail] = useState('');
@@ -115,6 +116,11 @@ const Admin = () => {
           <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
             <RSSFeed />
             <SitemapGenerator />
+          </div>
+
+          {/* CRSP Data Upload Section */}
+          <div className="mt-8">
+            <UploadNewCrspButton />
           </div>
         </div>
       </div>
