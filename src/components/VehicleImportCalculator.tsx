@@ -4,9 +4,10 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon, GitCompare } from "lucide-react";
 import CurrencyToggle from "./CurrencyToggle";
 import ImportBreakdownPanel from "./ImportBreakdownPanel";
+import ComparisonBreakdownPanel from "./ComparisonBreakdownPanel";
 import { QuotePDFButton } from "./QuotePDFButton";
 import { calculateDuties, calculateDepreciationRate } from "@/lib/calculation";
 import VehicleFormFields from "./VehicleFormFields";
@@ -14,6 +15,7 @@ import { useVehicleForm } from "@/hooks/useVehicleForm";
 import { useVehicleData } from "@/hooks/useVehicleData";
 import { useDutyCalculation } from "@/hooks/useDutyCalculation";
 import { VehicleFormValues } from "@/lib/vehicleFormSchema";
+import { fetchCrspRecord } from "@/api/crspApi";
 
 const exchangeRateDefault = 135.0;
 const fetchExchangeRate = async () => {
@@ -23,6 +25,9 @@ const fetchExchangeRate = async () => {
 export default function VehicleImportCalculator() {
   const [currency, setCurrency] = useState<"KES" | "USD">("KES");
   const [exchangeRate, setExchangeRate] = useState(exchangeRateDefault);
+  const [showComparison, setShowComparison] = useState(false);
+  const [comparison2018Data, setComparison2018Data] = useState<any>(null);
+  const [comparison2025Data, setComparison2025Data] = useState<any>(null);
 
   const { 
     form, 
@@ -61,7 +66,7 @@ export default function VehicleImportCalculator() {
     fetchExchangeRate().then(setExchangeRate);
   }, []);
 
-  function onCalculate(data: VehicleFormValues) {
+  async function onCalculate(data: VehicleFormValues) {
     if (!crspRecord) {
       toast({
         title: "No record found",
@@ -81,6 +86,50 @@ export default function VehicleImportCalculator() {
       shipping: shippingNumber,
     });
     setBreakdown(res);
+
+    // If comparison mode, fetch and calculate both versions
+    if (showComparison) {
+      try {
+        // Fetch 2018 CRSP data
+        const crsp2018 = await fetchCrspRecord({
+          make: selectedMake,
+          model: selectedModel,
+          crspVersion: '2018',
+        });
+        const calc2018 = calculateDuties({
+          crsp: crsp2018.crsp,
+          year: Number(data.year),
+          engineCapacity: crsp2018.engine_capacity,
+          fuelType: crsp2018.fuel_type,
+          shipping: shippingNumber,
+        });
+        setComparison2018Data(calc2018);
+
+        // Fetch 2025 CRSP data
+        const crsp2025 = await fetchCrspRecord({
+          make: selectedMake,
+          model: selectedModel,
+          crspVersion: '2025',
+        });
+        const calc2025 = calculateDuties({
+          crsp: crsp2025.crsp,
+          year: Number(data.year),
+          engineCapacity: crsp2025.engine_capacity,
+          fuelType: crsp2025.fuel_type,
+          shipping: shippingNumber,
+        });
+        setComparison2025Data(calc2025);
+      } catch (error) {
+        console.error('Error fetching comparison data:', error);
+        toast({
+          title: "Comparison unavailable",
+          description: "Could not load data for comparison. One of the CRSP versions may not have this vehicle.",
+          variant: "destructive",
+        });
+        setShowComparison(false);
+      }
+    }
+
     toast({
       title: "🎉 Calculation Complete!",
       description: "Your import cost breakdown is ready below.",
@@ -181,7 +230,27 @@ export default function VehicleImportCalculator() {
           </Alert>
         )}
 
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-between">
+          <Button
+            variant={showComparison ? "default" : "outline"}
+            size="sm"
+            onClick={() => {
+              setShowComparison(!showComparison);
+              if (!showComparison && breakdown) {
+                // Re-trigger calculation with comparison mode
+                onCalculate({
+                  make: selectedMake,
+                  model: selectedModel,
+                  year: selectedYear,
+                  shipping: shippingCostInput,
+                });
+              }
+            }}
+            className="gap-2"
+          >
+            <GitCompare className="h-4 w-4" />
+            {showComparison ? "Hide Comparison" : "Compare 2018 vs 2025"}
+          </Button>
           <CurrencyToggle
             value={currency}
             onToggle={setCurrency}
@@ -190,7 +259,24 @@ export default function VehicleImportCalculator() {
         </div>
       </div>
 
-      {breakdown && (
+      {breakdown && showComparison && comparison2018Data && comparison2025Data && (
+        <ComparisonBreakdownPanel
+          crsp2018={comparison2018Data}
+          crsp2025={comparison2025Data}
+          shipping={
+            typeof shippingCostInput === "number"
+              ? shippingCostInput
+              : typeof shippingCostInput === "string"
+              ? Number(shippingCostInput)
+              : 0
+          }
+          currency={currency}
+          exchangeRate={exchangeRate}
+          selectedYear={selectedYear}
+        />
+      )}
+
+      {breakdown && !showComparison && (
         <>
           <ImportBreakdownPanel
             crsp={breakdown.crsp}
