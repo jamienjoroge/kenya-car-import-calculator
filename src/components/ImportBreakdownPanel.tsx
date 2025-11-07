@@ -15,6 +15,8 @@ interface BreakdownProps {
   total: number;
   currency: string;
   exchangeRate: number;
+  crspVersion?: string;
+  selectedYear?: string;
 }
 
 export default function ImportBreakdownPanel({
@@ -30,6 +32,8 @@ export default function ImportBreakdownPanel({
   total,
   currency,
   exchangeRate,
+  crspVersion,
+  selectedYear,
 }: BreakdownProps) {
   const fmt = (amount: number) =>
     currency === "USD"
@@ -43,6 +47,23 @@ export default function ImportBreakdownPanel({
     <Card className="w-full max-w-xl mx-auto shadow-md mt-6">
       <CardHeader>
         <CardTitle>Cost Breakdown</CardTitle>
+        {crspVersion && (
+          <div className="text-sm text-muted-foreground mt-2">
+            {crspVersion === '2025' && selectedYear && parseInt(selectedYear) < 2025 ? (
+              <span className="text-blue-700">
+                💡 Base CRSP from July 2025 schedule, {depreciationRate ? (depreciationRate * 100).toFixed(0) : '0'}% depreciation applied for {new Date().getFullYear() - parseInt(selectedYear)}-year-old vehicle
+              </span>
+            ) : crspVersion === '2025' ? (
+              <span className="text-blue-700">
+                💡 July 2025 CRSP schedule
+              </span>
+            ) : (
+              <span className="text-muted-foreground">
+                2018 CRSP schedule{depreciationRate ? `, ${(depreciationRate * 100).toFixed(0)}% depreciation applied` : ''}
+              </span>
+            )}
+          </div>
+        )}
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-2">

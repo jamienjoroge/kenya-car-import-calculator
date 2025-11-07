@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { InfoIcon } from "lucide-react";
 import CurrencyToggle from "./CurrencyToggle";
 import ImportBreakdownPanel from "./ImportBreakdownPanel";
 import { QuotePDFButton } from "./QuotePDFButton";
-import { calculateDuties } from "@/lib/calculation";
+import { calculateDuties, calculateDepreciationRate } from "@/lib/calculation";
 import VehicleFormFields from "./VehicleFormFields";
 import { useVehicleForm } from "@/hooks/useVehicleForm";
 import { useVehicleData } from "@/hooks/useVehicleData";
@@ -166,6 +168,19 @@ export default function VehicleImportCalculator() {
           onSubmit={onCalculate}
         />
 
+        {/* Alert when using 2025 CRSP with older vehicles */}
+        {crspVersion === '2025' && selectedYear && parseInt(selectedYear) < 2025 && (
+          <Alert className="bg-blue-50 border-blue-200">
+            <InfoIcon className="h-4 w-4 text-blue-600" />
+            <AlertTitle className="text-blue-900">Using July 2025 CRSP Values</AlertTitle>
+            <AlertDescription className="text-blue-800">
+              Calculating duties based on the July 2025 CRSP schedule. 
+              The 2025 market value will be depreciated by {Math.round(calculateDepreciationRate(parseInt(selectedYear)) * 100)}% 
+              for a {new Date().getFullYear() - parseInt(selectedYear)}-year-old vehicle.
+            </AlertDescription>
+          </Alert>
+        )}
+
         <div className="flex items-center justify-end">
           <CurrencyToggle
             value={currency}
@@ -196,6 +211,8 @@ export default function VehicleImportCalculator() {
             total={breakdown.total}
             currency={currency}
             exchangeRate={exchangeRate}
+            crspVersion={crspVersion}
+            selectedYear={selectedYear}
           />
           <div className="flex justify-end mt-2">
             <QuotePDFButton

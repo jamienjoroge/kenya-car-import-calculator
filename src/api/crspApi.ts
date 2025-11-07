@@ -89,14 +89,23 @@ export const fetchCrspRecord = async ({
   model: string;
   crspVersion?: string;
 }) => {
-  const { data, error } = await supabase
+  // For 2025 CRSP, always fetch the 2025 model year data
+  // (representing current market value of that model)
+  // Depreciation will be applied in the calculation based on user's selected year
+  
+  let query = supabase
     .from('crsp_data')
     .select('*')
     .eq('make_name', make)
     .eq('model_name', model)
-    .eq('crsp_version', crspVersion)
-    .limit(1)
-    .single();
+    .eq('crsp_version', crspVersion);
+  
+  // For 2025 CRSP, explicitly fetch year 2025 data only
+  if (crspVersion === '2025') {
+    query = query.eq('year', 2025);
+  }
+  
+  const { data, error } = await query.limit(1).single();
 
   if (error) {
     console.error('Error fetching CRSP record:', error);
@@ -104,12 +113,13 @@ export const fetchCrspRecord = async ({
   }
 
   if (!data) {
-    throw new Error(`No CRSP record found for ${make} ${model}`);
+    throw new Error(`No CRSP record found for ${make} ${model} in ${crspVersion} CRSP schedule`);
   }
 
   return {
     crsp: data.crsp_value,
     engine_capacity: data.engine_capacity,
-    fuel_type: data.fuel_type
+    fuel_type: data.fuel_type,
+    year: data.year, // Include year for reference
   };
 };
