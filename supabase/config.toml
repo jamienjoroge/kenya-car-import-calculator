@@ -1,1 +1,7 @@
 project_id = "tapmpahlwxsckbamdrms"
+
+[functions.upload-crsp-2018]
+verify_jwt = false
+
+[functions.upload-crsp-2025]
+verify_jwt = false
