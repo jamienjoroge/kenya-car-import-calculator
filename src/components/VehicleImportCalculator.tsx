@@ -162,8 +162,6 @@ export default function VehicleImportCalculator() {
                 size="sm"
                 onClick={() => {
                   setCrspVersion('2018');
-                  form.setValue("make", "");
-                  form.setValue("model", "");
                   setBreakdown(null);
                 }}
               >
@@ -174,8 +172,6 @@ export default function VehicleImportCalculator() {
                 size="sm"
                 onClick={() => {
                   setCrspVersion('2025');
-                  form.setValue("make", "");
-                  form.setValue("model", "");
                   setBreakdown(null);
                 }}
               >
