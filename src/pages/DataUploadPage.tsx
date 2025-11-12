@@ -1,18 +1,70 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Upload, Database } from 'lucide-react';
+import { ArrowLeft, Upload, Database, CheckCircle, Loader2 } from 'lucide-react';
 import DataUpload from '@/components/DataUpload';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { Card } from '@/components/ui/card';
+import { uploadCrspFilesToStorage } from '@/utils/uploadFilesToStorage';
 
 export default function DataUploadPage() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [uploading2018, setUploading2018] = useState(false);
   const [uploading2025, setUploading2025] = useState(false);
+  const [uploadingToStorage, setUploadingToStorage] = useState(false);
+  const [filesInStorage, setFilesInStorage] = useState(false);
   const [recordCounts, setRecordCounts] = useState({ crsp2018: 0, crsp2025: 0 });
+
+  const checkStorageFiles = async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('crsp-files')
+        .list();
+
+      if (!error && data) {
+        const has2018 = data.some(f => f.name === 'CRSP-2018.xls');
+        const has2025 = data.some(f => f.name === 'CRSP-2025.xlsx');
+        setFilesInStorage(has2018 && has2025);
+      }
+    } catch (error) {
+      console.error('Error checking storage:', error);
+    }
+  };
+
+  const handleUploadToStorage = async () => {
+    setUploadingToStorage(true);
+    try {
+      toast({
+        title: "Uploading files...",
+        description: "Copying Excel files to Supabase Storage...",
+      });
+
+      const results = await uploadCrspFilesToStorage();
+      
+      const allSuccess = results.every(r => r.success);
+      if (allSuccess) {
+        toast({
+          title: "✅ Files Uploaded!",
+          description: "Excel files are now in storage and ready to process.",
+        });
+        setFilesInStorage(true);
+      } else {
+        const failed = results.filter(r => !r.success);
+        throw new Error(`Failed to upload: ${failed.map(f => f.file).join(', ')}`);
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "❌ Upload Failed",
+        description: error instanceof Error ? error.message : "Unknown error",
+        variant: "destructive",
+      });
+    } finally {
+      setUploadingToStorage(false);
+    }
+  };
 
   const fetchRecordCounts = async () => {
     try {
@@ -115,6 +167,7 @@ export default function DataUploadPage() {
       navigate('/admin');
     } else {
       setIsAuthenticated(true);
+      checkStorageFiles();
       fetchRecordCounts();
     }
   }, [navigate]);
@@ -141,8 +194,59 @@ export default function DataUploadPage() {
           </p>
         </div>
         
+        {/* Step 1: Upload to Storage */}
+        <Card className="p-6 mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold">1</span>
+                <h2 className="text-xl font-semibold">Upload Files to Storage</h2>
+                {filesInStorage && <CheckCircle className="h-5 w-5 text-green-600" />}
+              </div>
+              <p className="text-sm text-muted-foreground ml-8">
+                First, copy the Excel files (CRSP-2018.xls and CRSP-2025.xlsx) from the public folder to Supabase Storage
+              </p>
+            </div>
+            <Button 
+              onClick={handleUploadToStorage}
+              disabled={uploadingToStorage || filesInStorage}
+              variant={filesInStorage ? "outline" : "default"}
+            >
+              {uploadingToStorage ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Uploading...
+                </>
+              ) : filesInStorage ? (
+                <>
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                  Files Ready
+                </>
+              ) : (
+                <>
+                  <Upload className="h-4 w-4 mr-2" />
+                  Upload to Storage
+                </>
+              )}
+            </Button>
+          </div>
+        </Card>
+
+        {/* Step 2: Process CRSP Data */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold">2</span>
+            <h2 className="text-xl font-semibold">Process CRSP Data</h2>
+          </div>
+          <p className="text-sm text-muted-foreground ml-8 mb-4">
+            {filesInStorage 
+              ? "Files are ready! Click the buttons below to parse and upload data to the database." 
+              : "Complete Step 1 first to enable data processing."}
+          </p>
+        </div>
+
         {/* Official CRSP Upload Section */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-6 mb-8" style={{ opacity: filesInStorage ? 1 : 0.5 }}>
           <Card className="p-6">
             <div className="flex items-center gap-2 mb-4">
               <Database className="h-5 w-5 text-primary" />
@@ -158,7 +262,7 @@ export default function DataUploadPage() {
               </div>
               <Button 
                 onClick={handleUpload2018}
-                disabled={uploading2018}
+                disabled={uploading2018 || !filesInStorage}
                 className="w-full"
                 variant="default"
               >
@@ -183,7 +287,7 @@ export default function DataUploadPage() {
               </div>
               <Button 
                 onClick={handleUpload2025}
-                disabled={uploading2025}
+                disabled={uploading2025 || !filesInStorage}
                 className="w-full"
                 variant="default"
               >

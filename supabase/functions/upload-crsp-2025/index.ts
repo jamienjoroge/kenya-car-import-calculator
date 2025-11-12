@@ -20,13 +20,17 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Fetch the Excel file from public folder
-    const response = await fetch(new URL('/CRSP-2025.xlsx', req.url).href);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch file: ${response.statusText}`);
+    // Fetch the Excel file from storage bucket
+    const { data: fileData, error: downloadError } = await supabase
+      .storage
+      .from('crsp-files')
+      .download('CRSP-2025.xlsx');
+
+    if (downloadError || !fileData) {
+      throw new Error(`Failed to fetch file from storage: ${downloadError?.message || 'File not found'}`);
     }
 
-    const arrayBuffer = await response.arrayBuffer();
+    const arrayBuffer = await fileData.arrayBuffer();
     const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
