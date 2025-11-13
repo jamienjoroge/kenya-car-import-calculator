@@ -1,5 +1,8 @@
 project_id = "tapmpahlwxsckbamdrms"
 
+[functions.upload-files-to-storage]
+verify_jwt = false
+
 [functions.upload-crsp-2018]
 verify_jwt = false
 

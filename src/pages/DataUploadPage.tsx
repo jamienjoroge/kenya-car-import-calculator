@@ -167,10 +167,20 @@ export default function DataUploadPage() {
       navigate('/admin');
     } else {
       setIsAuthenticated(true);
-      checkStorageFiles();
-      fetchRecordCounts();
+      const initializeStorage = async () => {
+        await checkStorageFiles();
+        await fetchRecordCounts();
+      };
+      initializeStorage();
     }
   }, [navigate]);
+
+  // Auto-upload files to storage if not present
+  useEffect(() => {
+    if (isAuthenticated && filesInStorage === false && !uploadingToStorage) {
+      handleUploadToStorage();
+    }
+  }, [isAuthenticated, filesInStorage]);
 
   if (!isAuthenticated) {
     return null;
